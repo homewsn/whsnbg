@@ -1,0 +1,12 @@
+# Libraries
+lib/
+
+# Configuration files
+conf/
+
+# MSVC files
+msvs/*.suo
+msvs/*.user
+msvs/*.ncb
+msvs/Debug/
+msvs/Release/

@@ -1,0 +1,16 @@
+{"nodes":[
+
+{"id": 1, "type": "variable-init", "variable": "max_5738_1_repeat", "value": "1", "retain": 0},
+
+{"id": 2, "type": "trigger-topic", "topic": "sensors/5738/1", "nextid": 10},
+{"id": 10, "type": "condition-topic-value", "topic": "sensors/5738/1", "condition": "==", "value": "1", "nextid-true": 11, "nextid-false": 14},
+
+{"id": 11, "type": "condition-variable-value", "variable": "max_5738_1_repeat", "condition": "==", "value": "5", "nextid-true": 12, "nextid-false": 13},
+{"id": 12, "type": "action-value", "topic": "actuator/6666/1", "value": "1", "retain": 0, "nextid": 0},
+{"id": 13, "type": "variable-increment", "variable": "max_5738_1_repeat", "retain": 0, "nextid": 0},
+
+{"id": 14, "type": "condition-variable-value", "variable": "max_5738_1_repeat", "condition": "==", "value": "0", "nextid-true": 15, "nextid-false": 16},
+{"id": 15, "type": "action-value", "topic": "actuator/6666/1", "value": "0", "retain": 0, "nextid": 0},
+{"id": 16, "type": "variable-decrement", "variable": "max_5738_1_repeat", "retain": 0, "nextid": 0}
+
+], "version": 1.20}
