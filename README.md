@@ -1,6 +1,6 @@
 Whsnbg
 =========
-(Wireless Home Sensor Network Broker-Gateway)
+(Wireless home sensor network broker-gateway)
 
 Whsnbg is a C implementation of the MQTT broker, the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
 
@@ -14,14 +14,14 @@ MQTT broker:
 * SSL(TLS) encryption provided by the external library axTLS or OpenSSL;
 * QoS level 0, 1 and 2;
 * user authorization;
-* remote MySQL database support for the specific topics (if defined SENSOR_DATA_MYSQL in config.h);
+* remote MySQL database support for the specific topics (if defined MQTT_DATA_MYSQL in config.h);
 
 MQTT-SN gateway:
 * MQTT-SN Protocol Specification Version 1.2;
 * UDP connection on the selectable IPv4 network interface;
 * QoS level 0, 1 and 2;
 * "active", "asleep" and "awake" states of the sensors;
-* remote MySQL database support for the specific topics (if defined MQTT_DATA_MYSQL in config.h);
+* remote MySQL database support for the specific topics (if defined SENSOR_DATA_MYSQL in config.h);
 
 MQTT rules engine (if defined RULES_ENGINE in config.h):
 * rules are stored in the specific rules topic ("$SYS/rulesengine/rules") and the external whsnbg.json file;
