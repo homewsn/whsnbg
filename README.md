@@ -1,6 +1,6 @@
 Whsnbg
-Wireless Home Sensor Network Broker-Gateway
 =========
+(Wireless Home Sensor Network Broker-Gateway)
 
 Whsnbg is a C implementation of the MQTT broker, the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
 
