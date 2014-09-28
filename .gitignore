@@ -10,3 +10,6 @@ msvs/*.user
 msvs/*.ncb
 msvs/Debug/
 msvs/Release/
+
+# ToDo
+todo.txt
