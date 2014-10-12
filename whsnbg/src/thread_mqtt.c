@@ -1079,6 +1079,8 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 		mqttsn_suback_encode(&buf, &size, &suback);
 		dprintf("<MQTTSN_SUBACK\n");
 		msg_mqtt_udp_add_packet(&ms->addr, buf, size);
+		if (code != MQTTSN_ACCEPTED)
+			return;
 
 		list_sub_pub_matches(subscribe.sub_item, &pub_list, &link_list);
 		link_item = list_link_head(&link_list);

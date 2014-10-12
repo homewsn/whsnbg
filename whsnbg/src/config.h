@@ -47,8 +47,8 @@
 #else
 #ifdef __UBUNTU__
 // Host computer
-#define CONFIG_FILE				"/home/openwrt/openwrt/package/whsnbg/src/whsnbg.conf"
-#define RULES_FILE				"/home/openwrt/openwrt/package/whsnbg/src/whsnbg.json"
+#define CONFIG_FILE				"/home/shared/whsnbg/whsnbg.conf"
+#define RULES_FILE				"/home/shared/whsnbg/whsnbg.json"
 //#define LINUX_DAEMON_VERSION
 #else
 // OpenWRT
