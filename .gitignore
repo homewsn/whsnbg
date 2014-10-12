@@ -5,6 +5,8 @@ lib/
 conf/
 
 # MSVC files
+msvs/*.exe
+msvs/*.dll
 msvs/*.suo
 msvs/*.user
 msvs/*.ncb
