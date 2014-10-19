@@ -11,7 +11,7 @@ DEPS = $(HEADERS)
 # ubuntu
 INCLPATH = -I. -I/usr/include/mysql
 LIBPATH = -L. -L/usr/lib
-LIBS = libaxtls.a -lpthread `mysql_config --cflags --libs`
+LIBS = -laxtls -lpthread `mysql_config --cflags --libs`
 FLAGS = -g -O2
 DEF = -D __UBUNTU__
 
