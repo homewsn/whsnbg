@@ -19,10 +19,11 @@
 
 
 #ifndef NDEBUG
-#include <stdio.h>
 #ifdef LINUX_DAEMON_VERSION
+#include <syslog.h>
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)
 #else
+#include <stdio.h>
 #define dprintf(...) printf(__VA_ARGS__)
 #endif
 #else

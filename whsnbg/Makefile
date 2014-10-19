@@ -4,10 +4,15 @@ PKG_NAME:=whsnbg
 PKG_VERSION:=1.20
 PKG_RELEASE:=1
 
+WHSNBG_STAGING_DIR = /home/openwrt/staging_dir
+#WHSNBG_TARGET_DIR = target-mips_r2_uClibc-0.9.33.2
+WHSNBG_TARGET_DIR = target-mips_34kc_uClibc-0.9.33.2
+WHSNBG_INCLUDE_DIR = $(WHSNBG_STAGING_DIR)/$(WHSNBG_TARGET_DIR)/usr/include
+WHSNBG_LIB_DIR = $(WHSNBG_STAGING_DIR)/$(WHSNBG_TARGET_DIR)/usr/lib
 #PKG_BUILD_DIR = $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR = $(BUILD_DIR)/$(PKG_NAME)
-PKG_INCLPATH = -I. -I/home/openwrt/openwrt/staging_dir/target-mips_r2_uClibc-0.9.33.2/usr/include/mysql
-PKG_LIBPATH = -L. -L/home/openwrt/openwrt/staging_dir/target-mips_r2_uClibc-0.9.33.2/usr/lib -L/home/openwrt/openwrt/staging_dir/target-mips_r2_uClibc-0.9.33.2/usr/lib/mysql
+PKG_INCLPATH = -I. -I$(WHSNBG_INCLUDE_DIR)/mysql
+PKG_LIBPATH = -L. -L$(WHSNBG_LIB_DIR) -L$(WHSNBG_LIB_DIR)/mysql
 PKG_LIBS = -lpthread -lgcc_eh -lmysqlclient -lz -lm -laxtls
 
 include $(INCLUDE_DIR)/package.mk

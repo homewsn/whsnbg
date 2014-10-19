@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <syslog.h>
 #include <signal.h>
+#include <errno.h>			/* errno */
 #endif
 
 #include <stdlib.h>			/* exit */

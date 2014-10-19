@@ -31,6 +31,7 @@
 
 #ifndef NDEBUG
 #ifdef LINUX_DAEMON_VERSION
+#include <syslog.h>
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)
 #else
 #define dprintf(...) printf(__VA_ARGS__)
