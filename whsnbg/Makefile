@@ -46,8 +46,9 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/bin
+	$(INSTALL_DIR) $(1)/bin $(1)/etc
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME) $(1)/bin/
+	$(INSTALL_DATA) ./files/etc/$(PKG_NAME).conf $(1)/etc/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
