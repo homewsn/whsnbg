@@ -26,7 +26,7 @@ define Package/$(PKG_NAME)
   DEPENDS:=+libc +libaxtls +libmysqlclient +libpthread
 endef
 
-define Package/whsnbg/description
+define Package/$(PKG_NAME)/description
   MQTT broker and rules engine + MQTT-SN gateway for wireless home sensor networks
 endef
 
