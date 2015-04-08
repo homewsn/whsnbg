@@ -25,7 +25,8 @@
 #include <stddef.h>		/* size_t */
 #endif
 
-#define RULES_VERSION			1.20
+#define RULES_VERSION					"1.00"
+#define RULES_VERSION_STRING_TOKENS		2
 
 #define RT_TRIGGER_CRON					"trigger-cron"
 #define RT_TRIGGER_TOPIC				"trigger-topic"

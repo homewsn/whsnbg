@@ -45,6 +45,27 @@
 
 
 //--------------------------------------------
+int check_version(const char *version)
+{
+	int cnt;
+	int checked_ver[RULES_VERSION_STRING_TOKENS], needed_ver[RULES_VERSION_STRING_TOKENS];
+
+	sscanf(RULES_VERSION, "%d.%d", &needed_ver[0], &needed_ver[1]);
+	if (sscanf(version, "%d.%d", &checked_ver[0], &checked_ver[1]) == RULES_VERSION_STRING_TOKENS)
+	{
+		for (cnt = 0; cnt < RULES_VERSION_STRING_TOKENS; cnt++)
+		{
+			if (needed_ver[cnt] > checked_ver[cnt])
+				return -1;
+			else if (needed_ver[cnt] < checked_ver[cnt])
+				return 1;
+		}
+		return 0;
+	}
+	return -1;
+}
+
+//--------------------------------------------
 void get_variable_topic(char *var, size_t var_len, uint8_t **name, uint16_t *name_len)
 {
 	*name_len = (uint16_t)(sizeof(MQTT_SYSTOPIC_RULESENGINE_VARIABLES) + var_len);
@@ -118,11 +139,11 @@ int parse_json_file(void)
 	}
 
 	item = cJSON_GetObjectItem(root, "version");
-	if (item == NULL || item->type != cJSON_Number)
+	if (item == NULL || item->type != cJSON_String)
 		goto error;
-	if (item->valuedouble > RULES_VERSION)
+	if (check_version(item->valuestring) < 0)
 	{
-		dprintf("Wrong rules file version %.2f, must be less or equal %.2f\n", item->valuedouble, RULES_VERSION);
+		dprintf("Rules file version is %s, must be less or equal %s\n", item->valuestring, RULES_VERSION);
 		goto error;
 	}
 
@@ -388,7 +409,7 @@ void publish_rules_engine_version(void)
 	list = list_data_new(sizeof(list_data_t),
 		MQTT_SYSTOPIC_RULESENGINE_VERSION,
 		sizeof(MQTT_SYSTOPIC_RULESENGINE_VERSION) - 1,
-		STRINGIFY(RULES_VERSION),
-		sizeof(STRINGIFY(RULES_VERSION)) - 1);
+		RULES_VERSION,
+		sizeof(RULES_VERSION) - 1);
 	msg_rules_mqtt_add_packet(list, 1);
 }
