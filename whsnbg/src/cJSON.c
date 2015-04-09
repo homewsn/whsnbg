@@ -34,6 +34,10 @@
 
 static const char *ep;
 
+#ifdef _MSC_VER
+#pragma warning (disable:4996) // This function may be unsafe.
+#endif
+
 const char *cJSON_GetErrorPtr(void) {return ep;}
 
 static int cJSON_strcasecmp(const char *s1,const char *s2)
@@ -371,7 +375,7 @@ static char *print_array(cJSON *item,int depth,int fmt)
 	{
 		ret=print_value(child,depth+1,fmt);
 		entries[i++]=ret;
-		if (ret) len+=strlen(ret)+2+(fmt?1:0); else fail=1;
+		if (ret) len+=(int)strlen(ret)+2+(fmt?1:0); else fail=1;
 		child=child->next;
 	}
 	
@@ -471,7 +475,7 @@ static char *print_object(cJSON *item,int depth,int fmt)
 	{
 		names[i]=str=print_string_ptr(child->string);
 		entries[i++]=ret=print_value(child,depth,fmt);
-		if (str && ret) len+=strlen(ret)+strlen(str)+2+(fmt?2+depth:0); else fail=1;
+		if (str && ret) len+=(int)strlen(ret)+(int)strlen(str)+2+(fmt?2+depth:0); else fail=1;
 		child=child->next;
 	}
 	
