@@ -1,0 +1,3 @@
+[submodule "mysql.settings"]
+	path = mysql.settings
+	url = git://github.com/homewsn/homewsn.mysql.settings
