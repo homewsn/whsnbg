@@ -236,7 +236,6 @@ cron_trigger_t *cron_trigger_add_new(cron_trigger_t **list, const char *str, siz
 
 	assert(list != NULL);
 	assert(str != NULL);
-	assert(next_id != 0);
 
 	item = (cron_trigger_t *)malloc(sizeof(cron_trigger_t));
 	memset(item, 0, sizeof(cron_trigger_t));
