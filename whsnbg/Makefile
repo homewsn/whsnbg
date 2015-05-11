@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=whsnbg
-PKG_VERSION:=1.20
+PKG_VERSION:=1.00
 PKG_RELEASE:=1
 
 WHSNBG_STAGING_DIR = /home/openwrt/staging_dir
