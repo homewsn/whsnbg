@@ -1,5 +1,7 @@
 ### Wireless home sensor network broker-gateway (whsnbg)
 
+This repository is a part of the [HomeWSN](http://homewsn.github.io) project.
+
 Whsnbg is a C implementation of the MQTT broker, the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
 
 
