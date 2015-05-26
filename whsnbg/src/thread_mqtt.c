@@ -519,7 +519,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		dprintf(">MQTT_PUBREC\n");
 		mqtt_pubrec_decode(&fixhdr, &pubrec);
 		mqtt_pubrel_encode(&buf, &size, pubrec.msg_id);
-		dprintf(">MQTT_PUBREL\n");
+		dprintf("<MQTT_PUBREL\n");
 		msg_mqtt_tcp_add_packet(&ms->addr, buf, size);
 		return;
 	}
