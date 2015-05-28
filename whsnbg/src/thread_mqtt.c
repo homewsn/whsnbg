@@ -109,6 +109,11 @@ static void mqttsn_send_buffered_msgs(list_mqttsn_conn_t *item)
 			publish.flags.topic_id_type = MQTTSN_PREDEF_TOPIC_ID;
 			mqttsn_publish_encode(&buf, &size, &publish);
 			dprintf("<MQTTSN_PUBLISH\n");
+			dprintf("mqttsn conn:%s:%d, topic_id:%d, msg_id:%d\n",\
+				inet_ntoa(item->addr.sin_addr),\
+				(int)ntohs(item->addr.sin_port),\
+				publish.topic_id,
+				publish.msg_id);
 			msg_mqtt_udp_add_packet(&item->addr, buf, size);
 			if (pub_msg_item->qos == 0)
 				pub_msg_item = mqttsn_conn_publish_msg_remove(item, pub_msg_item);
@@ -1010,8 +1015,19 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 
 		dprintf(">MQTTSN_PUBACK\n");
 		mqttsn_puback_decode(&fixhdr, &puback);
-		mqttsn_conn_publish_msg_remove_msg_id(conn, puback.msg_id);
-		mqttsn_send_buffered_msgs(conn);
+
+		dprintf("mqttsn conn:%s:%d, topic_id:%d, msg_id:%d, return_code:%d\n",\
+			inet_ntoa(conn->addr.sin_addr),\
+			(int)ntohs(conn->addr.sin_port),\
+			puback.topic_id,
+			puback.msg_id,
+			puback.return_code);
+
+		if (mqttsn_conn_publish_msg_find(conn, puback.msg_id) != NULL)
+		{
+			mqttsn_conn_publish_msg_remove_msg_id(conn, puback.msg_id);
+			mqttsn_send_buffered_msgs(conn);
+		}
 		return;
 	}
 

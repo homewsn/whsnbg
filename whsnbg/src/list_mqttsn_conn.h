@@ -71,6 +71,7 @@ void list_mqttsn_conn_remove_all(list_mqttsn_conn_t **list);
 #define mqttsn_conn_publish_msg_length(a) list_msg_length(&a->pub_msg_list)
 #define mqttsn_conn_publish_msg_add(a, b, c) list_msg_add(&a->pub_msg_list, b->topic_id, c)
 #define mqttsn_conn_publish_msg_remove(a, b) list_msg_remove(&a->pub_msg_list, b)
+#define mqttsn_conn_publish_msg_find(a, b) list_msg_find_msg_id(&a->pub_msg_list, b)
 #define mqttsn_conn_publish_msg_remove_msg_id(a, b) list_msg_remove_msg_id(&a->pub_msg_list, b)
 
 //--------------------------------------------
