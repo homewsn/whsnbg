@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -331,7 +331,7 @@ rules_function_t *rules_function_add(rules_function_t **rfs, rf_type_t type, siz
 	rf->type = type;
 	rf->func = func;
 
-	list_add((list_t **)rfs, (list_t *)rf);
+	list_add_item((list_t **)rfs, (list_t *)rf);
 	return rf;
 }
 
@@ -347,7 +347,7 @@ rules_node_t *rules_node_add(rules_node_t **list, size_t id, rf_type_t type, voi
 	item->type = type;
 	item->param = param;
 
-	list_add((list_t **)list, (list_t *)item);
+	list_add_item((list_t **)list, (list_t *)item);
 	return item;
 }
 

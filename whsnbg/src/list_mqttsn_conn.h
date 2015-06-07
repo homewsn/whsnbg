@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -44,7 +44,7 @@ typedef struct list_mqttsn_conn
 } list_mqttsn_conn_t;
 
 //--------------------------------------------
-#define list_mqttsn_conn_add(a, b) (list_mqttsn_conn_t *)list_add((list_t **)a, (list_t *)b)
+#define list_mqttsn_conn_add(a, b) (list_mqttsn_conn_t *)list_add_item((list_t **)a, (list_t *)b)
 #define list_mqttsn_conn_next(a) (list_mqttsn_conn_t *)list_next((list_t *)a)
 list_mqttsn_conn_t *list_mqttsn_conn_add_new(list_mqttsn_conn_t **list, struct sockaddr_in *addr);
 list_mqttsn_conn_t *list_mqttsn_conn_find_addr(list_mqttsn_conn_t **list, struct sockaddr_in *addr);

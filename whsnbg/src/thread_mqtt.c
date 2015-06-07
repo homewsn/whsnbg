@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -21,6 +21,7 @@
 #include <string.h>			/* memset, memcmp, memcpy */
 #include <assert.h>			/* assert */
 #include <errno.h>			/* errno */
+#include <stdio.h>			/* FILE etc. */
 #include "mqtt.h"
 #include "mqttsn.h"
 #include "msg_tcp_mqtt.h"
@@ -43,7 +44,6 @@
 #endif
 
 #ifndef NDEBUG
-#include <stdio.h>
 #ifdef LINUX_DAEMON_VERSION
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)
 #else

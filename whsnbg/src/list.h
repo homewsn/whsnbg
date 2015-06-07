@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -33,8 +33,8 @@ typedef struct list
 void list_init(list_t **list);
 list_t *list_head(list_t **list);
 list_t *list_remove(list_t **list, list_t *item);
-list_t *list_add(list_t **list, list_t *item);
-size_t list_length(list_t **list);
+list_t *list_add_item(list_t **list, list_t *item);
+size_t list_get_length(list_t **list);
 list_t *list_next(list_t *item);
 
 

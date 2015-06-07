@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -443,7 +443,7 @@ static list_reg_t *list_reg_add_ignore(list_reg_t **list, size_t topsize, uint16
 		item = (list_reg_t *)malloc(topsize);
 		memset(item, 0, topsize);
 		item->topic_id = topic_id;
-		list_add((list_t **)list, (list_t *)item);
+		list_add_item((list_t **)list, (list_t *)item);
 	}
 	return item;
 }
@@ -511,7 +511,7 @@ list_clreg_t *list_clreg_add(list_clreg_t **list, uint8_t *name, uint16_t name_l
 
 	item = list_clreg_find_name(list, name, name_len);
 	if (item == NULL)
-		item = (list_clreg_t *)list_add((list_t **)list, (list_t *)list_clreg_new(name, name_len));
+		item = (list_clreg_t *)list_add_item((list_t **)list, (list_t *)list_clreg_new(name, name_len));
 	item->topic_id = topic_id;
 	item->msg_id = msg_id;
 	return item;
@@ -529,7 +529,7 @@ list_clreg_t *list_clreg_add_msg_id(list_clreg_t **list, uint8_t *name, uint16_t
 
 	item = list_clreg_find_name(list, name, name_len);
 	if (item == NULL)
-		item = (list_clreg_t *)list_add((list_t **)list, (list_t *)list_clreg_new(name, name_len));
+		item = (list_clreg_t *)list_add_item((list_t **)list, (list_t *)list_clreg_new(name, name_len));
 	item->msg_id = msg_id;
 	return item;
 }

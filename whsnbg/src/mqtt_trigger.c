@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -41,7 +41,7 @@ mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, si
 	item->name = (uint8_t *)malloc(item->name_len);
 	memcpy(item->name, name, item->name_len);
 	item->next_id = next_id;
-	list_add((list_t **)list, (list_t *)item);
+	list_add_item((list_t **)list, (list_t *)item);
 	return item;
 }
 

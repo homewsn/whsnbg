@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -59,7 +59,7 @@ void list_sub_remove_topic_id(list_sub_t **list, uint16_t topic_id);
 #define list_sub_remove_all(a) list_name_remove_all((list_name_t **)a)
 #define list_sub_head(a) (list_sub_t *)list_head((list_t **)a)
 #define list_sub_next(a) (list_sub_t *)list_next((list_t *)a)
-#define list_sub_add(a, b, c) (list_sub_t *)list_add((list_t **)a, (list_t *)list_sub_new(b, c))
+#define list_sub_add(a, b, c) (list_sub_t *)list_add_item((list_t **)a, (list_t *)list_sub_new(b, c))
 #define list_sub_remove(a, b) list_name_remove((list_name_t **)a, (list_name_t *)b)
 
 
@@ -82,7 +82,7 @@ void list_data_replace_data(list_data_t *item, uint8_t *data, uint16_t data_len)
 void list_data_remove_all(list_data_t **list);
 void list_data_remove(list_data_t *list);
 #define list_data_next(a) (list_data_t *)list_next((list_t *)a)
-#define list_data_add(a, b, c, d, e, f) (list_data_t *)list_add((list_t **)a, (list_t *)list_data_new(b, c, d, e, f))
+#define list_data_add(a, b, c, d, e, f) (list_data_t *)list_add_item((list_t **)a, (list_t *)list_data_new(b, c, d, e, f))
 
 
 //--------------------------------------------
@@ -172,7 +172,7 @@ void list_msg_remove_msg_id(list_msg_t **mtops, uint16_t msg_id);
 list_msg_t *list_msg_remove(list_msg_t **mtops, list_msg_t *mtop);
 #define list_msg_head(a) (list_msg_t *)list_head((list_t **)a)
 #define list_msg_next(a) (list_msg_t *)list_next((list_t *)a)
-#define list_msg_length(a) list_length((list_t **)a)
+#define list_msg_length(a) list_get_length((list_t **)a)
 
 
 //--------------------------------------------
@@ -187,7 +187,7 @@ list_link_t *list_link_add_pubitem(list_link_t **list, list_pub_t *pub_item);
 #define list_link_init(list) list_init((list_t **)list)
 #define list_link_head(list) (list_link_t *)list_head((list_t **)list)
 #define list_link_next(item) (list_link_t *)list_next((list_t *)item)
-#define list_link_add(list, item) (list_data_t *)list_add((list_t **)list, (list_t *)item)
+#define list_link_add(list, item) (list_data_t *)list_add_item((list_t **)list, (list_t *)item)
 
 
 //--------------------------------------------

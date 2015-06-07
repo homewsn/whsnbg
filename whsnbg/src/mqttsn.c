@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -17,6 +17,7 @@
 #ifdef SENSOR_DATA
 #include "sensor_data.h"
 #endif
+#include "parse_conf.h"
 #include <stdlib.h>		/* malloc */
 #include <string.h>		/* memcpy, strlen */
 #include <assert.h>		/* assert */
@@ -39,7 +40,6 @@
 #define dprintf(...)
 #endif
 
-extern unsigned int mysql_enable;
 
 //--------------------------------------------
 //** decode command functions
