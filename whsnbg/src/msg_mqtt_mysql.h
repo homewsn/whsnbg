@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MSG_MQTT_MYSQL_H__
-#define __MSG_MQTT_MYSQL_H__
+#ifndef MSG_MQTT_MYSQL_H_
+#define MSG_MQTT_MYSQL_H_
 
 #include "msgs.h"
 #include <time.h>		/* time_t, time() */
@@ -109,4 +109,4 @@ void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t sensor_id, long lon
 void msg_mqtt_mysql_update_sensor_param(uint32_t sensor_id, uint32_t sensor_param, char *utf8str_data);
 void msg_mqtt_mysql_update_sensor_location(uint32_t sensor_id, char *utf8str_data);
 
-#endif /* __MSG_MQTT_MYSQL_H__ */
+#endif /* MSG_MQTT_MYSQL_H_ */

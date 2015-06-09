@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_TCP_H__
-#define __THREAD_TCP_H__
+#ifndef THREAD_TCP_H_
+#define THREAD_TCP_H_
 
 #include "parse_conf.h"
 
@@ -30,4 +30,4 @@ int thread_tcp_start(void);
 void thread_tcp_stop(void);
 void thread_tcp_serv_setup(thread_tcp_options_t *options);
 
-#endif /* __THREAD_TCP_H__ */
+#endif /* THREAD_TCP_H_ */

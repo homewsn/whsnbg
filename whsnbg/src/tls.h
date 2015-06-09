@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __TLS_H__
-#define __TLS_H__
+#ifndef TLS_H_
+#define TLS_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -129,4 +129,4 @@ int tls_send(SSL *ssl, const unsigned char *buf, size_t size);
 void tls_free(SSL *ssl);
 void tls_ctx_free(SSL_CTX * ssl_ctx);
 
-#endif /* __TLS_H__ */
+#endif /* TLS_H_ */

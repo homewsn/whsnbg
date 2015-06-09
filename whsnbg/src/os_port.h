@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __OS_PORT_H__
-#define __OS_PORT_H__
+#ifndef OS_PORT_H_
+#define OS_PORT_H_
 
 // stringification macro
 #define STR(x)			#x
@@ -183,4 +183,4 @@ static int get_device_ipaddress(const char *device, struct in_addr *in_addr)
 }
 #endif
 
-#endif /* __OS_PORT_H__ */
+#endif /* OS_PORT_H_ */

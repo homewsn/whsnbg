@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __CRON_TRIGGER_H__
-#define __CRON_TRIGGER_H__
+#ifndef CRON_TRIGGER_H_
+#define CRON_TRIGGER_H_
 
 #include "list.h"
 #include <time.h>		/* time_t, time() */
@@ -59,4 +59,4 @@ cron_trigger_t *cron_trigger_add_new(cron_trigger_t **list, const char *str, siz
 #define cron_trigger_next(a) (cron_trigger_t *)list_next((list_t *)a)
 void cron_trigger_remove_all(cron_trigger_t **list);
 
-#endif /* __CRON_TRIGGER_H__ */
+#endif /* CRON_TRIGGER_H_ */

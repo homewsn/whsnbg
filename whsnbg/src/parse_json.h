@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __PARSE_JSON_H__
-#define __PARSE_JSON_H__
+#ifndef PARSE_JSON_H_
+#define PARSE_JSON_H_
 
 #include "config.h"
 
@@ -22,4 +22,4 @@ void get_variable_topic(char *var, size_t var_len, char **name, size_t *name_len
 int parse_json_file(void);
 void publish_rules_engine_version(void);
 
-#endif /* __PARSE_JSON_H__ */
+#endif /* PARSE_JSON_H_ */

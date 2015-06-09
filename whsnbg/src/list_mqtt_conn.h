@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LIST_MQTT_CONN_H__
-#define __LIST_MQTT_CONN_H__
+#ifndef LIST_MQTT_CONN_H_
+#define LIST_MQTT_CONN_H_
 
 #include "lists.h"
 #include "os_port.h"
@@ -59,4 +59,4 @@ void list_mqtt_conn_remove_all(list_mqtt_conn_t **list);
 #define mqtt_conn_will_remove(a) will_remove_all(&a->will)
 #define mqtt_conn_will_set(a, b, c, d, e, f) will_replace(&a->will, b, c, d, e, f)
 
-#endif /* __LIST_MQTT_CONN_H__ */
+#endif /* LIST_MQTT_CONN_H_ */

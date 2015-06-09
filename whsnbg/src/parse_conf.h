@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __PARSE_CONF_H__
-#define __PARSE_CONF_H__
+#ifndef PARSE_CONF_H_
+#define PARSE_CONF_H_
 
 #include "config.h"
 
@@ -31,4 +31,4 @@ extern long mysql_enable;
 //--------------------------------------------
 int parse_conf_file(void);
 
-#endif /* __PARSE_CONF_H__ */
+#endif /* PARSE_CONF_H_ */

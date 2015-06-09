@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_STATE_H__
-#define __THREAD_STATE_H__
+#ifndef THREAD_STATE_H_
+#define THREAD_STATE_H_
 
 //--------------------------------------------
 typedef enum
@@ -24,4 +24,4 @@ typedef enum
 } thread_state_t;
 
 
-#endif /* __THREAD_STATE_H__ */
+#endif /* THREAD_STATE_H_ */

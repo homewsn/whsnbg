@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LIST_USER_H__
-#define __LIST_USER_H__
+#ifndef LIST_USER_H_
+#define LIST_USER_H_
 
 #include "list.h"
 
@@ -40,4 +40,4 @@ list_mqtt_user_t *list_mqtt_user_add_new(list_mqtt_user_t **list, const char *us
 void list_mqtt_user_remove_all(list_mqtt_user_t **list);
 list_mqtt_user_t *list_mqtt_user_find_user(list_mqtt_user_t **list, uint8_t *user_name, uint16_t user_name_length, uint8_t *password, uint16_t password_length);
 
-#endif /* __LIST_USER_H__ */
+#endif /* LIST_USER_H_ */

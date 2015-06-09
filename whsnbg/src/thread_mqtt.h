@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_MQTT_H__
-#define __THREAD_MQTT_H__
+#ifndef THREAD_MQTT_H_
+#define THREAD_MQTT_H_
 
 #include "lists.h"
 
@@ -32,4 +32,4 @@ void thread_mqtt_trigger_add(const char *name, size_t next_id);
 void thread_mqtt_trigger_remove_all(void);
 void thread_mqtt_set_rules_topic_data(const char *data, size_t data_len);
 
-#endif /* __THREAD_MQTT_H__ */
+#endif /* THREAD_MQTT_H_ */

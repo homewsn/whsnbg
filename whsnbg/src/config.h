@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
+#ifndef CONFIG_H_
+#define CONFIG_H_
 
 // TLS library
 //#define OPENSSL_LIBRARY		// OpenSSL
@@ -58,4 +58,4 @@
 #endif
 #endif
 
-#endif /* __CONFIG_H__ */
+#endif /* CONFIG_H_ */

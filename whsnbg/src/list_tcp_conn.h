@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LIST_TCP_CONN_H__
-#define __LIST_TCP_CONN_H__
+#ifndef LIST_TCP_CONN_H_
+#define LIST_TCP_CONN_H_
 
 #include "lists.h"
 #include "os_port.h"
@@ -80,4 +80,4 @@ list_tcp_conn_t *list_tcp_conn_find_addr(list_tcp_conn_t **list, struct sockaddr
 list_tcp_conn_t *list_tcp_conn_remove(list_tcp_conn_t **list, list_tcp_conn_t *item);
 void list_tcp_conn_remove_all(list_tcp_conn_t **list);
 
-#endif /* __LIST_TCP_CONN_H__ */
+#endif /* LIST_TCP_CONN_H_ */

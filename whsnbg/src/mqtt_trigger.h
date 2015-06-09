@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MQTT_TRIGGER_H__
-#define __MQTT_TRIGGER_H__
+#ifndef MQTT_TRIGGER_H_
+#define MQTT_TRIGGER_H_
 
 #include "list.h"
 
@@ -39,4 +39,4 @@ mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, si
 #define mqtt_trigger_next(a) (mqtt_trigger_t *)list_next((list_t *)a)
 void mqtt_trigger_remove_all(mqtt_trigger_t **list);
 
-#endif /* __MQTT_TRIGGER_H__ */
+#endif /* MQTT_TRIGGER_H_ */

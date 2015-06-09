@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __SENSOR_DATA_H__
-#define __SENSOR_DATA_H__
+#ifndef SENSOR_DATA_H_
+#define SENSOR_DATA_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -27,4 +27,4 @@ void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data);
 void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t *data);
 void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *data, size_t data_len);
 
-#endif /* __SENSOR_DATA_H__ */
+#endif /* SENSOR_DATA_H_ */

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __UTF8_H__
-#define __UTF8_H__
+#ifndef UTF8_H_
+#define UTF8_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -24,4 +24,4 @@
 
 uint32_t utf8_strlen(char *utf8str, uint32_t size);
 
-#endif /* __UTF8_H__ */
+#endif /* UTF8_H_ */

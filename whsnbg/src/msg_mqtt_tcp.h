@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MSG_MQTT_TCP_H__
-#define __MSG_MQTT_TCP_H__
+#ifndef MSG_MQTT_TCP_H_
+#define MSG_MQTT_TCP_H_
 
 #include "msgs.h"
 
@@ -39,4 +39,4 @@ void msg_mqtt_tcp_destroy(void);
 void msg_mqtt_tcp_add_close_conn(struct sockaddr_in *addr);
 void msg_mqtt_tcp_add_packet(struct sockaddr_in *addr, unsigned char *buf, size_t size);
 
-#endif /* __MSG_MQTT_TCP_H__ */
+#endif /* MSG_MQTT_TCP_H_ */

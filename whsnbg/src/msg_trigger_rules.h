@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MSG_TRIGGER_RULES_H__
-#define __MSG_TRIGGER_RULES_H__
+#ifndef MSG_TRIGGER_RULES_H_
+#define MSG_TRIGGER_RULES_H_
 
 #include "msgs.h"
 #include "cron_trigger.h"
@@ -45,4 +45,4 @@ void msg_trigger_rules_destroy(void);
 void msg_cron_rules_add_packet(cron_trigger_t *cron_trigger);
 void msg_mqtt_rules_add_packet(mqtt_trigger_t *mqtt_trigger);
 
-#endif /* __MSG_TRIGGER_RULES_H__ */
+#endif /* MSG_TRIGGER_RULES_H_ */

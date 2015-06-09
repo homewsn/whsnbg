@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LIST_MQTTSN_CONN_H__
-#define __LIST_MQTTSN_CONN_H__
+#ifndef LIST_MQTTSN_CONN_H_
+#define LIST_MQTTSN_CONN_H_
 
 #include "lists.h"
 #include "os_port.h"
@@ -80,4 +80,4 @@ void list_mqttsn_conn_remove_all(list_mqttsn_conn_t **list);
 #define mqttsn_conn_will_data_set(a, b, c) will_data_replace(&a->will, b, c)
 
 
-#endif /* __LIST_MQTTSN_CONN_H__ */
+#endif /* LIST_MQTTSN_CONN_H_ */

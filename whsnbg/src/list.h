@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LIST_H__
-#define __LIST_H__
+#ifndef LIST_H_
+#define LIST_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -38,4 +38,4 @@ size_t list_get_length(list_t **list);
 list_t *list_next(list_t *item);
 
 
-#endif /* __LIST_H__ */
+#endif /* LIST_H_ */

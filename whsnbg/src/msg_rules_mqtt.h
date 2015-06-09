@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MSG_RULES_MQTT_H__
-#define __MSG_RULES_MQTT_H__
+#ifndef MSG_RULES_MQTT_H_
+#define MSG_RULES_MQTT_H_
 
 #include "msgs.h"
 #include "lists.h"
@@ -46,4 +46,4 @@ void msg_rules_mqtt_destroy(void);
 
 void msg_rules_mqtt_add_packet(list_data_t *list, uint8_t retain);
 
-#endif /* __MSG_RULES_MQTT_H__ */
+#endif /* MSG_RULES_MQTT_H_ */

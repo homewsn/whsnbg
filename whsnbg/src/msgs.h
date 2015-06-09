@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MSGS_H__
-#define __MSGS_H__
+#ifndef MSGS_H_
+#define MSGS_H_
 
 #include "os_port.h"
 
@@ -70,4 +70,4 @@ void msggap_reply(msggap_t *gap);
 void msggap_close(msggap_t *gap);
 void msggap_destroy(msggap_t *gap);
 
-#endif /* __MSGS_H__ */
+#endif /* MSGS_H_ */

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MQTTSN_H__
-#define __MQTTSN_H__
+#ifndef MQTTSN_H_
+#define MQTTSN_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -267,4 +267,4 @@ void mqttsn_disconnect_encode(uint8_t **buf, size_t *size, uint16_t duration);
 #define mqttsn_willmsgresp_encode(a, b, c) mqttsn_return_command_encode(MQTTSN_WILLMSGRESP, a, b, c)
 
 
-#endif /* __MQTTSN_H__ */
+#endif /* MQTTSN_H_ */

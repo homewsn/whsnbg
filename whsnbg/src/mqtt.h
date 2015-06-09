@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __MQTT_H__
-#define __MQTT_H__
+#ifndef MQTT_H_
+#define MQTT_H_
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -172,4 +172,4 @@ void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *s
 #define mqtt_pubcomp_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBCOMP, a, b, c)
 #define mqtt_unsuback_encode(a, b, c) mqtt_pubxxx_encode(MQTT_UNSUBACK, a, b, c)
 
-#endif /* __MQTT_H__ */
+#endif /* MQTT_H_ */

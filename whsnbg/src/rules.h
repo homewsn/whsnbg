@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __RULES_H__
-#define __RULES_H__
+#ifndef RULES_H_
+#define RULES_H_
 
 #include "list.h"
 
@@ -111,4 +111,4 @@ void rules_functions_init(rules_function_t **rfs);
 size_t func_execute(rules_function_t **rfs, rf_type_t type, void *param);
 void node_execute(rules_function_t **rfs, rules_node_t **rns, size_t id);
 
-#endif /* __RULES_H__ */
+#endif /* RULES_H_ */

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_RULES_H__
-#define __THREAD_RULES_H__
+#ifndef THREAD_RULES_H_
+#define THREAD_RULES_H_
 
 #include "rules.h"
 
@@ -22,4 +22,4 @@ void thread_rules_stop(void);
 void thread_rules_add_node(uint16_t id, rf_type_t type, void *param);
 void thread_rules_remove_all(void);
 
-#endif /* __THREAD_RULES_H__ */
+#endif /* THREAD_RULES_H_ */

@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __LISTS_H__
-#define __LISTS_H__
+#ifndef LISTS_H_
+#define LISTS_H_
 
 #include "list.h"
 
@@ -198,4 +198,4 @@ void list_sub_pub_matches(list_sub_t *sub_item, list_pub_t **pub_list, list_link
 int list_pub_sub_matches(list_pub_t *pub_item, list_sub_t **sub_list);
 
 
-#endif /* __LISTS_H__ */
+#endif /* LISTS_H_ */

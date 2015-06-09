@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,8 +12,8 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_UDP_H__
-#define __THREAD_UDP_H__
+#ifndef THREAD_UDP_H_
+#define THREAD_UDP_H_
 
 #include "parse_conf.h"
 
@@ -27,4 +27,4 @@ int thread_udp_start(void);
 void thread_udp_stop(void);
 void thread_udp_serv_setup(thread_udp_options_t *options);
 
-#endif /* __THREAD_UDP_H__ */
+#endif /* THREAD_UDP_H_ */

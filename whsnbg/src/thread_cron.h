@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2014 Vladimir Alemasov
+* Copyright (c) 2013-2015 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -12,12 +12,12 @@
 * GNU General Public License for more details.
 */
 
-#ifndef __THREAD_CRON_H__
-#define __THREAD_CRON_H__
+#ifndef THREAD_CRON_H_
+#define THREAD_CRON_H_
 
 void thread_cron_start(void);
 void thread_cron_stop(void);
 void thread_cron_trigger_add(const char *cronstr, size_t next_id);
 void thread_cron_remove_all(void);
 
-#endif /* __THREAD_CRON_H__ */
+#endif /* THREAD_CRON_H_ */
