@@ -81,11 +81,6 @@ ON DUPLICATE KEY UPDATE unit='%s';"
 VALUES ( '%lu', '0', '', '%s' ) \
 ON DUPLICATE KEY UPDATE sensor_ip='%s';"
 
-#define MYSQL_QUERY_UPDATE_SENSOR_LOCATION "INSERT INTO `sensors` \
-( `sensor_id`, `st_duration`, `location`, `sensor_ip` ) \
-VALUES ( '%lu', '0', '%s', '' ) \
-ON DUPLICATE KEY UPDATE location='%s';"
-
 #define MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION "INSERT INTO `sensors` \
 ( `sensor_id`, `st_duration`, `location`, `sensor_ip` ) \
 VALUES ( '%lu', '%lu', '', '' ) \
@@ -147,16 +142,6 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_IP, (unsigned long)msg->sensor_id, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
-		return;
-	}
-
-	if (ms->type == MYSQL_UPDATE_SENSOR_LOCATION)
-	{
-		msg_mysql_add_sensor_utf8str_t *msg = (msg_mysql_add_sensor_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_LOCATION, (unsigned long)msg->sensor_id, msg->utf8str_data, msg->utf8str_data);
-		if (mysql_query(mysql_conn, querybuf) != 0)
-			print_error_mysql(__LINE__);
-		free(msg->utf8str_data);
 		return;
 	}
 

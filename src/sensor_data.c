@@ -304,7 +304,6 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 //--------------------------------------------
 // from human (MQTT):
 // sensors/sensor_id/sleeptimeduration = "10-255" => MYSQL_QUERY_UPDATE_SENSOR_TIMEOUT
-// sensors/sensor_id/location = "location" => MYSQL_QUERY_UPDATE_SENSOR_LOCATION
 
 //--------------------------------------------
 void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *data, size_t data_len)
@@ -348,17 +347,6 @@ void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *dat
 					st_duration = strtol(data, &end, 10);
 					if (errno == 0 && end == (char *)data + data_len)
 						msg_mqtt_mysql_update_sensor_sleeptimeduration(sensor_id, st_duration);
-					break;
-				}
-				if (strcmp(token, "location") == 0)
-				{
-					// MYSQL_UPDATE_SENSOR_LOCATION
-					char *utf8str_data;
-
-					utf8str_data = (char *)malloc(data_len + 1);
-					memcpy(utf8str_data, data, data_len);
-					utf8str_data[data_len] = '\0';
-					msg_mqtt_mysql_update_sensor_location(sensor_id, utf8str_data);
 					break;
 				}
 				break;
