@@ -28,7 +28,7 @@
 #include <arpa/inet.h>	/* ntohs, htons */
 #endif
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 #ifdef LINUX_DAEMON_VERSION
 #include <syslog.h>
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)

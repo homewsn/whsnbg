@@ -35,7 +35,7 @@
 #pragma warning (disable:4996) // This function may be unsafe.
 #endif
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 #include <stdio.h>
 #ifdef LINUX_DAEMON_VERSION
 #include <errno.h>		/* errno */

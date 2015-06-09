@@ -32,7 +32,7 @@
 #pragma warning (disable:4996) // This function may be unsafe.
 #endif
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 #ifdef LINUX_DAEMON_VERSION
 #include <syslog.h>
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)

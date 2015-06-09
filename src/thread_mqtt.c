@@ -43,7 +43,7 @@
 #pragma warning (disable:4996) // This function may be unsafe.
 #endif
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 #ifdef LINUX_DAEMON_VERSION
 #define dprintf(...) syslog(LOG_DEBUG, __VA_ARGS__)
 #else
@@ -454,7 +454,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 
 	list_mqtt_conn_reset_remainsec(conn);
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_CONNACK)
 	{
 		dprintf(">MQTT_CONNACK\n");
@@ -509,7 +509,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_PUBACK)
 	{
 		dprintf(">MQTT_PUBACK\n");
@@ -541,7 +541,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_PUBCOMP)
 	{
 		dprintf(">MQTT_PUBCOMP\n");
@@ -605,7 +605,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_SUBACK)
 	{
 		dprintf(">MQTT_SUBACK\n");
@@ -626,7 +626,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_UNSUBACK)
 	{
 		dprintf(">MQTT_UNSUBACK\n");
@@ -643,7 +643,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTT_PINGRESP)
 	{
 		dprintf(">MQTT_PINGRESP\n");
@@ -838,7 +838,7 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 		return;
 	}
 
-#ifndef NDEBUG
+#ifndef NDPRINTF
 	if (fixhdr.msg_type == MQTTSN_PINGRESP)
 	{
 		dprintf(">MQTTSN_PINGRESP\n");
