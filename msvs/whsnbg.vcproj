@@ -185,62 +185,62 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\whsnbg\src\cJSON.c"
+				RelativePath="..\src\cJSON.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\main.c"
+				RelativePath="..\src\main.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\mqtt.c"
+				RelativePath="..\src\mqtt.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\mqttsn.c"
+				RelativePath="..\src\mqttsn.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\rules.c"
+				RelativePath="..\src\rules.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\sensor_data.c"
+				RelativePath="..\src\sensor_data.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\tls.c"
+				RelativePath="..\src\tls.c"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\utf8.c"
+				RelativePath="..\src\utf8.c"
 				>
 			</File>
 			<Filter
 				Name="lists"
 				>
 				<File
-					RelativePath="..\whsnbg\src\list.c"
+					RelativePath="..\src\list.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqtt_conn.c"
+					RelativePath="..\src\list_mqtt_conn.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqtt_user.c"
+					RelativePath="..\src\list_mqtt_user.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqttsn_conn.c"
+					RelativePath="..\src\list_mqttsn_conn.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_tcp_conn.c"
+					RelativePath="..\src\list_tcp_conn.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\lists.c"
+					RelativePath="..\src\lists.c"
 					>
 				</File>
 			</Filter>
@@ -248,27 +248,27 @@
 				Name="threads"
 				>
 				<File
-					RelativePath="..\whsnbg\src\thread_cron.c"
+					RelativePath="..\src\thread_cron.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_mqtt.c"
+					RelativePath="..\src\thread_mqtt.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_mysql.c"
+					RelativePath="..\src\thread_mysql.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_rules.c"
+					RelativePath="..\src\thread_rules.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_tcp.c"
+					RelativePath="..\src\thread_tcp.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_udp.c"
+					RelativePath="..\src\thread_udp.c"
 					>
 				</File>
 			</Filter>
@@ -276,35 +276,35 @@
 				Name="messages"
 				>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_mysql.c"
+					RelativePath="..\src\msg_mqtt_mysql.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_tcp.c"
+					RelativePath="..\src\msg_mqtt_tcp.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_udp.c"
+					RelativePath="..\src\msg_mqtt_udp.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_rules_mqtt.c"
+					RelativePath="..\src\msg_rules_mqtt.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_tcp_mqtt.c"
+					RelativePath="..\src\msg_tcp_mqtt.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_trigger_rules.c"
+					RelativePath="..\src\msg_trigger_rules.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_udp_mqtt.c"
+					RelativePath="..\src\msg_udp_mqtt.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msgs.c"
+					RelativePath="..\src\msgs.c"
 					>
 				</File>
 			</Filter>
@@ -312,11 +312,11 @@
 				Name="parsers"
 				>
 				<File
-					RelativePath="..\whsnbg\src\parse_conf.c"
+					RelativePath="..\src\parse_conf.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\parse_json.c"
+					RelativePath="..\src\parse_json.c"
 					>
 				</File>
 			</Filter>
@@ -324,11 +324,11 @@
 				Name="triggers"
 				>
 				<File
-					RelativePath="..\whsnbg\src\cron_trigger.c"
+					RelativePath="..\src\cron_trigger.c"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\mqtt_trigger.c"
+					RelativePath="..\src\mqtt_trigger.c"
 					>
 				</File>
 			</Filter>
@@ -339,70 +339,70 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\whsnbg\src\cJSON.h"
+				RelativePath="..\src\cJSON.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\config.h"
+				RelativePath="..\src\config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\mqtt.h"
+				RelativePath="..\src\mqtt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\mqttsn.h"
+				RelativePath="..\src\mqttsn.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\os_port.h"
+				RelativePath="..\src\os_port.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\rules.h"
+				RelativePath="..\src\rules.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\sensor_data.h"
+				RelativePath="..\src\sensor_data.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\stdint_msc.h"
+				RelativePath="..\src\stdint_msc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\tls.h"
+				RelativePath="..\src\tls.h"
 				>
 			</File>
 			<File
-				RelativePath="..\whsnbg\src\utf8.h"
+				RelativePath="..\src\utf8.h"
 				>
 			</File>
 			<Filter
 				Name="lists"
 				>
 				<File
-					RelativePath="..\whsnbg\src\list.h"
+					RelativePath="..\src\list.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqtt_conn.h"
+					RelativePath="..\src\list_mqtt_conn.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqtt_user.h"
+					RelativePath="..\src\list_mqtt_user.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_mqttsn_conn.h"
+					RelativePath="..\src\list_mqttsn_conn.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\list_tcp_conn.h"
+					RelativePath="..\src\list_tcp_conn.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\lists.h"
+					RelativePath="..\src\lists.h"
 					>
 				</File>
 			</Filter>
@@ -410,31 +410,31 @@
 				Name="threads"
 				>
 				<File
-					RelativePath="..\whsnbg\src\thread_cron.h"
+					RelativePath="..\src\thread_cron.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_mqtt.h"
+					RelativePath="..\src\thread_mqtt.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_mysql.h"
+					RelativePath="..\src\thread_mysql.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_rules.h"
+					RelativePath="..\src\thread_rules.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_state.h"
+					RelativePath="..\src\thread_state.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_tcp.h"
+					RelativePath="..\src\thread_tcp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\thread_udp.h"
+					RelativePath="..\src\thread_udp.h"
 					>
 				</File>
 			</Filter>
@@ -442,35 +442,35 @@
 				Name="messages"
 				>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_mysql.h"
+					RelativePath="..\src\msg_mqtt_mysql.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_tcp.h"
+					RelativePath="..\src\msg_mqtt_tcp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_mqtt_udp.h"
+					RelativePath="..\src\msg_mqtt_udp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_rules_mqtt.h"
+					RelativePath="..\src\msg_rules_mqtt.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_tcp_mqtt.h"
+					RelativePath="..\src\msg_tcp_mqtt.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_trigger_rules.h"
+					RelativePath="..\src\msg_trigger_rules.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msg_udp_mqtt.h"
+					RelativePath="..\src\msg_udp_mqtt.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\msgs.h"
+					RelativePath="..\src\msgs.h"
 					>
 				</File>
 			</Filter>
@@ -478,11 +478,11 @@
 				Name="parsers"
 				>
 				<File
-					RelativePath="..\whsnbg\src\parse_conf.h"
+					RelativePath="..\src\parse_conf.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\parse_json.h"
+					RelativePath="..\src\parse_json.h"
 					>
 				</File>
 			</Filter>
@@ -490,11 +490,11 @@
 				Name="triggers"
 				>
 				<File
-					RelativePath="..\whsnbg\src\cron_trigger.h"
+					RelativePath="..\src\cron_trigger.h"
 					>
 				</File>
 				<File
-					RelativePath="..\whsnbg\src\mqtt_trigger.h"
+					RelativePath="..\src\mqtt_trigger.h"
 					>
 				</File>
 			</Filter>
