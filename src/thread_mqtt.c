@@ -1086,10 +1086,12 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 				mqttsn_topic_id = mqttsn_topic_id == 65535 ? 1 : ++mqttsn_topic_id;
 			}
 			subscribe.sub_item->topic_id = subscribe.pub_item->topic_id;
+			suback.topic_id = subscribe.sub_item->topic_id;
 		}
+		else
+			suback.topic_id = subscribe.topic_id;
 
 		suback.flags.qos = subscribe.flags.qos;
-		suback.topic_id = subscribe.topic_id;
 		suback.msg_id = subscribe.msg_id;
 		suback.return_code = code;
 		mqttsn_suback_encode(&buf, &size, &suback);
