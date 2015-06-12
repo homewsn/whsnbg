@@ -1,6 +1,6 @@
-# make - ubuntu debug
-# make release - ubuntu release
-# make openwrt - openwrt release or debug (see below openwrt: FLAGS)
+# make - Ubuntu debug
+# make release - Ubuntu release
+# make openwrt - OpenWrt release
 
 TARGET = whsnbg
 SOURCES = $(wildcard *.c)
@@ -8,42 +8,56 @@ HEADERS = $(wildcard *.h)
 OBJECTS = $(SOURCES:.c=.o)
 DEPS = $(HEADERS)
 
-# ubuntu
-INCLPATH = -I. -I/usr/include/mysql
+# Ubuntu
+DEF = -DUBUNTU
+INCLPATH = -I.
 LIBPATH = -L. -L/usr/lib
-LIBS = -laxtls -lpthread `mysql_config --cflags --libs`
+LIBS =
+
+# axTLS
+LIBS += -laxtls
+# OpenSSL
+#LIBS += -lssl
+# OpenSSL-static
+#LIBS += -lcrypto -lz
+
+# MySQL client
+INCLPATH += -I/usr/include/mysql
+LIBS += -lmysqlclient -lz
+
+# Add pthread and math libs
+LIBS += -lpthread -lm
+
+# static link
+#LIBS += -ldl -static
+
+
+# Ubuntu debug
 FLAGS = -g -O2
-DEF = -D __UBUNTU__
 
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS) $(DEPS)
-	$(CC) $(LDFLAGS) $(STATIC) -o $(TARGET) $(OBJECTS) $(LIBPATH) $(LIBS)
+	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJECTS) $(LIBPATH) $(LIBS)
 
 $(OBJECTS): $(SOURCES)
 	$(CC) $(FLAGS) $(CFLAGS) $(DEF) -c $(SOURCES) $(INCLPATH)
 
 
-.PHONY: openwrt
+# Ubuntu release
+.PHONY: release
+release: FLAGS = -O2 -DNDEBUG
+release: $(TARGET)
 
-# debug version
+# OpenWrt
+.PHONY: openwrt
 openwrt: FLAGS = -O2
-# release version
-#openwrt: FLAGS = -O2 -D NDEBUG
 openwrt: INCLPATH = $(TARGET_INCLPATH)
 openwrt: LIBPATH = $(TARGET_LIBPATH)
 openwrt: LIBS = $(TARGET_LIBS)
-#openwrt: STATIC = -static
-openwrt: DEF = -D __OPENWRT__
+openwrt: DEF = $(TARGET_DEFS)
 openwrt: $(TARGET)
 
-.PHONY: release
-
-release: FLAGS = -O2 -D NDEBUG
-release: $(TARGET)
-
 .PHONY: clean
-
 clean:
 	rm -f $(OBJECTS) $(TARGET)
-

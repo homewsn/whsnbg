@@ -13,6 +13,7 @@
 */
 
 #include "config.h"
+#ifdef THREAD_MYSQL
 #ifdef LINUX_DAEMON_VERSION
 #include <unistd.h>
 #include <syslog.h>
@@ -253,3 +254,5 @@ void thread_mysql_setup(thread_mysql_options_t *options)
 {
 	thread_options = options;
 }
+
+#endif /* THREAD_MYSQL */

@@ -15,6 +15,8 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#ifndef OPENWRT
+
 // TLS library
 //#define OPENSSL_LIBRARY		// OpenSSL
 #define AXTLS_LIBRARY			// axTLS
@@ -29,15 +31,21 @@
 //#define NDEBUG					// disable assert()
 //#define NDPRINTF				// disable detailed log messages
 
-#if defined SENSOR_DATA_MYSQL
+// rules engine support
+#define RULES_ENGINE
+
+#else
+// all options in the OpenWrt buildroot	
+#endif /* OPENWRT */
+
+#ifdef SENSOR_DATA_MYSQL
+#ifndef SENSOR_DATA
 #define SENSOR_DATA
+#endif
 #endif
 #if defined SENSOR_DATA_MYSQL || defined MQTT_DATA_MYSQL
 #define THREAD_MYSQL
 #endif
-
-// rules engine support
-#define RULES_ENGINE
 
 // MQTT-SN IPv4 network interface MTU size
 // IEEE 802.15.4 + Contiki Rime => 127 - 9 - 2 - 6 = 110 bytes
@@ -48,18 +56,17 @@
 #ifdef WIN32
 #define CONFIG_FILE				"../conf/whsnbg.conf"
 #define RULES_FILE				"../conf/whsnbg.json"
-#else
-#ifdef __UBUNTU__
+#endif
+#ifdef UBUNTU
 // Host computer
 #define CONFIG_FILE				"/home/shared/whsnbg/whsnbg.conf"
 #define RULES_FILE				"/home/shared/whsnbg/whsnbg.json"
 //#define LINUX_DAEMON_VERSION
-#else
+#endif
+#ifdef OPENWRT
 // OpenWRT
 #define CONFIG_FILE				"/etc/whsnbg.conf"
 #define RULES_FILE				"/etc/whsnbg.json"
-//#define LINUX_DAEMON_VERSION
-#endif
 #endif
 
 #endif /* CONFIG_H_ */
