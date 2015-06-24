@@ -17,7 +17,6 @@
 
 #include "lists.h"
 #include "os_port.h"
-#include "tls.h"
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
@@ -65,7 +64,9 @@ typedef struct list_tcp_conn
 	list_t next;
 	SOCKET sock;
 	struct sockaddr_in addr;
+#ifdef USE_TLS_LIBRARY
 	SSL *ssl;
+#endif
 	conn_state_t state;
 	unsigned char *recv_buf;
 	size_t recv_cnt;

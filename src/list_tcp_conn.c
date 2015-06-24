@@ -12,6 +12,8 @@
 * GNU General Public License for more details.
 */
 
+#include "config.h"
+#include "tls.h"
 #include "list_tcp_conn.h"
 #include <assert.h>		/* assert */
 #include <stdlib.h>		/* malloc */

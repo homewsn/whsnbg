@@ -91,11 +91,17 @@ typedef struct serv_tcp
 	int is_tls;
 	unsigned short port;
 	SOCKET sock;
+#ifdef USE_TLS_LIBRARY
 	SSL_CTX *ssl_ctx;
+#endif
 	mqtt_mode_t mode;
 } serv_tcp_t;
 
+#ifdef USE_TLS_LIBRARY
 #define MQTT_TCP_SERVERS		4
+#else
+#define MQTT_TCP_SERVERS		2
+#endif
 #define MAX_HTTP_HEADER_LENGTH	2048
 
 //--------------------------------------------
@@ -159,18 +165,22 @@ void ws_handshake_encode(const char *key, char *hash)
 //--------------------------------------------
 static int sock_recv(list_tcp_conn_t *conn, unsigned char **buf_addr, size_t size)
 {
+#ifdef USE_TLS_LIBRARY
 	if (conn->ssl != NULL)
 		return tls_recv(conn->ssl, buf_addr, size);
 	else
+#endif
 		return recv(conn->sock, *buf_addr, (int)size, 0);
 }
 
 //--------------------------------------------
 static int sock_send(list_tcp_conn_t *conn, const unsigned char *buf, size_t size)
 {
+#ifdef USE_TLS_LIBRARY
 	if (conn->ssl != NULL)
 		return tls_send(conn->ssl, buf, size);
 	else
+#endif
 		return send(conn->sock, buf, (int)size, 0);
 }
 
@@ -209,6 +219,7 @@ static void sock_close(SOCKET sock)
 		}
 #endif
 		closesocket(sock);
+		sock = INVALID_SOCKET;
 	}
 }
 
@@ -238,11 +249,13 @@ static list_tcp_conn_t *conn_close(list_tcp_conn_t *conn)
 	if (thread_state == THREAD_RUNNING)
 		msg_tcp_mqtt_add_close_conn(&conn->addr);
 
+#ifdef USE_TLS_LIBRARY
 	if (conn->ssl != NULL)
 	{
 		tls_free(conn->ssl);
 		conn->ssl = NULL;
 	}
+#endif
 
 	sock_close(conn->sock);
 	recv_buf_free(conn);
@@ -280,6 +293,7 @@ static void conn_new(size_t num)
 		return;
 	}
 
+#ifdef USE_TLS_LIBRARY
 	if (servs[num].is_tls == 1)
 	{
 		SSL *ssl;
@@ -293,6 +307,7 @@ static void conn_new(size_t num)
 		}
 		conn->ssl = ssl;
 	}
+#endif
 
 	conn->sock = sock;
 	if (servs[num].mode == MODE_MQTT)
@@ -338,8 +353,14 @@ static int serv_init(struct in_addr *in_addr)
 				return -1;
 			}
 
+#ifdef USE_TLS_LIBRARY
 			if (servs[cnt].is_tls == 1)
+			{
 				servs[cnt].ssl_ctx = tls_ctx_new();
+				if (servs[cnt].ssl_ctx == NULL)
+					dprintf("%s\n", "Failed to initialize TSL library.");
+			}
+#endif
 		}
 	}
 	return 0;
@@ -357,8 +378,10 @@ static void serv_close(void)
 
 	for (cnt = 0; cnt < MQTT_TCP_SERVERS; ++cnt)
 	{
+#ifdef USE_TLS_LIBRARY
 		if (servs[cnt].ssl_ctx != NULL)
 			tls_ctx_free(servs[cnt].ssl_ctx);
+#endif
 		if (servs[cnt].sock != INVALID_SOCKET)
 			closesocket(servs[cnt].sock);
 	}
@@ -950,25 +973,32 @@ void thread_tcp_stop(void)
 //--------------------------------------------
 void thread_tcp_serv_setup(thread_tcp_options_t *options)
 {
-	size_t cnt;
+	size_t cnt = 0;
 
 	thread_options = options;
 
-	servs[0].is_tls = 0;
-	servs[0].port = (unsigned short)thread_options->mqtt_port;
-	servs[0].mode = MODE_MQTT;
+	servs[cnt].is_tls = 0;
+	servs[cnt].port = (unsigned short)thread_options->mqtt_port;
+	servs[cnt].mode = MODE_MQTT;
 
-	servs[1].is_tls = 1;
-	servs[1].port = (unsigned short)thread_options->mqtt_tls_port;
-	servs[1].mode = MODE_MQTT;
+#ifdef USE_TLS_LIBRARY
+	++cnt;
+	servs[cnt].is_tls = 1;
+	servs[cnt].port = (unsigned short)thread_options->mqtt_tls_port;
+	servs[cnt].mode = MODE_MQTT;
+#endif
 
-	servs[2].is_tls = 0;
-	servs[2].port = (unsigned short)thread_options->mqtt_ws_port;
-	servs[2].mode = MODE_WS;
+	++cnt;
+	servs[cnt].is_tls = 0;
+	servs[cnt].port = (unsigned short)thread_options->mqtt_ws_port;
+	servs[cnt].mode = MODE_WS;
 
-	servs[3].is_tls = 1;
-	servs[3].port = (unsigned short)thread_options->mqtt_ws_tls_port;
-	servs[3].mode = MODE_WS;
+#ifdef USE_TLS_LIBRARY
+	++cnt;
+	servs[cnt].is_tls = 1;
+	servs[cnt].port = (unsigned short)thread_options->mqtt_ws_tls_port;
+	servs[cnt].mode = MODE_WS;
+#endif
 
 	for (cnt = 0; cnt < MQTT_TCP_SERVERS; ++cnt)
 		servs[cnt].sock = INVALID_SOCKET;

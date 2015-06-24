@@ -21,8 +21,9 @@
 #include <stdint.h>		/* uint8_t ... uint64_t */
 #endif
 
-#include "config.h"
 #include "os_port.h"
+
+#ifdef USE_TLS_LIBRARY
 
 #if defined OPENSSL_LIBRARY && defined AXTLS_LIBRARY
 #error "You must select one ssl/tls library"
@@ -70,7 +71,6 @@ int SHA1_Update(SHA_CTX *c, const void *data, size_t len);
 int SHA1_Final(unsigned char *md, SHA_CTX *c);
 #endif
 
-
 #elif defined AXTLS_LIBRARY /* axTLS */
 #ifdef WIN32 /* Windows */
 #pragma comment(lib,"axtls.lib")
@@ -94,7 +94,9 @@ typedef struct _SSL_CTX SSL_CTX;
 #define SSL_DISPLAY_RSA                         0x00400000
 #define SSL_CONNECT_IN_PARTS                    0x00800000
 
+#define SSL_OK                                  0
 #define SSL_OBJ_X509_CERT                       1
+#define SSL_OBJ_RSA_KEY                         3
 
 SSL_CTX * STDCALL ssl_ctx_new(uint32_t options, int num_sessions);
 void STDCALL ssl_ctx_free(SSL_CTX *ssl_ctx);
@@ -117,7 +119,6 @@ void STDCALL SHA1_Update(SHA_CTX *, const uint8_t *msg, int len);
 void STDCALL SHA1_Final(uint8_t *digest, SHA_CTX *);
 #endif
 
-
 #else /* nothing */
 #error "You must select the ssl/tls library"
 #endif
@@ -128,5 +129,17 @@ int tls_recv(SSL *ssl, unsigned char **buf_addr, size_t size);
 int tls_send(SSL *ssl, const unsigned char *buf, size_t size);
 void tls_free(SSL *ssl);
 void tls_ctx_free(SSL_CTX * ssl_ctx);
+
+#else
+typedef struct
+{
+	uint32_t state[5];
+	uint32_t count[2];
+	uint8_t buffer[64];
+} SHA_CTX;
+void SHA1_Init(SHA_CTX *context);
+void SHA1_Update(SHA_CTX *context, const uint8_t *data, uint32_t len);
+void SHA1_Final(uint8_t *digest, SHA_CTX *context);
+#endif
 
 #endif /* TLS_H_ */

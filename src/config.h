@@ -15,28 +15,36 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#ifndef OPENWRT
+#ifdef WIN32 /* Windows */
+// Windows
+// ** Manually configure ** >>>>>
 
+//#define USE_TLS_LIBRARY			// use external TLS library
 // TLS library
 //#define OPENSSL_LIBRARY		// OpenSSL
-#define AXTLS_LIBRARY			// axTLS
+//#define AXTLS_LIBRARY			// axTLS
 //#define SSL_LIBRARY_HEADERS	// TLS library headers
 
 // sensor and MySQL support
-#define SENSOR_DATA				// automatic decoding of the MQTT-SN message payload from the sensors
-#define SENSOR_DATA_MYSQL		// storing decoded data from the sensors in the MySQL database (see parse_mqttsn_topic_name_to_mysql_query in sensor_data.c)
-#define MQTT_DATA_MYSQL			// storing payload from the specific MQTT topics in the MySQL database (see parse_mqtt_topic_name_to_mysql_query in sensor_data.c)
+//#define SENSOR_DATA				// automatic decoding of the MQTT-SN message payload from the sensors
+//#define SENSOR_DATA_MYSQL		// storing decoded data from the sensors in the MySQL database (see parse_mqttsn_topic_name_to_mysql_query in sensor_data.c)
+//#define MQTT_DATA_MYSQL			// storing payload from the specific MQTT topics in the MySQL database (see parse_mqtt_topic_name_to_mysql_query in sensor_data.c)
 
 // assert() and detailed log messages support
-//#define NDEBUG					// disable assert()
-//#define NDPRINTF				// disable detailed log messages
+#define NDEBUG					// disable assert()
+#define NDPRINTF				// disable detailed log messages
 
 // rules engine support
-#define RULES_ENGINE
+//#define RULES_ENGINE
 
-#else
-// all options in the OpenWrt buildroot	
-#endif /* OPENWRT */
+#define SYSCONFDIR				"../res"
+#define LOCALSTATEDIR			"../res"
+
+// <<<<< ** Manually configure **
+
+#else /* Linux, OpenWRT */
+// all options in Makefile
+#endif
 
 #ifdef SENSOR_DATA_MYSQL
 #ifndef SENSOR_DATA
@@ -53,20 +61,20 @@
 // (packet fragmentation is not supported)
 #define MQTTSN_IF_MTU			110
 
-#ifdef WIN32
-#define CONFIG_FILE				"../conf/whsnbg.conf"
-#define RULES_FILE				"../conf/whsnbg.json"
+
+#ifdef SYSCONFDIR
+#define CONFIG_FILE				SYSCONFDIR "/whsnbg.conf"
+#define PEM_FILE				SYSCONFDIR "/whsnbg.pem"
+#define RULES_FILE				SYSCONFDIR "/whsnbg.rules"
+#else
+#define CONFIG_FILE				"whsnbg.conf"
+#define PEM_FILE				"whsnbg.pem"
+#define RULES_FILE				"whsnbg.rules"
 #endif
-#ifdef UBUNTU
-// Host computer
-#define CONFIG_FILE				"/home/shared/whsnbg/whsnbg.conf"
-#define RULES_FILE				"/home/shared/whsnbg/whsnbg.json"
-//#define LINUX_DAEMON_VERSION
-#endif
-#ifdef OPENWRT
-// OpenWRT
-#define CONFIG_FILE				"/etc/whsnbg.conf"
-#define RULES_FILE				"/etc/whsnbg.json"
+#ifdef LOCALSTATEDIR
+#define LOG_FILE				LOCALSTATEDIR "/whsnbg.log"
+#else
+#define LOG_FILE				"whsnbg.log"
 #endif
 
 #endif /* CONFIG_H_ */
