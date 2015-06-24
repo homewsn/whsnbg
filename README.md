@@ -68,6 +68,7 @@ Build options can be set on the command line with the make command, for example:
 ```sh
 $ make DAEMON_VERSION=1
 ```
+
 | Option | Description |
 |-|-|
 | DAEMON_VERSION=1 | Builds the daemon version |
