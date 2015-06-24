@@ -70,7 +70,7 @@ $ make DAEMON_VERSION=1
 ```
 
 | Option | Description |
-|-|-|
+| --- | --- |
 | DAEMON_VERSION=1 | Builds the daemon version |
 | DETAILED_LOG=1 | Enables detailed debug log |
 | RULES_ENGINE=1 | Enables rules engine thread |
