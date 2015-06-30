@@ -26,13 +26,13 @@
 //#define SSL_LIBRARY_HEADERS	// TLS library headers
 
 // sensor and MySQL support
-//#define SENSOR_DATA				// automatic decoding of the MQTT-SN message payload from the sensors
-//#define SENSOR_DATA_MYSQL		// storing decoded data from the sensors in the MySQL database (see parse_mqttsn_topic_name_to_mysql_query in sensor_data.c)
+#define SENSOR_DATA				// automatic decoding of the MQTT-SN message payload from the sensors
+#define SENSOR_DATA_MYSQL		// storing decoded data from the sensors in the MySQL database (see parse_mqttsn_topic_name_to_mysql_query in sensor_data.c)
 //#define MQTT_DATA_MYSQL			// storing payload from the specific MQTT topics in the MySQL database (see parse_mqtt_topic_name_to_mysql_query in sensor_data.c)
 
 // assert() and detailed log messages support
-#define NDEBUG					// disable assert()
-#define NDPRINTF				// disable detailed log messages
+//#define NDEBUG					// disable assert()
+//#define NDPRINTF				// disable detailed log messages
 
 // rules engine support
 //#define RULES_ENGINE

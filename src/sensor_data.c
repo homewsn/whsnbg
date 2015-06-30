@@ -183,16 +183,23 @@ void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data)
 
 
 //--------------------------------------------
-// from sensors (MQTT-SN):
+// from devices (MQTT-SN):
 // initial publish messages:
-// 1. sensors/sensor_id = "online" ("offline") => no query
-// 2. sensors/sensor_id/param_id/unit = "%" => MYSQL_QUERY_ADD_SENSOR_PARAMETER
-// 3. sensors/sensor_id/sleeptimeduration = "60" => MYSQL_QUERY_ADD_SENSOR_TIMEOUT
-// 4. sensors/sensor_id/ip = "x.x.x.x" => MYSQL_QUERY_ADD_SENSOR_IP
-// subscribe message:
-// 5. sensors/sensor_id/sleeptimeduration
+// 1. sensors/id = "online" ("offline") => no query
+// 2. sensors/id/ip = "x.x.x.x" => MYSQL_QUERY_UPDATE_SENSOR_IP
+// 3. sensors/id/param/unit = "%" => MYSQL_QUERY_UPDATE_PARAM_UNIT
+// 4. sensors/id/param/type = "long" => MYSQL_QUERY_UPDATE_PARAM_TYPE
+// 5. actuators/id = "online" ("offline") => no query
+// 6. actuators/id/ip = "x.x.x.x" => MYSQL_QUERY_UPDATE_ACTUATOR_IP
+// 7. actuators/id/param/unit = "%" => MYSQL_QUERY_UPDATE_PARAM_UNIT
+// 8. actuators/id/param/type = "long" => MYSQL_QUERY_UPDATE_PARAM_TYPE
 // periodic publish messages:
-// 6. sensors/sensor_id/param_id = "long" => MYSQL_QUERY_ADD_LONG_DATA
+// 9. sensors/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
+// 10. actuators/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
+// 11. sensors/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
+// 12. actuators/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
+// 13. sensors/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
+// 14. actuators/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
 
 //--------------------------------------------
 void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t *data)
@@ -208,11 +215,17 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 	token = strtok(buf, seps);
 	for (;;)
 	{
-		long sensor_id;
-		long sensor_param;
+		long id;
+		long param;
 		char *end;
+		int sensor = 0;
+		int actuator = 0;
 
 		if (strcmp(token, "sensors") == 0)
+			sensor = 1;
+		if (strcmp(token, "actuators") == 0)
+			actuator = 1;
+		if (sensor == 1 || actuator == 1)
 		{
 			token = strtok(NULL, seps);
 			if (token == NULL)
@@ -220,7 +233,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 
 			errno = 0;
 			end = NULL;
-			sensor_id = strtol(token, &end, 10);
+			id = strtol(token, &end, 10);
 			if (errno == 0 && end == (char *)token + strlen(token))
 			{
 				token = strtok(NULL, seps);
@@ -229,47 +242,53 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 
 				errno = 0;
 				end = NULL;
-				sensor_param = strtol(token, &end, 10);
+				param = strtol(token, &end, 10);
 				if (errno == 0 && end == (char *)token + strlen(token))
 				{
 					token = strtok(NULL, seps);
 					if (token == NULL)
 					{
-						if (*data == SENSOR_DATA_INT32)
+						switch (*data)
 						{
-							// MYSQL_ADD_LONG_DATA
-							long long_data;
+						case SENSOR_DATA_INT32:
+							{
+								// MYSQL_ADD_LONG_DATA
+								long long_data;
 
-							long_data = ntohl(*(uint32_t *)(data + 1));
-							msg_mqtt_mysql_add_long_data(sensor_id, sensor_param, long_data);
-						}
-						else if (*data == SENSOR_DATA_FLOAT)
-						{
-							// MYSQL_ADD_FLOAT_DATA
-							long long_data;
-							float float_data;
+								long_data = ntohl(*(uint32_t *)(data + 1));
+								msg_mqtt_mysql_add_long_data(id, param, long_data);
+								break;
+							}
+						case SENSOR_DATA_FLOAT:
+							{
+								// MYSQL_ADD_FLOAT_DATA
+								long long_data;
+								float float_data;
 
-							long_data = ntohl(*(uint32_t *)(data + 1));
-							float_data = *(float *)&long_data;
-							msg_mqtt_mysql_add_float_data(sensor_id, sensor_param, float_data);
-						}
-						else
-						{
-							// MYSQL_ADD_UTF8STR_DATA
-							size_t size;
-							char *utf8str_data;
+								long_data = ntohl(*(uint32_t *)(data + 1));
+								float_data = *(float *)&long_data;
+								msg_mqtt_mysql_add_float_data(id, param, float_data);
+								break;
+							}
+						case SENSOR_DATA_UTF8STR:
+							{
+								// MYSQL_ADD_UTF8STR_DATA
+								size_t size;
+								char *utf8str_data;
 
-							size = *(data + 1);
-							utf8str_data = (char *)malloc(size + 1);
-							memcpy(utf8str_data, data + 2, size);
-							utf8str_data[size] = '\0';
-							msg_mqtt_mysql_add_utf8str_data(sensor_id, sensor_param, utf8str_data);
+								size = *(data + 1);
+								utf8str_data = (char *)malloc(size + 1);
+								memcpy(utf8str_data, data + 2, size);
+								utf8str_data[size] = '\0';
+								msg_mqtt_mysql_add_utf8str_data(id, param, utf8str_data);
+								break;
+							}
 						}
 						break;
 					}
 					if (strcmp(token, "unit") == 0)
 					{
-						// MYSQL_UPDATE_SENSOR_PARAM
+						// MYSQL_UPDATE_PARAM_UNIT
 						size_t size;
 						char *utf8str_data;
 
@@ -277,7 +296,20 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 						utf8str_data = (char *)malloc(size + 1);
 						memcpy(utf8str_data, data + 2, size);
 						utf8str_data[size] = '\0';
-						msg_mqtt_mysql_update_sensor_param(sensor_id, sensor_param, utf8str_data);
+						msg_mqtt_mysql_update_param_unit(id, param, utf8str_data);
+						break;
+					}
+					if (strcmp(token, "type") == 0)
+					{
+						// MYSQL_UPDATE_PARAM_TYPE
+						size_t size;
+						char *utf8str_data;
+
+						size = *(data + 1);
+						utf8str_data = (char *)malloc(size + 1);
+						memcpy(utf8str_data, data + 2, size);
+						utf8str_data[size] = '\0';
+						msg_mqtt_mysql_update_param_type(id, param, utf8str_data);
 						break;
 					}
 					break;
@@ -288,7 +320,10 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 					struct in_addr addr;
 
 					addr.s_addr = *(uint32_t *)(data + 1);
-					msg_mqtt_mysql_update_sensor_ip(sensor_id, inet_ntoa(addr));
+					if (sensor == 1)
+						msg_mqtt_mysql_update_sensor_ip(id, inet_ntoa(addr));
+					if (actuator == 1)
+						msg_mqtt_mysql_update_actuator_ip(id, inet_ntoa(addr));
 					break;
 				}
 				break;
@@ -303,7 +338,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 
 //--------------------------------------------
 // from human (MQTT):
-// sensors/sensor_id/sleeptimeduration = "10-255" => MYSQL_QUERY_UPDATE_SENSOR_TIMEOUT
+// sensors/id/sleeptimeduration = "10-255" => MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION
 
 //--------------------------------------------
 void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *data, size_t data_len)

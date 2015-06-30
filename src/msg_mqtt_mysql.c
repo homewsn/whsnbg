@@ -60,85 +60,97 @@ void msg_mqtt_mysql_destroy(void)
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_add_long_data(uint32_t sensor_id, uint32_t sensor_param, long long_data)
+void msg_mqtt_mysql_add_long_data(uint32_t id, uint32_t param, long long_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
 	ms->type = MYSQL_ADD_LONG_DATA;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_long_data_t));
 	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->timestamp = time(NULL); // unix timestamp (UTC)
-	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->sensor_id = sensor_id;
-	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->sensor_param = sensor_param;
+	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->param = param;
 	((msg_mysql_add_long_data_t *)(ms->msg_mysql))->long_data = long_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_add_float_data(uint32_t sensor_id, uint32_t sensor_param, float float_data)
+void msg_mqtt_mysql_add_float_data(uint32_t id, uint32_t param, float float_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
 	ms->type = MYSQL_ADD_FLOAT_DATA;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_float_data_t));
 	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->timestamp = time(NULL); // unix timestamp (UTC)
-	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->sensor_id = sensor_id;
-	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->sensor_param = sensor_param;
+	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->param = param;
 	((msg_mysql_add_float_data_t *)(ms->msg_mysql))->float_data = float_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_add_utf8str_data(uint32_t sensor_id, uint32_t sensor_param, char *utf8str_data)
+void msg_mqtt_mysql_add_utf8str_data(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
 	ms->type = MYSQL_ADD_UTF8STR_DATA;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_utf8str_data_t));
 	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->timestamp = time(NULL); // unix timestamp (UTC)
-	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->sensor_id = sensor_id;
-	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->sensor_param = sensor_param;
+	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->param = param;
 	((msg_mysql_add_utf8str_data_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_sensor_param(uint32_t sensor_id, uint32_t sensor_param, char *utf8str_data)
+void msg_mqtt_mysql_update_param_unit(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_SENSOR_PARAM;
-	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_param_t));
-	((msg_mysql_add_sensor_param_t *)(ms->msg_mysql))->sensor_id = sensor_id;
-	((msg_mysql_add_sensor_param_t *)(ms->msg_mysql))->sensor_param = sensor_param;
-	((msg_mysql_add_sensor_param_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
+	ms->type = MYSQL_UPDATE_PARAM_UNIT;
+	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_sensor_ip(uint32_t sensor_id, char *utf8str_data)
+void msg_mqtt_mysql_update_param_type(uint32_t id, uint32_t param, char *utf8str_data)
+{
+	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
+	ms->type = MYSQL_UPDATE_PARAM_TYPE;
+	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
+	msg_mqtt_mysql_add(ms);
+}
+
+//--------------------------------------------
+void msg_mqtt_mysql_update_sensor_ip(uint32_t id, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
 	ms->type = MYSQL_UPDATE_SENSOR_IP;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_utf8str_t));
-	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->sensor_id = sensor_id;
+	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_sensor_location(uint32_t sensor_id, char *utf8str_data)
+void msg_mqtt_mysql_update_actuator_ip(uint32_t id, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_SENSOR_LOCATION;
-	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_utf8str_t));
-	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->sensor_id = sensor_id;
-	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
+	ms->type = MYSQL_UPDATE_ACTUATOR_IP;
+	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_actuator_utf8str_t));
+	((msg_mysql_add_actuator_utf8str_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_actuator_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
 	msg_mqtt_mysql_add(ms);
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t sensor_id, long long_data)
+void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t id, long long_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
 	ms->type = MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_long_t));
-	((msg_mysql_add_sensor_long_t *)(ms->msg_mysql))->sensor_id = sensor_id;
+	((msg_mysql_add_sensor_long_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_sensor_long_t *)(ms->msg_mysql))->long_data = long_data;
 	msg_mqtt_mysql_add(ms);
 }

@@ -32,52 +32,55 @@ typedef enum msg_mysql_type
 	MYSQL_ADD_FLOAT_DATA,
 	MYSQL_ADD_UTF8STR_DATA,
 	MYSQL_UPDATE_SENSOR_IP,
-	MYSQL_UPDATE_SENSOR_PARAM,
-	MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION,
-	MYSQL_UPDATE_SENSOR_LOCATION
+	MYSQL_UPDATE_ACTUATOR_IP,
+	MYSQL_UPDATE_PARAM_UNIT,
+	MYSQL_UPDATE_PARAM_TYPE,
+	MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION
 } msg_mysql_type_t;
 
 //--------------------------------------------
 typedef struct msg_mysql_add_long_data
 {
-	uint32_t sensor_id;
-	uint32_t sensor_param;
+	uint32_t id;
+	uint32_t param;
 	time_t timestamp;
 	long long_data;
 } msg_mysql_add_long_data_t;
 
 typedef struct msg_mysql_add_float_data
 {
-	uint32_t sensor_id;
-	uint32_t sensor_param;
+	uint32_t id;
+	uint32_t param;
 	time_t timestamp;
 	float float_data;
 } msg_mysql_add_float_data_t;
 
 typedef struct msg_mysql_add_utf8str_data
 {
-	uint32_t sensor_id;
-	uint32_t sensor_param;
+	uint32_t id;
+	uint32_t param;
 	time_t timestamp;
 	char *utf8str_data;
 } msg_mysql_add_utf8str_data_t;
 
-typedef struct msg_mysql_add_sensor_param
+typedef struct msg_mysql_add_param_utf8str
 {
-	uint32_t sensor_id;
-	uint32_t sensor_param;
+	uint32_t id;
+	uint32_t param;
 	char *utf8str_data;
-} msg_mysql_add_sensor_param_t;
+} msg_mysql_add_param_utf8str_t;
 
 typedef struct msg_mysql_add_sensor_utf8str
 {
-	uint32_t sensor_id;
+	uint32_t id;
 	char *utf8str_data;
 } msg_mysql_add_sensor_utf8str_t;
 
+#define msg_mysql_add_actuator_utf8str_t msg_mysql_add_sensor_utf8str_t
+
 typedef struct msg_mysql_add_sensor_long
 {
-	uint32_t sensor_id;
+	uint32_t id;
 	long long_data;
 } msg_mysql_add_sensor_long_t;
 
@@ -101,12 +104,13 @@ msg_mqtt_mysql_t *msg_mqtt_mysql_get_first(void);
 #define msg_mqtt_mysql_close() msg_close(a)
 void msg_mqtt_mysql_destroy(void);
 
-void msg_mqtt_mysql_add_long_data(uint32_t sensor_id, uint32_t sensor_param, long long_data);
-void msg_mqtt_mysql_add_float_data(uint32_t sensor_id, uint32_t sensor_param, float float_data);
-void msg_mqtt_mysql_add_utf8str_data(uint32_t sensor_id, uint32_t sensor_param, char *utf8str_data);
-void msg_mqtt_mysql_update_sensor_ip(uint32_t sensor_id, char *utf8str_data);
-void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t sensor_id, long long_data);
-void msg_mqtt_mysql_update_sensor_param(uint32_t sensor_id, uint32_t sensor_param, char *utf8str_data);
-void msg_mqtt_mysql_update_sensor_location(uint32_t sensor_id, char *utf8str_data);
+void msg_mqtt_mysql_add_long_data(uint32_t id, uint32_t param, long long_data);
+void msg_mqtt_mysql_add_float_data(uint32_t id, uint32_t param, float float_data);
+void msg_mqtt_mysql_add_utf8str_data(uint32_t id, uint32_t param, char *utf8str_data);
+void msg_mqtt_mysql_update_param_unit(uint32_t id, uint32_t param, char *utf8str_data);
+void msg_mqtt_mysql_update_param_type(uint32_t id, uint32_t param, char *utf8str_data);
+void msg_mqtt_mysql_update_sensor_ip(uint32_t id, char *utf8str_data);
+void msg_mqtt_mysql_update_actuator_ip(uint32_t id, char *utf8str_data);
+void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t id, long long_data);
 
 #endif /* MSG_MQTT_MYSQL_H_ */

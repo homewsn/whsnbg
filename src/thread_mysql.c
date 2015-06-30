@@ -61,30 +61,40 @@
 
 //--------------------------------------------
 #define MYSQL_QUERY_ADD_LONG_DATA "INSERT INTO `data_long` \
-( `sensor_id` , `sensor_param` , `time` , `value` ) \
+( `id` , `param` , `time` , `value` ) \
 VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%ld' );"
 
 #define MYSQL_QUERY_ADD_FLOAT_DATA "INSERT INTO `data_float` \
-( `sensor_id` , `sensor_param` , `time` , `value` ) \
+( `id` , `param` , `time` , `value` ) \
 VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%f' );"
 
 #define MYSQL_QUERY_ADD_UTF8STR_DATA "INSERT INTO `data_utf8str` \
-( `sensor_id` , `sensor_param` , `time` , `value` ) \
+( `id` , `param` , `time` , `value` ) \
 VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%s' );"
 
-#define MYSQL_QUERY_UPDATE_SENSOR_PARAM "INSERT INTO `parameters` \
-( `sensor_id`, `sensor_param`, `unit` ) \
+#define MYSQL_QUERY_UPDATE_PARAM_UNIT "INSERT INTO `parameters` \
+( `id`, `param`, `unit` ) \
 VALUES ( '%lu', '%lu', '%s' ) \
 ON DUPLICATE KEY UPDATE unit='%s';"
 
+#define MYSQL_QUERY_UPDATE_PARAM_TYPE "INSERT INTO `parameters` \
+( `id`, `param`, `data_type` ) \
+VALUES ( '%lu', '%lu', '%s' ) \
+ON DUPLICATE KEY UPDATE data_type='%s';"
+
 #define MYSQL_QUERY_UPDATE_SENSOR_IP "INSERT INTO `sensors` \
-( `sensor_id`, `st_duration`, `location`, `sensor_ip` ) \
-VALUES ( '%lu', '0', '', '%s' ) \
-ON DUPLICATE KEY UPDATE sensor_ip='%s';"
+( `id`, `ip` ) \
+VALUES ( '%lu', '%s' ) \
+ON DUPLICATE KEY UPDATE ip='%s';"
+
+#define MYSQL_QUERY_UPDATE_ACTUATOR_IP "INSERT INTO `actuators` \
+( `id`, `ip` ) \
+VALUES ( '%lu', '%s' ) \
+ON DUPLICATE KEY UPDATE ip='%s';"
 
 #define MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION "INSERT INTO `sensors` \
-( `sensor_id`, `st_duration`, `location`, `sensor_ip` ) \
-VALUES ( '%lu', '%lu', '', '' ) \
+( `id`, `st_duration` ) \
+VALUES ( '%lu', '%lu' ) \
 ON DUPLICATE KEY UPDATE st_duration='%lu';"
 
 
@@ -102,7 +112,7 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 	if (ms->type == MYSQL_ADD_LONG_DATA)
 	{
 		msg_mysql_add_long_data_t *msg = (msg_mysql_add_long_data_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_ADD_LONG_DATA, (unsigned long)msg->sensor_id, (unsigned long)msg->sensor_param, (unsigned long long)msg->timestamp, msg->long_data);
+		sprintf(querybuf, MYSQL_QUERY_ADD_LONG_DATA, (unsigned long)msg->id, (unsigned long)msg->param, (unsigned long long)msg->timestamp, msg->long_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		return;
@@ -111,7 +121,7 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 	if (ms->type == MYSQL_ADD_FLOAT_DATA)
 	{
 		msg_mysql_add_float_data_t *msg = (msg_mysql_add_float_data_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_ADD_FLOAT_DATA, (unsigned long)msg->sensor_id, (unsigned long)msg->sensor_param, (unsigned long long)msg->timestamp, msg->float_data);
+		sprintf(querybuf, MYSQL_QUERY_ADD_FLOAT_DATA, (unsigned long)msg->id, (unsigned long)msg->param, (unsigned long long)msg->timestamp, msg->float_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		return;
@@ -120,17 +130,27 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 	if (ms->type == MYSQL_ADD_UTF8STR_DATA)
 	{
 		msg_mysql_add_utf8str_data_t *msg = (msg_mysql_add_utf8str_data_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_ADD_UTF8STR_DATA, (unsigned long)msg->sensor_id, (unsigned long)msg->sensor_param, (unsigned long long)msg->timestamp, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_ADD_UTF8STR_DATA, (unsigned long)msg->id, (unsigned long)msg->param, (unsigned long long)msg->timestamp, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_SENSOR_PARAM)
+	if (ms->type == MYSQL_UPDATE_PARAM_UNIT)
 	{
-		msg_mysql_add_sensor_param_t *msg = (msg_mysql_add_sensor_param_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_PARAM, (unsigned long)msg->sensor_id, (unsigned long)msg->sensor_param, msg->utf8str_data, msg->utf8str_data);
+		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_PARAM_UNIT, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		if (mysql_query(mysql_conn, querybuf) != 0)
+			print_error_mysql(__LINE__);
+		free(msg->utf8str_data);
+		return;
+	}
+
+	if (ms->type == MYSQL_UPDATE_PARAM_TYPE)
+	{
+		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
@@ -140,7 +160,16 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 	if (ms->type == MYSQL_UPDATE_SENSOR_IP)
 	{
 		msg_mysql_add_sensor_utf8str_t *msg = (msg_mysql_add_sensor_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_IP, (unsigned long)msg->sensor_id, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
+		if (mysql_query(mysql_conn, querybuf) != 0)
+			print_error_mysql(__LINE__);
+		return;
+	}
+
+	if (ms->type == MYSQL_UPDATE_ACTUATOR_IP)
+	{
+		msg_mysql_add_actuator_utf8str_t *msg = (msg_mysql_add_actuator_utf8str_t *)ms->msg_mysql;
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		return;
@@ -149,7 +178,7 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 	if (ms->type == MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION)
 	{
 		msg_mysql_add_sensor_long_t *msg = (msg_mysql_add_sensor_long_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION, (unsigned long)msg->sensor_id, (unsigned long)msg->long_data, (unsigned long)msg->long_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION, (unsigned long)msg->id, (unsigned long)msg->long_data, (unsigned long)msg->long_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		return;
