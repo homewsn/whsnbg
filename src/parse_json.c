@@ -167,7 +167,7 @@ int parse_json_file(void)
 			nextid = cJSON_GetObjectItem(node, "nextid");
 			if (nextid == NULL || nextid->type != cJSON_Number)
 				goto error;
-			thread_cron_trigger_add(value->valuestring, (size_t)nextid->valueint);
+			thread_cron_trigger_add(value->valuestring, (uint32_t)nextid->valuedouble);
 			continue;
 		}
 		if (strncmp(type->valuestring, RT_TRIGGER_TOPIC, sizeof(RT_TRIGGER_TOPIC) - 1) == 0)
@@ -178,7 +178,7 @@ int parse_json_file(void)
 			nextid = cJSON_GetObjectItem(node, "nextid");
 			if (nextid == NULL || nextid->type != cJSON_Number)
 				goto error;
-			thread_mqtt_trigger_add(topic->valuestring, (size_t)nextid->valueint);
+			thread_mqtt_trigger_add(topic->valuestring, (uint32_t)nextid->valuedouble);
 			continue;
 		}
 		if (strncmp(type->valuestring, RT_VARIABLE_INIT, sizeof(RT_VARIABLE_INIT) - 1) == 0)
@@ -270,8 +270,8 @@ int parse_json_file(void)
 
 			rfp = (rf_condition_param_t *)malloc(sizeof(rf_condition_param_t));
 			memset(rfp, 0, sizeof(rf_condition_param_t));
-			rfp->nextid_true = nextid_true->valueint;
-			rfp->nextid_false = nextid_false->valueint;
+			rfp->nextid_true = (uint32_t)nextid_true->valuedouble;
+			rfp->nextid_false = (uint32_t)nextid_false->valuedouble;
 			rfp->condition = (char *)malloc(strlen(cond->valuestring) + 1);
 			strcpy(rfp->condition, cond->valuestring);
 
@@ -295,7 +295,7 @@ int parse_json_file(void)
 				memcpy(rfp->name, topic->valuestring, rfp->name_len);
 			}
 
-			thread_rules_add_node(id->valueint, rf_type, (void *)rfp);
+			thread_rules_add_node((uint32_t)id->valuedouble, rf_type, (void *)rfp);
 			continue;
 		}
 
@@ -328,7 +328,7 @@ int parse_json_file(void)
 
 			rfp = (rf_action_param_t *)malloc(sizeof(rf_action_param_t));
 			memset(rfp, 0, sizeof(rf_action_param_t));
-			rfp->nextid = nextid->valueint;
+			rfp->nextid = (uint32_t)nextid->valuedouble;
 			rfp->retain = retain->valueint;
 			if (rf_type == RF_ACTION_VARIABLE)
 				get_variable_topic(value->valuestring, strlen(value->valuestring), &rfp->str, &rfp->str_len);
@@ -342,7 +342,7 @@ int parse_json_file(void)
 			rfp->name = (uint8_t *)malloc(rfp->name_len);
 			memcpy(rfp->name, topic->valuestring, rfp->name_len);
 
-			thread_rules_add_node(id->valueint, rf_type, (void *)rfp);
+			thread_rules_add_node((uint32_t)id->valuedouble, rf_type, (void *)rfp);
 			continue;
 		}
 
@@ -374,7 +374,7 @@ int parse_json_file(void)
 			rfp = (rf_variable_param_t *)malloc(sizeof(rf_variable_param_t));
 			memset(rfp, 0, sizeof(rf_variable_param_t));
 			get_variable_topic(variable->valuestring, strlen(variable->valuestring), &rfp->name, &rfp->name_len);
-			rfp->nextid = nextid->valueint;
+			rfp->nextid = (uint32_t)nextid->valuedouble;
 			rfp->retain = retain->valueint;
 			if (rf_type == RF_VARIABLE_SET)
 			{
@@ -383,7 +383,7 @@ int parse_json_file(void)
 				memcpy(rfp->str, value->valuestring, rfp->str_len);
 			}
 
-			thread_rules_add_node(id->valueint, rf_type, (void *)rfp);
+			thread_rules_add_node((uint32_t)id->valuedouble, rf_type, (void *)rfp);
 			continue;
 		}
 

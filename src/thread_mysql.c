@@ -72,12 +72,22 @@ VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%f' );"
 ( `id` , `param` , `time` , `value` ) \
 VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%s' );"
 
-#define MYSQL_QUERY_UPDATE_PARAM_UNIT "INSERT INTO `parameters` \
+#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_UNIT "INSERT INTO `sensors_parameters` \
 ( `id`, `param`, `unit` ) \
 VALUES ( '%lu', '%lu', '%s' ) \
 ON DUPLICATE KEY UPDATE unit='%s';"
 
-#define MYSQL_QUERY_UPDATE_PARAM_TYPE "INSERT INTO `parameters` \
+#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_UNIT "INSERT INTO `actuators_parameters` \
+( `id`, `param`, `unit` ) \
+VALUES ( '%lu', '%lu', '%s' ) \
+ON DUPLICATE KEY UPDATE unit='%s';"
+
+#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_TYPE "INSERT INTO `sensors_parameters` \
+( `id`, `param`, `data_type` ) \
+VALUES ( '%lu', '%lu', '%s' ) \
+ON DUPLICATE KEY UPDATE data_type='%s';"
+
+#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_TYPE "INSERT INTO `actuators_parameters` \
 ( `id`, `param`, `data_type` ) \
 VALUES ( '%lu', '%lu', '%s' ) \
 ON DUPLICATE KEY UPDATE data_type='%s';"
@@ -137,20 +147,40 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_PARAM_UNIT)
+	if (ms->type == MYSQL_UPDATE_SENSOR_PARAM_UNIT)
 	{
 		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_PARAM_UNIT, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_PARAM_UNIT, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_PARAM_TYPE)
+	if (ms->type == MYSQL_UPDATE_ACTUATOR_PARAM_UNIT)
 	{
 		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_UNIT, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		if (mysql_query(mysql_conn, querybuf) != 0)
+			print_error_mysql(__LINE__);
+		free(msg->utf8str_data);
+		return;
+	}
+
+	if (ms->type == MYSQL_UPDATE_SENSOR_PARAM_TYPE)
+	{
+		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		if (mysql_query(mysql_conn, querybuf) != 0)
+			print_error_mysql(__LINE__);
+		free(msg->utf8str_data);
+		return;
+	}
+
+	if (ms->type == MYSQL_UPDATE_ACTUATOR_PARAM_TYPE)
+	{
+		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);

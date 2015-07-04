@@ -99,10 +99,10 @@ void msg_mqtt_mysql_add_utf8str_data(uint32_t id, uint32_t param, char *utf8str_
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_param_unit(uint32_t id, uint32_t param, char *utf8str_data)
+void msg_mqtt_mysql_update_sensor_param_unit(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_PARAM_UNIT;
+	ms->type = MYSQL_UPDATE_SENSOR_PARAM_UNIT;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
@@ -111,10 +111,34 @@ void msg_mqtt_mysql_update_param_unit(uint32_t id, uint32_t param, char *utf8str
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_param_type(uint32_t id, uint32_t param, char *utf8str_data)
+void msg_mqtt_mysql_update_actuator_param_unit(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_PARAM_TYPE;
+	ms->type = MYSQL_UPDATE_ACTUATOR_PARAM_UNIT;
+	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
+	msg_mqtt_mysql_add(ms);
+}
+
+//--------------------------------------------
+void msg_mqtt_mysql_update_sensor_param_type(uint32_t id, uint32_t param, char *utf8str_data)
+{
+	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
+	ms->type = MYSQL_UPDATE_SENSOR_PARAM_TYPE;
+	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
+	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
+	msg_mqtt_mysql_add(ms);
+}
+
+//--------------------------------------------
+void msg_mqtt_mysql_update_actuator_param_type(uint32_t id, uint32_t param, char *utf8str_data)
+{
+	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
+	ms->type = MYSQL_UPDATE_ACTUATOR_PARAM_TYPE;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;

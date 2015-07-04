@@ -49,12 +49,12 @@ typedef struct cron_trigger
 {
 	list_t next;
 	cron_line_t cl;
-	size_t next_id;
+	uint32_t next_id;
 } cron_trigger_t;
 
 unsigned int flag_starting_jobs(cron_line_t *cl);
 
-cron_trigger_t *cron_trigger_add_new(cron_trigger_t **list, const char *str, size_t next_id);
+cron_trigger_t *cron_trigger_add_new(cron_trigger_t **list, const char *str, uint32_t next_id);
 #define cron_trigger_head(a) (cron_trigger_t *)list_head((list_t **)a)
 #define cron_trigger_next(a) (cron_trigger_t *)list_next((list_t *)a)
 void cron_trigger_remove_all(cron_trigger_t **list);

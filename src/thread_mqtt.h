@@ -28,7 +28,7 @@
 void thread_mqtt_start(void);
 void thread_mqtt_stop(void);
 void thread_mqtt_user_add(const char *user_name, const char *password, unsigned char publish_enable);
-void thread_mqtt_trigger_add(const char *name, size_t next_id);
+void thread_mqtt_trigger_add(const char *name, uint32_t next_id);
 void thread_mqtt_trigger_remove_all(void);
 void thread_mqtt_set_rules_topic_data(const char *data, size_t data_len);
 

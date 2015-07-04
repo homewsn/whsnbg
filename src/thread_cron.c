@@ -102,7 +102,7 @@ void thread_cron_stop(void)
 }
 
 //--------------------------------------------
-void thread_cron_trigger_add(const char *cronstr, int next_id)
+void thread_cron_trigger_add(const char *cronstr, uint32_t next_id)
 {
 	cron_trigger_add_new(&cron_triggers, cronstr, next_id);
 }

@@ -61,8 +61,8 @@ typedef enum rf_type
 
 typedef struct rf_condition_param
 {
-	size_t nextid_true;
-	size_t nextid_false;
+	uint32_t nextid_true;
+	uint32_t nextid_false;
 	uint8_t *name;
 	uint16_t name_len;
 	char *condition;
@@ -72,7 +72,7 @@ typedef struct rf_condition_param
 
 typedef struct rf_action_param
 {
-	size_t nextid;
+	uint32_t nextid;
 	uint8_t *name;
 	uint16_t name_len;
 	uint8_t *str;
@@ -86,29 +86,29 @@ typedef struct rules_function
 {
 	list_t next;
 	rf_type_t type;
-	size_t (*func)(void *param);
+	uint32_t (*func)(void *param);
 } rules_function_t;
 
 typedef struct rules_node
 {
 	list_t next;
-	size_t id;
+	uint32_t id;
 	rf_type_t type;					// function type
 	void *param;					// function parameter
 } rules_node_t;
 
-rules_function_t *rules_function_add(rules_function_t **list, rf_type_t type, size_t (*func)(void *param));
+rules_function_t *rules_function_add(rules_function_t **list, rf_type_t type, uint32_t (*func)(void *param));
 #define rules_function_head(a) (rules_function_t *)list_head((list_t **)a)
 #define rules_function_next(a) (rules_function_t *)list_next((list_t *)a)
 void rules_function_remove_all(rules_function_t **list);
 
-rules_node_t *rules_node_add(rules_node_t **list, size_t id, rf_type_t type, void *param);
+rules_node_t *rules_node_add(rules_node_t **list, uint32_t id, rf_type_t type, void *param);
 #define rules_node_head(a) (rules_node_t *)list_head((list_t **)a)
 #define rules_node_next(a) (rules_node_t *)list_next((list_t *)a)
 void rules_node_remove_all(rules_node_t **list);
 
 void rules_functions_init(rules_function_t **rfs);
-size_t func_execute(rules_function_t **rfs, rf_type_t type, void *param);
-void node_execute(rules_function_t **rfs, rules_node_t **rns, size_t id);
+uint32_t func_execute(rules_function_t **rfs, rf_type_t type, void *param);
+void node_execute(rules_function_t **rfs, rules_node_t **rns, uint32_t id);
 
 #endif /* RULES_H_ */

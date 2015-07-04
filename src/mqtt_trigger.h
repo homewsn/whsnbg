@@ -31,10 +31,10 @@ typedef struct mqtt_trigger
 	list_t next;
 	uint8_t *name;
 	uint16_t name_len;
-	size_t next_id;
+	uint32_t next_id;
 } mqtt_trigger_t;
 
-mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, size_t next_id);
+mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, uint32_t next_id);
 #define mqtt_trigger_head(a) (mqtt_trigger_t *)list_head((list_t **)a)
 #define mqtt_trigger_next(a) (mqtt_trigger_t *)list_next((list_t *)a)
 void mqtt_trigger_remove_all(mqtt_trigger_t **list);

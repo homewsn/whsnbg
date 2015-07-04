@@ -66,7 +66,7 @@ static void long_to_string(long longvalue, uint8_t **data, uint16_t *data_len)
 }
 
 //--------------------------------------------
-static size_t compare_string_values(const char *str1, size_t str1_len, const char *str2, size_t str2_len, const char *condition, size_t nextid_true, size_t nextid_false)
+static uint32_t compare_string_values(const char *str1, size_t str1_len, const char *str2, size_t str2_len, const char *condition, uint32_t nextid_true, uint32_t nextid_false)
 {
 	if (strcmp(condition, "==") == 0)
 	{
@@ -87,7 +87,7 @@ static size_t compare_string_values(const char *str1, size_t str1_len, const cha
 }
 
 //--------------------------------------------
-static size_t compare_double_values(double value1, double value2, const char *condition, size_t nextid_true, size_t nextid_false)
+static uint32_t compare_double_values(double value1, double value2, const char *condition, uint32_t nextid_true, uint32_t nextid_false)
 {
 	if (strcmp(condition, "==") == 0)
 	{
@@ -136,14 +136,14 @@ static size_t compare_double_values(double value1, double value2, const char *co
 }
 
 //--------------------------------------------
-static size_t rf_condition_value(void *param)
+static uint32_t rf_condition_value(void *param)
 {
 	rf_condition_param_t *rfp;
 	list_data_t *list;
 	double value1;
 	double value2;
 	double *ptr;
-	size_t nextid;
+	uint32_t nextid;
 
 	assert(param != NULL);
 
@@ -180,7 +180,7 @@ exit:
 }
 
 //--------------------------------------------
-static size_t rf_condition_topic(void *param)
+static uint32_t rf_condition_topic(void *param)
 {
 	rf_condition_param_t *rfp;
 	list_data_t *list;
@@ -188,7 +188,7 @@ static size_t rf_condition_topic(void *param)
 	double value1;
 	double value2;
 	double *ptr;
-	size_t nextid;
+	uint32_t nextid;
 
 	assert(param != NULL);
 
@@ -228,7 +228,7 @@ exit:
 }
 
 //--------------------------------------------
-static size_t rf_action_value(void *param)
+static uint32_t rf_action_value(void *param)
 {
 	rf_action_param_t *rfp;
 	list_data_t *list;
@@ -243,7 +243,7 @@ static size_t rf_action_value(void *param)
 }
 
 //--------------------------------------------
-static size_t rf_action_topic(void *param)
+static uint32_t rf_action_topic(void *param)
 {
 	rf_action_param_t *rfp;
 	list_data_t *list;
@@ -259,7 +259,7 @@ static size_t rf_action_topic(void *param)
 }
 
 //--------------------------------------------
-static size_t rf_variable_set(void *param)
+static uint32_t rf_variable_set(void *param)
 {
 	rf_variable_param_t *rfp;
 	list_data_t *list;
@@ -274,7 +274,7 @@ static size_t rf_variable_set(void *param)
 }
 
 //--------------------------------------------
-static size_t rf_variable_increment_decrement(void *param, uint8_t increment)
+static uint32_t rf_variable_increment_decrement(void *param, uint8_t increment)
 {
 	rf_variable_param_t *rfp;
 	list_data_t *list;
@@ -309,19 +309,19 @@ exit:
 }
 
 //--------------------------------------------
-static size_t rf_variable_increment(void *param)
+static uint32_t rf_variable_increment(void *param)
 {
 	return rf_variable_increment_decrement(param, 1);
 }
 
 //--------------------------------------------
-static size_t rf_variable_decrement(void *param)
+static uint32_t rf_variable_decrement(void *param)
 {
 	return rf_variable_increment_decrement(param, 0);
 }
 
 //--------------------------------------------
-rules_function_t *rules_function_add(rules_function_t **rfs, rf_type_t type, size_t (*func)(void *param))
+rules_function_t *rules_function_add(rules_function_t **rfs, rf_type_t type, uint32_t (*func)(void *param))
 {
 	rules_function_t *rf;
 
@@ -336,7 +336,7 @@ rules_function_t *rules_function_add(rules_function_t **rfs, rf_type_t type, siz
 }
 
 //--------------------------------------------
-rules_node_t *rules_node_add(rules_node_t **list, size_t id, rf_type_t type, void *param)
+rules_node_t *rules_node_add(rules_node_t **list, uint32_t id, rf_type_t type, void *param)
 {
 	rules_node_t *item;
 
@@ -442,7 +442,7 @@ void rules_functions_init(rules_function_t **rfs)
 }
 
 //--------------------------------------------
-size_t func_execute(rules_function_t **rfs, rf_type_t type, void *param)
+uint32_t func_execute(rules_function_t **rfs, rf_type_t type, void *param)
 {
 	rules_function_t *rf;
 
@@ -457,10 +457,10 @@ size_t func_execute(rules_function_t **rfs, rf_type_t type, void *param)
 }
 
 //--------------------------------------------
-void node_execute(rules_function_t **rfs, rules_node_t **rns, size_t id)
+void node_execute(rules_function_t **rfs, rules_node_t **rns, uint32_t id)
 {
 	rules_node_t *rn;
-	size_t nextid;
+	uint32_t nextid;
 
 	rn = rules_node_head(rns);
 	while (rn != NULL)

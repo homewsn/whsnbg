@@ -17,7 +17,7 @@
 
 void thread_cron_start(void);
 void thread_cron_stop(void);
-void thread_cron_trigger_add(const char *cronstr, size_t next_id);
+void thread_cron_trigger_add(const char *cronstr, uint32_t next_id);
 void thread_cron_remove_all(void);
 
 #endif /* THREAD_CRON_H_ */

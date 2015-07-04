@@ -27,7 +27,7 @@
 
 
 //--------------------------------------------
-mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, size_t next_id)
+mqtt_trigger_t *mqtt_trigger_add_new(mqtt_trigger_t **list, const char *name, uint32_t next_id)
 {
 	mqtt_trigger_t *item;
 

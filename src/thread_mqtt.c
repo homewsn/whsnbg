@@ -38,6 +38,7 @@
 #include "thread_cron.h"
 #include "thread_rules.h"
 #include "parse_json.h"
+#include "sensor_data.h"
 
 #ifdef _MSC_VER
 #pragma warning (disable:4996) // This function may be unsafe.
@@ -351,6 +352,26 @@ static void mqtt_conn_close(list_mqtt_conn_t *conn)
 #define mqttsn_conn_remove(a) list_mqttsn_conn_remove(&mqttsn_conns, a)
 #define mqttsn_conn_remove_all() list_mqttsn_conn_remove_all(&mqttsn_conns)
 
+#ifdef SENSOR_DATA
+//--------------------------------------------
+list_pub_t *copy_will_msg_from_actuators_to_sensors_topic(list_pub_t **list, uint8_t *name, uint16_t name_len, uint8_t *data, uint16_t data_len, uint8_t retain)
+{
+	int id;
+	list_pub_t *item;
+	char sensors_id[] = "sensors/65535";
+	uint16_t sensors_id_len;
+
+	if ((id = check_for_actuators_id_topic(name, name_len)) == -1)
+		return NULL;
+	sprintf(sensors_id, "sensors/%hu", (uint16_t)id);
+	sensors_id_len = (uint16_t)strlen(sensors_id);
+	if ((item = (list_pub_t *)list_data_find_name(list, sensors_id, sensors_id_len)) == NULL)
+		return NULL;
+	list_pub_data_replace(item, data, data_len, retain);
+	return item;
+}
+#endif
+
 //--------------------------------------------
 static void mqttsn_conn_close(list_mqttsn_conn_t *conn)
 {
@@ -369,6 +390,22 @@ static void mqttsn_conn_close(list_mqttsn_conn_t *conn)
 		}
 		mqtt_publish_send(pub_item);
 		mqttsn_publish_send(pub_item);
+
+#ifdef SENSOR_DATA
+		// copy will message from "actuators/id" to "sensors/id" topic
+		pub_item = copy_will_msg_from_actuators_to_sensors_topic(&pub_list, conn->will.name, conn->will.name_len, conn->will.data, conn->will.data_len, conn->will.retain);
+		if (pub_item != NULL)
+		{
+			if (pub_item->topic_id == 0)
+			{
+				pub_item->topic_id = mqttsn_topic_id;
+				mqttsn_topic_id = mqttsn_topic_id == 65535 ? 1 : ++mqttsn_topic_id;
+			}
+			mqtt_publish_send(pub_item);
+			mqttsn_publish_send(pub_item);
+		}
+#endif
+
 		conn->sub_list = sub_list;
 	}
 }
@@ -1276,7 +1313,7 @@ void thread_mqtt_user_add(const char *user_name, const char *password, unsigned 
 }
 
 //--------------------------------------------
-void thread_mqtt_trigger_add(const char *name, size_t next_id)
+void thread_mqtt_trigger_add(const char *name, uint32_t next_id)
 {
 	mqtt_trigger_add_new(&mqtt_triggers, name, next_id);
 }

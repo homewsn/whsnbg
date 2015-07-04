@@ -30,7 +30,7 @@
 typedef struct msg_trigger_rules
 {
 	msg_t msg;
-	size_t next_id;
+	uint32_t next_id;
 } msg_trigger_rules_t;
 
 //--------------------------------------------

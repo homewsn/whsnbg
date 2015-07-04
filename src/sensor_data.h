@@ -26,5 +26,6 @@ void encode_mqttsn_sensor_data(uint8_t **buf, size_t *size, const char *data, si
 void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data);
 void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t *data);
 void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *data, size_t data_len);
+int check_for_actuators_id_topic(char *name, size_t name_len);
 
 #endif /* SENSOR_DATA_H_ */

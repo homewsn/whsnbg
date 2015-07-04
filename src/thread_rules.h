@@ -19,7 +19,7 @@
 
 void thread_rules_start(void);
 void thread_rules_stop(void);
-void thread_rules_add_node(uint16_t id, rf_type_t type, void *param);
+void thread_rules_add_node(uint32_t id, rf_type_t type, void *param);
 void thread_rules_remove_all(void);
 
 #endif /* THREAD_RULES_H_ */

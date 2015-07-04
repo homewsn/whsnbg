@@ -93,7 +93,7 @@ void thread_rules_stop(void)
 }
 
 //--------------------------------------------
-void thread_rules_add_node(uint16_t id, rf_type_t type, void *param)
+void thread_rules_add_node(uint32_t id, rf_type_t type, void *param)
 {
 	rules_node_add(&rules_nodes, id, type, param);
 }

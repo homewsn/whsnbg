@@ -48,9 +48,18 @@
 // data types
 #define SENSOR_DATA_RESERVED	0x00
 #define SENSOR_DATA_INT32		0x01	// long (32-bit)
-#define SENSOR_DATA_FLOAT		0x02	// float (32-bit)
+#define SENSOR_DATA_FLOAT		0x02	// float (32-bit), scientific notation ("%.8e", float)
 #define SENSOR_DATA_UTF8STR		0x03	// length (8-bit), UTF-8 string ('length' bytes)
 #define SENSOR_DATA_IPV4		0x04	// long (32-bit) => x.x.x.x string
+#define SENSOR_DATA_FLOAT2		0x05	// float (32-bit), width and precision fields are used ("%*.*f", wf, pf, float)
+
+// sensor_data_float_2 structure
+typedef struct sensor_data_float2
+{
+	float data;	// float type data (32-bit)
+	uint8_t wf;	// width field, see https://en.wikipedia.org/wiki/Printf_format_string#Width_field
+	uint8_t pf;	// precision field, see https://en.wikipedia.org/wiki/Printf_format_string#Precision_field
+} sensor_data_float2_t;
 
 // http://en.wikipedia.org/wiki/Endianness#Floating-point_and_endianness
 
@@ -62,8 +71,10 @@
 // SDCC: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
 // IAR: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
 
-// Intel, Windows: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
-// TP-Link TL-WR703N, OpenWRT: ????????????
+// Intel:
+// msvc: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
+// MIPS 24Kc (TP-Link TL-WR703N):
+// gcc: long (32-bit, big-endian), float (IEEE754, 32-bit, big-endian)
 
 //--------------------------------------------
 static unsigned long _inet_addr(const char *data, size_t data_len)
@@ -142,43 +153,57 @@ void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data)
 {
 	uint32_t long_data;
 
-	if (*data == SENSOR_DATA_INT32)
+	switch (*data)
 	{
+	case SENSOR_DATA_INT32:
 		*size = MAX_INT32_STRING + 1;
 		*buf = (char *)malloc(*size);
 		long_data = ntohl(*(uint32_t *)(data + 1));
 		sprintf(*buf, "%ld", (long)long_data);
 		*size = strlen(*buf);
-		return;
-	}
+		break;
 
-	if (*data == SENSOR_DATA_FLOAT)
-	{
+	case SENSOR_DATA_FLOAT:
 		*size = MAX_FLOAT_STRING + 1;
 		*buf = (char *)malloc(*size);
 		long_data = ntohl(*(uint32_t *)(data + 1));
-		// http://hbfs.wordpress.com/2010/05/11/failed-experiment/
 		// use scientific notation:
 		sprintf(*buf, "%.8e", *(float *)&long_data);
 		*size = strlen(*buf);
-		return;
-	}
+		break;
 
-	if (*data == SENSOR_DATA_IPV4)
-	{
-		struct in_addr addr;
-
-		*size = MAX_IPV4_STRING + 1;
+	case SENSOR_DATA_UTF8STR:
+		*size = *(data + 1);
 		*buf = (char *)malloc(*size);
-		addr.s_addr = *(uint32_t *)(data + 1);
-		memcpy(*buf, inet_ntoa(addr), MAX_IPV4_STRING);
-		*size = strlen(*buf);
-		return;
-	}
+		memcpy(*buf, data + 2, *size);
+		break;
 
-	*size = *(data + 1);
-	*buf = (char *)malloc(*size);
-	memcpy(*buf, data + 2, *size);
+	case SENSOR_DATA_IPV4:
+		{
+			struct in_addr addr;
+
+			*size = MAX_IPV4_STRING + 1;
+			*buf = (char *)malloc(*size);
+			addr.s_addr = *(uint32_t *)(data + 1);
+			memcpy(*buf, inet_ntoa(addr), MAX_IPV4_STRING);
+			*size = strlen(*buf);
+			break;
+		}
+
+	case SENSOR_DATA_FLOAT2:
+		{
+			sensor_data_float2_t *float2;
+
+			float2 = (sensor_data_float2_t *)(data + 1);
+			*size = float2->wf + 1;
+			*buf = (char *)malloc(*size);
+			long_data = ntohl(*(uint32_t *)(&float2->data));
+			// use width and precision fields
+			sprintf(*buf, "%*.*f", float2->wf, float2->pf, *(float *)&long_data);
+			*size = strlen(*buf);
+			break;
+		}
+	}
 }
 
 
@@ -260,6 +285,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 								break;
 							}
 						case SENSOR_DATA_FLOAT:
+						case SENSOR_DATA_FLOAT2:
 							{
 								// MYSQL_ADD_FLOAT_DATA
 								long long_data;
@@ -296,7 +322,10 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 						utf8str_data = (char *)malloc(size + 1);
 						memcpy(utf8str_data, data + 2, size);
 						utf8str_data[size] = '\0';
-						msg_mqtt_mysql_update_param_unit(id, param, utf8str_data);
+						if (sensor == 1)
+							msg_mqtt_mysql_update_sensor_param_unit(id, param, utf8str_data);
+						if (actuator == 1)
+							msg_mqtt_mysql_update_actuator_param_unit(id, param, utf8str_data);
 						break;
 					}
 					if (strcmp(token, "type") == 0)
@@ -309,7 +338,10 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 						utf8str_data = (char *)malloc(size + 1);
 						memcpy(utf8str_data, data + 2, size);
 						utf8str_data[size] = '\0';
-						msg_mqtt_mysql_update_param_type(id, param, utf8str_data);
+						if (sensor == 1)
+							msg_mqtt_mysql_update_sensor_param_type(id, param, utf8str_data);
+						if (actuator == 1)
+							msg_mqtt_mysql_update_actuator_param_type(id, param, utf8str_data);
 						break;
 					}
 					break;
@@ -391,4 +423,43 @@ void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *dat
 	}
 
 	free(buf);
+}
+
+//--------------------------------------------
+int check_for_actuators_id_topic(char *name, size_t name_len)
+{
+	char seps[] = "//";
+	char *token;
+	size_t len = name_len;
+	char *buf = (char *)malloc(len + 1);
+
+	memcpy(buf, name, len);
+	buf[len] = '\0';
+
+	token = strtok(buf, seps);
+	for (;;)
+	{
+		long id;
+		char *end;
+
+		if (strcmp(token, "actuators") == 0)
+		{
+			token = strtok(NULL, seps);
+			if (token == NULL)
+				break;
+
+			errno = 0;
+			end = NULL;
+			id = strtol(token, &end, 10);
+			if (errno == 0 && end == (char *)token + strlen(token))
+			{
+				token = strtok(NULL, seps);
+				if (token == NULL)
+					return (int)id;
+			}
+			break;
+		}
+		break;
+	}
+	return -1;
 }
