@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2016 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -70,6 +70,9 @@ static int parse_field(char *ary, int modvalue, int off, const char *names, char
 				n2 = strtol(ptr, &endp, 10) + off;
 			}
 			ptr = endp; /* gcc likes temp var for &endp */
+			if (*ptr == '/') { /* Added the ability to parse fields like "1/5" */
+				n2 = modvalue - 1;
+			}
 			skip = 1;
 		} else if (names) {
 			int i;
