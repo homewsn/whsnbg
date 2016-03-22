@@ -193,6 +193,7 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
+		free(msg->utf8str_data);
 		return;
 	}
 
@@ -202,6 +203,7 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
+		free(msg->utf8str_data);
 		return;
 	}
 

@@ -350,12 +350,19 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 				{
 					// MYSQL_UPDATE_SENSOR_IP
 					struct in_addr addr;
+					char *inet_ntoa_str;
+					char *utf8str_data;
+					size_t size;
 
 					addr.s_addr = *(uint32_t *)(data + 1);
+					inet_ntoa_str = inet_ntoa(addr);
+					size = strlen(inet_ntoa_str);
+					utf8str_data = (char *)malloc(size + 1);
+					memcpy(utf8str_data, inet_ntoa_str, size + 1);
 					if (sensor == 1)
-						msg_mqtt_mysql_update_sensor_ip(id, inet_ntoa(addr));
+						msg_mqtt_mysql_update_sensor_ip(id, utf8str_data);
 					if (actuator == 1)
-						msg_mqtt_mysql_update_actuator_ip(id, inet_ntoa(addr));
+						msg_mqtt_mysql_update_actuator_ip(id, utf8str_data);
 					break;
 				}
 				break;
