@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2016 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -69,6 +69,7 @@ static volatile thread_state_t thread_state;
 //--------------------------------------------
 //** miscellaneous
 
+#define MQTTSN_PUBLISH_SEND_TIMEOUT	5
 //--------------------------------------------
 // send buffered messages to MQTT-SN subscribers
 static void mqttsn_send_buffered_msgs(list_mqttsn_conn_t *item)
@@ -103,6 +104,8 @@ static void mqttsn_send_buffered_msgs(list_mqttsn_conn_t *item)
 			list_pub_t *pub_item;
 
 			pub_item = list_pub_find_topic_id(&pub_list, pub_msg_item->topic_id);
+			if (pub_msg_item->qos != 0 && pub_msg_item->tts != 0)
+				return;
 			pub_msg_item->msg_id = publish.msg_id = mqttsn_msg_id;
 			mqttsn_msg_id = mqttsn_msg_id == 65535 ? 1 : ++mqttsn_msg_id;
 			publish.pub_item = pub_item;
@@ -115,11 +118,17 @@ static void mqttsn_send_buffered_msgs(list_mqttsn_conn_t *item)
 				(int)ntohs(item->addr.sin_port),\
 				publish.topic_id,
 				publish.msg_id);
-			msg_mqtt_udp_add_packet(&item->addr, buf, size);
 			if (pub_msg_item->qos == 0)
+			{
+				msg_mqtt_udp_add_packet(&item->addr, buf, size);
 				pub_msg_item = mqttsn_conn_publish_msg_remove(item, pub_msg_item);
+			}
 			else
+			{
+				pub_msg_item->tts = MQTTSN_PUBLISH_SEND_TIMEOUT;
+				msg_mqtt_udp_add_packet(&item->addr, buf, size);
 				return;
+			}
 		}
 	}
 
@@ -1175,6 +1184,7 @@ static void timer_handle(void)
 {
 	list_mqtt_conn_t *mqtt_conn;
 	list_mqttsn_conn_t *mqttsn_conn;
+	list_msg_t *pub_msg_item;
 
 	mqtt_conn = mqtt_conns;
 	while (mqtt_conn != NULL)
@@ -1214,6 +1224,16 @@ static void timer_handle(void)
 					--mqttsn_conn->remainsec;
 			}
 		}
+
+		pub_msg_item = mqttsn_conn->pub_msg_list;
+		if (pub_msg_item != NULL)
+		{
+			if (pub_msg_item->tts == 0)
+				mqttsn_send_buffered_msgs(mqttsn_conn);
+			else
+				--pub_msg_item->tts;
+		}
+
 		mqttsn_conn = list_mqttsn_conn_next(mqttsn_conn);
 	}
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2016 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -163,6 +163,7 @@ typedef struct list_msg
 	uint16_t topic_id;
 	uint16_t msg_id;
 	uint8_t qos;
+	uint8_t tts;
 } list_msg_t;
 
 list_msg_t *list_msg_add(list_msg_t **mtops, uint16_t topic_id, uint8_t qos);

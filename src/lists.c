@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2016 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -567,6 +567,7 @@ list_msg_t *list_msg_add(list_msg_t **list, uint16_t topic_id, uint8_t qos)
 
 	item = (list_msg_t *)list_reg_add_ignore((list_reg_t **)list, sizeof(list_msg_t), topic_id);
 	item->qos = qos;
+	item->tts = 0;
 	return item;
 }
 
