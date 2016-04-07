@@ -128,14 +128,11 @@ int parse_json_file(void)
 	str[fsize] = '\0';
 	fclose(fp);
 
-	thread_mqtt_set_rules_topic_data(str, fsize);
-
 	root = cJSON_Parse(str);
-	free(str);
 	if (root == NULL)
 	{
-		dprintf("wrong %s file\n", RULES_FILE);
-		return -1;
+		dprintf("It's impossible to parse %s file\n", RULES_FILE);
+		goto error;
 	}
 
 	item = cJSON_GetObjectItem(root, "version");
@@ -390,10 +387,14 @@ int parse_json_file(void)
 	}
 
 	cJSON_Delete(root);
+	thread_mqtt_set_rules_topic_data(str, fsize);
+	free(str);
 	return 0;
 
 error:
 	cJSON_Delete(root);
+	thread_mqtt_set_rules_topic_data(NULL, 0);
+	free(str);
 	thread_cron_remove_all();
 	thread_mqtt_trigger_remove_all();
 	thread_rules_remove_all();
