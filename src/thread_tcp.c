@@ -440,7 +440,7 @@ static int http_header_parse(char *buf, char *key)
 	}
 
 	if (strstr(headers.connection, "Upgrade") != NULL &&
-		strcmp(headers.upgrade, "websocket") == 0 &&
+		(strcmp(headers.upgrade, "websocket") == 0 || strcmp(headers.upgrade, "Websocket") == 0) &&
 		strcmp(headers.version, "13") == 0 &&
 		strcmp(headers.protocol, "mqttv3.1") == 0 &&
 		strlen(headers.key) != 0)
