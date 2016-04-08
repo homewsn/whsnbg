@@ -663,8 +663,8 @@ static int ws_frame_parse(list_tcp_conn_t *conn, unsigned char *recv_buf, size_t
 			memcpy(&ws_frame->key, ws_frame->hdr_buf + offset, sizeof(ws_frame->key));
 
 		conn->recv_buf = (unsigned char *)malloc(ws_frame->pld_size);
-		memcpy(conn->recv_buf, pld_buf, ws_frame->pld_size);
-		conn->recv_cnt = ws_frame->pld_size;
+		conn->recv_cnt = pld_size < ws_frame->pld_size? pld_size : ws_frame->pld_size;
+		memcpy(conn->recv_buf, pld_buf, conn->recv_cnt);
 
 		if (ws_frame->pld_size > pld_size)
 			// it's only the first part of the frame
