@@ -32,8 +32,8 @@ MQTT rules engine:
 Download [the latest release](https://github.com/homewsn/whsnbg/releases) in tarball from github and untar it. Then build, install and run whsnbg.
 
 ```sh
-$ curl -L https://github.com/homewsn/whsnbg/archive/v1.2.tar.gz | tar zx
-$ cd whsnbg-1.2
+$ curl -L https://github.com/homewsn/whsnbg/archive/v1.3.tar.gz | tar zx
+$ cd whsnbg-1.3
 $ make
 $ sudo make install
 $ whsnbg
