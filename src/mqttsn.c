@@ -16,8 +16,10 @@
 #include "mqttsn.h"
 #ifdef SENSOR_DATA
 #include "sensor_data.h"
-#endif
+#ifdef SENSOR_DATA_MYSQL
 #include "parse_conf.h"
+#endif
+#endif
 #include <stdlib.h>		/* malloc */
 #include <string.h>		/* memcpy, strlen */
 #include <assert.h>		/* assert */

@@ -19,7 +19,10 @@
 #include <assert.h>		/* assert */
 #include "config.h"
 #include "sensor_data.h"
+#if defined SENSOR_DATA_MYSQL
 #include "msg_mqtt_mysql.h"
+#endif
+#define MQTTSN_IF_MTU 110
 
 #ifdef WIN32
 #include <winsock2.h>	/* htonl */
@@ -206,7 +209,7 @@ void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data)
 	}
 }
 
-
+#if defined SENSOR_DATA_MYSQL
 //--------------------------------------------
 // from devices (MQTT-SN):
 // initial publish messages:
@@ -431,6 +434,7 @@ void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *dat
 
 	free(buf);
 }
+#endif
 
 //--------------------------------------------
 int check_for_actuators_id_topic(char *name, size_t name_len)

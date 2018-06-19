@@ -53,6 +53,8 @@ typedef struct pthread_cond
 #include <ifaddrs.h>
 #include <stdlib.h>
 #include <pthread.h>	/* pthread_create */
+#include <string.h>		/* strcmp */
+#include <unistd.h>		/* usleep, close */
 
 typedef int SOCKET;
 

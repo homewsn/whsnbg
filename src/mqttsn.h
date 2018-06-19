@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -15,14 +15,8 @@
 #ifndef MQTTSN_H_
 #define MQTTSN_H_
 
-#ifdef _MSC_VER
-#include "stdint_msc.h"	/* uint8_t ... uint64_t */
-#else
-#include <stdint.h>		/* uint8_t ... uint64_t */
-#include <stddef.h>		/* size_t */
-#endif
-
 #include "lists.h"
+
 
 //--------------------------------------------
 typedef enum mqttsn_msg_type
@@ -192,6 +186,9 @@ typedef struct mqttsn_pingreq_header
 
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 //--------------------------------------------
 //** decode command functions
 
@@ -265,6 +262,9 @@ void mqttsn_disconnect_encode(uint8_t **buf, size_t *size, uint16_t duration);
 #define mqttsn_willmsgupd_encode(a, b, c) mqttsn_willmsgxxx_encode(MQTTSN_WILLMSGUPD, a, b, c);
 #define mqttsn_willtopicresp_encode(a, b, c) mqttsn_return_command_encode(MQTTSN_WILLTOPICRESP, a, b, c)
 #define mqttsn_willmsgresp_encode(a, b, c) mqttsn_return_command_encode(MQTTSN_WILLMSGRESP, a, b, c)
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* MQTTSN_H_ */
