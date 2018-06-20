@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -149,6 +149,7 @@ int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, si
 
 //--------------------------------------------
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect);
+void mqtt_connack_decode(mqtt_fixed_header_t *fixhdr, mqtt_connack_return_code_t *code);
 void mqtt_subscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_subscribe_header_t *subscribe);
 void mqtt_unsubscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_unsubscribe_header_t *unsubscribe);
 void mqtt_publish_decode(mqtt_fixed_header_t *fixhdr, mqtt_publish_header_t *publish);
@@ -160,16 +161,17 @@ void mqtt_pubxxx_decode(mqtt_fixed_header_t *fixhdr, mqtt_pubxxx_header_t *pubxx
 
 //--------------------------------------------
 void mqtt_packet_encode(mqtt_fixed_header_t *fixhdr, unsigned char **buf, size_t *size);
+void mqtt_connect_encode(unsigned char **buf, size_t *size, mqtt_connect_header_t *connect);
 void mqtt_connack_encode(unsigned char **buf, size_t *size, mqtt_connack_return_code_t code);
 void mqtt_suback_encode(unsigned char **buf, size_t *size, mqtt_suback_header_t *suback);
 void mqtt_pingresp_encode(unsigned char **buf, size_t *size);
 void mqtt_publish_encode(unsigned char **buf, size_t *size, mqtt_publish_header_t *publish);
-
 void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *size, uint16_t msg_id);
 #define mqtt_puback_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBACK, a, b, c)
 #define mqtt_pubrec_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBREC, a, b, c)
 #define mqtt_pubrel_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBREL, a, b, c)
 #define mqtt_pubcomp_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBCOMP, a, b, c)
 #define mqtt_unsuback_encode(a, b, c) mqtt_pubxxx_encode(MQTT_UNSUBACK, a, b, c)
+void mqtt_disconnect_encode(unsigned char **buf, size_t *size);
 
 #endif /* MQTT_H_ */

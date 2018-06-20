@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -87,7 +87,7 @@ int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, si
 
 
 //--------------------------------------------
-//** decode command
+//** decode command functions
 
 //--------------------------------------------
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect)
@@ -172,6 +172,12 @@ mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt
 }
 
 //--------------------------------------------
+void mqtt_connack_decode(mqtt_fixed_header_t *fixhdr, mqtt_connack_return_code_t *code)
+{
+	*code = fixhdr->rem_buf[1];
+}
+
+//--------------------------------------------
 void mqtt_subscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_subscribe_header_t *subscribe)
 {
 	size_t len;
@@ -242,7 +248,7 @@ void mqtt_pubxxx_decode(mqtt_fixed_header_t *fixhdr, mqtt_pubxxx_header_t *pubxx
 
 
 //--------------------------------------------
-//** encode
+//** encode command functions
 
 //--------------------------------------------
 void mqtt_packet_encode(mqtt_fixed_header_t *fixhdr, unsigned char **buf, size_t *size)
@@ -271,6 +277,86 @@ void mqtt_packet_encode(mqtt_fixed_header_t *fixhdr, unsigned char **buf, size_t
 		memcpy(*buf + 1 + cnt, fixhdr->rem_buf, fixhdr->rem_len);
 		free(fixhdr->rem_buf);
 	}
+}
+
+//--------------------------------------------
+void mqtt_connect_encode(unsigned char **buf, size_t *size, mqtt_connect_header_t *connect)
+{
+	mqtt_fixed_header_t fixhdr;
+	// MQTT protocol and version    0     6     M     Q     I     s     d     p     3
+	unsigned char proto_id[9] = {0x00, 0x06, 0x4D, 0x51, 0x49, 0x73, 0x64, 0x70, 0x03};
+	uint16_t client_id_length = connect->client_id_length;
+	uint16_t will_topic_length = connect->will_topic_length;
+	uint16_t will_message_length = connect->will_message_length;
+	uint16_t user_name_length = connect->user_name_length;
+	uint16_t password_length = connect->password_length;
+	uint8_t *client_id = connect->client_id;
+	uint8_t *will_topic = connect->will_topic;
+	uint8_t *will_message = connect->will_message;
+	uint8_t *user_name = connect->user_name;
+	uint8_t *password = connect->password;
+	uint8_t *rem_buf;
+
+	fixhdr.msg_type = MQTT_CONNECT;
+	fixhdr.dup_flag = 0;
+	fixhdr.qos_level = 0;
+	fixhdr.retain = 0;
+	fixhdr.rem_len = (uint32_t)(sizeof(proto_id) + 1 + 2 + 
+		(client_id_length ? (2 + client_id_length) : 0) +
+		((connect->flags.will && will_topic_length) ? (2 + will_topic_length) : 0) +
+		((connect->flags.will && will_message_length) ? (2 + will_message_length) : 0) +
+		((connect->flags.user_name && user_name_length) ? (2 + user_name_length) : 0) +
+		((connect->flags.password && password_length) ? (2 + password_length) : 0));
+	fixhdr.rem_buf = (unsigned char *)malloc(fixhdr.rem_len);
+	rem_buf = fixhdr.rem_buf;
+	memcpy(rem_buf, proto_id, sizeof(proto_id));
+	rem_buf += sizeof(proto_id);
+	*rem_buf = (connect->flags.clean_session << 1) |
+		(connect->flags.will << 2) |
+		(connect->flags.will_qos << 3) |
+		(connect->flags.will_retain << 5) |
+		(connect->flags.password << 6) |
+		(connect->flags.user_name << 7);
+	rem_buf += 1;
+	*(uint16_t *)rem_buf = htons(connect->keep_alive_timer);
+	rem_buf += 2;
+	if (client_id_length)
+	{
+		*(uint16_t *)rem_buf = htons(client_id_length);
+		rem_buf += 2;
+		memcpy(rem_buf, client_id, client_id_length);
+		rem_buf += client_id_length;
+	}
+	if (connect->flags.will && will_topic_length)
+	{
+		*(uint16_t *)rem_buf = htons(will_topic_length);
+		rem_buf += 2;
+		memcpy(rem_buf, will_topic, will_topic_length);
+		rem_buf += will_topic_length;
+	}
+	if (connect->flags.will && will_message_length)
+	{
+		*(uint16_t *)rem_buf = htons(will_message_length);
+		rem_buf += 2;
+		memcpy(rem_buf, will_message, will_message_length);
+		rem_buf += will_message_length;
+	}
+	if (connect->flags.user_name && user_name_length)
+	{
+		*(uint16_t *)rem_buf = htons(user_name_length);
+		rem_buf += 2;
+		memcpy(rem_buf, user_name, user_name_length);
+		rem_buf += user_name_length;
+	}
+	if (connect->flags.password && password_length)
+	{
+		*(uint16_t *)rem_buf = htons(password_length);
+		rem_buf += 2;
+		memcpy(rem_buf, password, password_length);
+		rem_buf += password_length;
+	}
+
+	mqtt_packet_encode(&fixhdr, buf, size);
 }
 
 //--------------------------------------------
@@ -334,7 +420,7 @@ void mqtt_publish_encode(unsigned char **buf, size_t *size, mqtt_publish_header_
 	fixhdr.msg_type = MQTT_PUBLISH;
 	fixhdr.dup_flag = 0;
 	fixhdr.qos_level = publish->qos;
-	fixhdr.retain = 0;
+	fixhdr.retain = publish->pub_item->retain;
 	fixhdr.rem_len = (uint32_t)(2 + name_len + msg_id_len + data_len);
 	fixhdr.rem_buf = (uint8_t *)malloc(fixhdr.rem_len);
 	*(uint16_t *)&fixhdr.rem_buf[0] = htons(name_len);
@@ -361,6 +447,20 @@ void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *s
 	fixhdr.rem_len = 2;
 	fixhdr.rem_buf = (unsigned char *)malloc(fixhdr.rem_len);
 	*(uint16_t *)&fixhdr.rem_buf[0] = htons(msg_id);
+
+	mqtt_packet_encode(&fixhdr, buf, size);
+}
+
+//--------------------------------------------
+void mqtt_disconnect_encode(unsigned char **buf, size_t *size)
+{
+	mqtt_fixed_header_t fixhdr;
+
+	fixhdr.msg_type = MQTT_DISCONNECT;
+	fixhdr.dup_flag = 0;
+	fixhdr.qos_level = 0;
+	fixhdr.retain = 0;
+	fixhdr.rem_len = 0;
 
 	mqtt_packet_encode(&fixhdr, buf, size);
 }
