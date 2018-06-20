@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -53,6 +53,7 @@ typedef struct pthread_cond
 #include <ifaddrs.h>
 #include <stdlib.h>
 #include <pthread.h>	/* pthread_create */
+#include <sched.h>		/* sched_yield */
 #include <string.h>		/* strcmp */
 #include <unistd.h>		/* usleep, close */
 
@@ -76,6 +77,12 @@ static int thread_begin(unsigned (__stdcall *func)(void *), void *param, pthread
 	if (threadidptr != NULL)
 		*threadidptr = threadhandle;
 	return (threadhandle == NULL) ? -1 : 0;
+}
+
+static int sched_yield(void)
+{
+	Sleep(10);
+	return 0;
 }
 
 static int pthread_mutex_init(pthread_mutex_t *mutex, void *unused)
