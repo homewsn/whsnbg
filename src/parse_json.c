@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2016 Vladimir Alemasov
+* Copyright (c) 2013-2016, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -113,7 +113,7 @@ int parse_json_file(void)
 	fp = fopen(RULES_FILE, "rb");
 	if (fp == NULL)
 	{
-		dprintf("can't open %s file: %s\n", RULES_FILE, strerror(errno));
+		dprintf("Failed to open %s file: %s\n", RULES_FILE, strerror(errno));
 		return -1;
 	}
 
@@ -124,12 +124,11 @@ int parse_json_file(void)
 	memset(str, 0, fsize);
 
 	fseek(fp, 0, SEEK_SET);
-	if (fread(str, fsize, 1, fp) != fsize)
+	if (fread(str, 1, fsize, fp) != fsize)
 	{
 		fclose(fp);
 		dprintf("Failed to read %s file\n", RULES_FILE);
-		goto error;
-
+		return -1;
 	}
 	str[fsize] = '\0';
 	fclose(fp);
