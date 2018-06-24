@@ -151,6 +151,7 @@ int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, si
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect);
 void mqtt_connack_decode(mqtt_fixed_header_t *fixhdr, mqtt_connack_return_code_t *code);
 void mqtt_subscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_subscribe_header_t *subscribe);
+void mqtt_suback_decode(mqtt_fixed_header_t *fixhdr, mqtt_suback_header_t *suback);
 void mqtt_unsubscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_unsubscribe_header_t *unsubscribe);
 void mqtt_publish_decode(mqtt_fixed_header_t *fixhdr, mqtt_publish_header_t *publish);
 void mqtt_pubxxx_decode(mqtt_fixed_header_t *fixhdr, mqtt_pubxxx_header_t *pubxxx);
@@ -172,6 +173,7 @@ void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *s
 #define mqtt_pubrel_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBREL, a, b, c)
 #define mqtt_pubcomp_encode(a, b, c) mqtt_pubxxx_encode(MQTT_PUBCOMP, a, b, c)
 #define mqtt_unsuback_encode(a, b, c) mqtt_pubxxx_encode(MQTT_UNSUBACK, a, b, c)
+void mqtt_subscribe_encode(unsigned char **buf, size_t *size, mqtt_subscribe_header_t *subscribe);
 void mqtt_disconnect_encode(unsigned char **buf, size_t *size);
 
 #endif /* MQTT_H_ */

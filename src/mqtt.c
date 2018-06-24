@@ -201,6 +201,23 @@ void mqtt_subscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_subscribe_header_t 
 }
 
 //--------------------------------------------
+void mqtt_suback_decode(mqtt_fixed_header_t *fixhdr, mqtt_suback_header_t *suback)
+{
+	size_t len;
+
+	suback->msg_id = ntohs(*((unsigned short *)&fixhdr->rem_buf[0]));
+	suback->qos_size = fixhdr->rem_len - 2;
+
+	for (len = 0; len < fixhdr->rem_len - 2;)
+	{
+		suback->qos_buf[len] = *((uint8_t *)(&fixhdr->rem_buf[2] + len));
+		len += 1;
+	}
+
+	assert(2 + len == fixhdr->rem_len);
+}
+
+//--------------------------------------------
 void mqtt_unsubscribe_decode(mqtt_fixed_header_t *fixhdr, mqtt_unsubscribe_header_t *unsubscribe)
 {
 	size_t len;
@@ -227,6 +244,7 @@ void mqtt_publish_decode(mqtt_fixed_header_t *fixhdr, mqtt_publish_header_t *pub
 	uint16_t data_len = fixhdr->rem_len - name_len - 2 - msg_id_len;
 	uint8_t *name = fixhdr->rem_buf + 2;
 	uint8_t *data = fixhdr->rem_buf + 2 + name_len + msg_id_len;
+
 	publish->pub_item = list_pub_add_replace(publish->pub_list, name, name_len, data, data_len, data_len == 0 ? 0 : fixhdr->retain);
 
 #if defined MQTT_DATA_MYSQL
@@ -447,6 +465,29 @@ void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *s
 	fixhdr.rem_len = 2;
 	fixhdr.rem_buf = (unsigned char *)malloc(fixhdr.rem_len);
 	*(uint16_t *)&fixhdr.rem_buf[0] = htons(msg_id);
+
+	mqtt_packet_encode(&fixhdr, buf, size);
+}
+
+//--------------------------------------------
+void mqtt_subscribe_encode(unsigned char **buf, size_t *size, mqtt_subscribe_header_t *subscribe)
+{
+	mqtt_fixed_header_t fixhdr;
+	uint16_t name_len = subscribe->sub_item->name_len;
+	uint8_t *name = subscribe->sub_item->name;
+
+	assert(subscribe->qos_size == 1);
+
+	fixhdr.msg_type = MQTT_SUBSCRIBE;
+	fixhdr.dup_flag = 0;
+	fixhdr.qos_level = 1;
+	fixhdr.retain = 0;
+	fixhdr.rem_len = (uint32_t)(2 + 2 + name_len + 1);
+	fixhdr.rem_buf = (uint8_t *)malloc(fixhdr.rem_len);
+	*(uint16_t *)&fixhdr.rem_buf[0] = htons(subscribe->msg_id);
+	*(uint16_t *)&fixhdr.rem_buf[2] = htons(name_len);
+	memcpy(&fixhdr.rem_buf[4], name, name_len);
+	fixhdr.rem_buf[2 + 2 + name_len] = subscribe->sub_item->qos;
 
 	mqtt_packet_encode(&fixhdr, buf, size);
 }
