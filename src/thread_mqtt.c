@@ -106,18 +106,28 @@ static void mqttsn_send_buffered_msgs(list_mqttsn_conn_t *item)
 			pub_item = list_pub_find_topic_id(&pub_list, pub_msg_item->topic_id);
 			if (pub_msg_item->qos != 0 && pub_msg_item->tts != 0)
 				return;
-			pub_msg_item->msg_id = publish.msg_id = mqttsn_msg_id;
+			publish.flags.dup = pub_msg_item->dup;
+			if (pub_msg_item->dup == 0)
+			{
+				pub_msg_item->msg_id = publish.msg_id = mqttsn_msg_id;
+				pub_msg_item->dup = 1;
+			}
+			else
+			{
+				publish.msg_id = pub_msg_item->msg_id;
+			}
 			mqttsn_msg_id = mqttsn_msg_id == 65535 ? 1 : ++mqttsn_msg_id;
 			publish.pub_item = pub_item;
 			publish.flags.qos = pub_msg_item->qos;
-			publish.flags.topic_id_type = MQTTSN_PREDEF_TOPIC_ID;
+			publish.flags.topic_id_type = MQTTSN_TOPIC_NAME;
 			mqttsn_publish_encode(&buf, &size, &publish);
 			dprintf("<MQTTSN_PUBLISH\n");
-			dprintf("mqttsn conn:%s:%d, topic_id:%d, msg_id:%d\n",\
-				inet_ntoa(item->addr.sin_addr),\
-				(int)ntohs(item->addr.sin_port),\
+			dprintf("mqttsn conn:%s:%d, topic_id:%d, msg_id:%d, dup:%d\n",
+				inet_ntoa(item->addr.sin_addr),
+				(int)ntohs(item->addr.sin_port),
 				publish.topic_id,
-				publish.msg_id);
+				publish.msg_id,
+				publish.flags.dup);
 			if (pub_msg_item->qos == 0)
 			{
 				msg_mqtt_udp_add_packet(&item->addr, buf, size);
@@ -1207,6 +1217,7 @@ static void timer_handle(void)
 	while (mqttsn_conn != NULL)
 	{
 		if (mqttsn_conn->state == MQTTSN_CLIENT_ACTIVE ||
+			mqttsn_conn->state == MQTTSN_CLIENT_CONNECTED ||
 			mqttsn_conn->state == MQTTSN_CLIENT_ASLEEP)
 		{
 			if (mqttsn_conn->keepalivesec != 0)
@@ -1226,7 +1237,10 @@ static void timer_handle(void)
 		}
 
 		pub_msg_item = mqttsn_conn->pub_msg_list;
-		if (pub_msg_item != NULL)
+		if (pub_msg_item != NULL &&
+			(mqttsn_conn->state == MQTTSN_CLIENT_ACTIVE ||
+			 mqttsn_conn->state == MQTTSN_CLIENT_CONNECTED ||
+			 mqttsn_conn->state == MQTTSN_CLIENT_AWAKE))
 		{
 			if (pub_msg_item->tts == 0)
 				mqttsn_send_buffered_msgs(mqttsn_conn);

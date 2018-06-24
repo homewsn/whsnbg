@@ -205,6 +205,7 @@ typedef struct list_msg
 	uint16_t msg_id;
 	uint8_t qos;
 	uint8_t tts;
+	uint8_t dup;
 } list_msg_t;
 
 #ifdef __cplusplus
