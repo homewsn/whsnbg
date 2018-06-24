@@ -124,14 +124,20 @@ int parse_json_file(void)
 	memset(str, 0, fsize);
 
 	fseek(fp, 0, SEEK_SET);
-	fread(str, fsize, 1, fp);
+	if (fread(str, fsize, 1, fp) != fsize)
+	{
+		fclose(fp);
+		dprintf("Failed to read %s file\n", RULES_FILE);
+		goto error;
+
+	}
 	str[fsize] = '\0';
 	fclose(fp);
 
 	root = cJSON_Parse(str);
 	if (root == NULL)
 	{
-		dprintf("It's impossible to parse %s file\n", RULES_FILE);
+		dprintf("Failed to parse %s file\n", RULES_FILE);
 		goto error;
 	}
 
