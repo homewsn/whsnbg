@@ -109,11 +109,12 @@ distclean: clean
 # install
 # http://unixhelp.ed.ac.uk/CGI/man-cgi?install
 install: all
-	install -d -m 755 "$(BINDIR)"
-	install -m 755 $(TARGET) "$(BINDIR)/"
-	install -d -m 755 "$(SYSCONFDIR)"
-	install -m 644 ./res/whsnbg.conf "$(SYSCONFDIR)/"
-	install -m 444 ./res/whsnbg.pem "$(SYSCONFDIR)/"
+	install -d -m 755 $(BINDIR)
+	install -m 755 $(TARGET) $(BINDIR)
+	install -d -m 755 $(SYSCONFDIR)
+	cp -n ./res/whsnbg.conf $(SYSCONFDIR) || true
+	chmod 644 $(SYSCONFDIR)/whsnbg.conf
+	install -m 444 ./res/whsnbg.pem $(SYSCONFDIR)
 
 # uninstall
 uninstall:
