@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2016 Vladimir Alemasov
+* Copyright (c) 2013-2016, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -786,6 +786,15 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 				// an ip address and port number may be others
 				memcpy(&conn->addr, &ms->addr, sizeof(struct sockaddr_in));
 			}
+		}
+
+		if (connect.duration == 0)
+		{
+			mqttsn_connack_encode(&buf, &size, MQTTSN_REFUSED_NOT_SUPPORTED);
+			dprintf("<MQTTSN_CONNACK\n");
+			dprintf("return_code:MQTTSN_REFUSED_NOT_SUPPORTED\n");
+			msg_mqtt_udp_add_packet(&ms->addr, buf, size);
+			return;
 		}
 
 		conn->state = MQTTSN_CLIENT_CONNECTED;

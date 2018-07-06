@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -90,7 +90,6 @@ void list_mqtt_conn_set_client_id(list_mqtt_conn_t *item, const char *client_id,
 void list_mqtt_conn_reset_remainsec(list_mqtt_conn_t *item)
 {
 	assert(item != NULL);
-	assert(item->keepalivesec != 0);
 
 	item->remainsec = item->keepalivesec;
 }
