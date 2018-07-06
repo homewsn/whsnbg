@@ -1,0 +1,179 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "atlres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""atlres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\main.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAINDLG DIALOGEX 0, 0, 424, 305
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "sensim"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    RTEXT           "Host:",IDC_STATICHOST,24,12,18,12,SS_CENTERIMAGE
+    CONTROL         "",IDC_HOST,"SysIPAddress32",WS_TABSTOP,48,12,78,12
+    RTEXT           "Port:",IDC_STATICPORT,24,30,18,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_PORT,48,30,78,12,ES_AUTOHSCROLL
+    RTEXT           "Client ID:",IDC_STATICCLIENTID,126,12,36,12,SS_CENTERIMAGE
+    RTEXT           "Duration:",IDC_STATICDURATION,126,30,36,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_CLIENTID,168,12,108,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DURATION,168,30,72,12,ES_AUTOHSCROLL
+    CONTROL         "Dur=0",IDC_DUR0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,246,30,36,12
+    CONTROL         "Clean Session",IDC_CLEANSESSION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,12,60,12
+    CONTROL         "Will",IDC_WILL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,30,60,12
+    RTEXT           "Will topic:",IDC_STATICWILLTOPIC,6,48,36,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_WILLTOPIC,48,48,228,12,ES_AUTOHSCROLL
+    RTEXT           "Will msg:",IDC_STATICWILLMESSAGE,6,66,36,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_WILLMESSAGE,48,66,228,12,ES_AUTOHSCROLL
+    CONTROL         "Will Retain",IDC_WILLRETAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,48,60,12
+    EDITTEXT        IDC_WILLQOS,287,66,10,12,ES_CENTER
+    LTEXT           "Will QoS",IDC_STATICWILLQOS,299,66,37,12,SS_CENTERIMAGE
+    RTEXT           "Topic:",IDC_STATICTOPIC,6,90,36,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_TOPIC,48,90,228,12,ES_AUTOHSCROLL
+    RTEXT           "Reg topics:",IDC_STATICREGTOPICS,6,114,36,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_REGTOPICS,48,114,228,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Message:",IDC_STATICMESSAGE,6,132,36,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_MESSAGE,48,132,192,12,ES_AUTOHSCROLL
+    CONTROL         "Retain",IDC_RETAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,246,132,36,12
+    EDITTEXT        IDC_QOS,287,132,10,12,ES_CENTER
+    LTEXT           "QoS",IDC_STATICQOS,300,132,24,12,SS_CENTERIMAGE
+    DEFPUSHBUTTON   "Connect",IDC_CONNECT,360,18,54,18
+    PUSHBUTTON      "WillTopicUpdate",IDC_WILLTOPICUPDATE,348,48,66,12
+    PUSHBUTTON      "WillMsgUpdate",IDC_WILLMESSAGEUPDATE,348,66,66,12
+    PUSHBUTTON      "Register",IDC_REGISTER,348,90,66,12
+    PUSHBUTTON      "Publish",IDC_PUBLISH,348,132,66,12
+    EDITTEXT        IDC_PACKETS,6,156,408,120,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "Sub",IDC_SUBREG,282,114,30,12
+    PUSHBUTTON      "UnSub",IDC_UNSUBREG,312,114,30,12
+    PUSHBUTTON      "Sub",IDC_SUB,282,90,30,12
+    PUSHBUTTON      "UnSub",IDC_UNSUB,312,90,30,12
+    CONTROL         "LOST (SLEEP)",IDC_LOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,346,282,62,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MAINDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 417
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 298
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "sensimgui"
+            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "InternalName", "sensimgui"
+            VALUE "LegalCopyright", "Copyright 2013-2018 Vladimir Alemasov"
+            VALUE "OriginalFilename", "sensimgui.exe"
+            VALUE "ProductName", "sensimgui"
+            VALUE "ProductVersion", "1, 1, 0, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "sensim"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+

@@ -1,0 +1,9 @@
+# MSVC files
+*.exe
+*.dll
+*.suo
+*.user
+*.ncb
+*.txt
+Debug/
+Release/
