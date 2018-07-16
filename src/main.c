@@ -18,6 +18,7 @@
 #include <syslog.h>
 #include <signal.h>
 #include <errno.h>			/* errno */
+#include <sys/stat.h>		/* umask */
 #endif
 
 #include <stdlib.h>			/* exit */
