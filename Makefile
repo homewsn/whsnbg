@@ -114,7 +114,8 @@ install: all
 	install -d -m 755 $(SYSCONFDIR)
 	cp -n ./res/whsnbg.conf $(SYSCONFDIR) || true
 	chmod 644 $(SYSCONFDIR)/whsnbg.conf
-	install -m 444 ./res/whsnbg.pem $(SYSCONFDIR)
+	cp -n ./res/whsnbg.pem $(SYSCONFDIR) || true
+	chmod 444 $(SYSCONFDIR)/whsnbg.pem
 
 # uninstall
 uninstall:
