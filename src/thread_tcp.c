@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -208,16 +208,7 @@ static void sock_close(SOCKET sock)
 {
 	if (sock != INVALID_SOCKET)
 	{
-		shutdown(sock, SHUT_WR);
-#ifdef WIN32
-		{
-			int len;
-			do 
-			{
-				len = recv(sock, sock_buf, sizeof(sock_buf), 0);
-			} while (len > 0);
-		}
-#endif
+		shutdown(sock, SHUT_RDWR);
 		closesocket(sock);
 		sock = INVALID_SOCKET;
 	}
@@ -260,6 +251,49 @@ static list_tcp_conn_t *conn_close(list_tcp_conn_t *conn)
 	sock_close(conn->sock);
 	recv_buf_free(conn);
 	return conn_remove(conn);
+}
+
+//--------------------------------------------
+static int conn_check(list_tcp_conn_t *conn, int sock_recv_result)
+{
+#ifdef USE_TLS_LIBRARY
+	if (conn->ssl != NULL)
+	{
+		// axTLS
+		// > 0, then the handshaking is complete and we are returning the number of decrypted bytes.
+		// = 0 if the handshaking stage is successful (but not yet complete).
+		// < 0 if an error.
+		// OpenSSL
+		// > 0 the read operation was successful. The return value is the number of bytes
+		// actually read from the TLS/SSL connection.
+		// = 0 does not happen
+		// < 0 the read operation was not successful, because either the connection was closed,
+		// an error occurred or action must be taken by the calling process.
+		if (sock_recv_result <= 0)
+		{
+			if (sock_recv_result < 0)
+			{
+				print_error_socket(__LINE__);
+				conn_close(conn);
+			}
+			return -1;
+		}
+	}
+	else
+#endif
+	{
+		// > 0 the number of bytes received.
+		// = 0 when a stream socket peer has performed an orderly shutdown.
+		// < 0 if an error.
+		if (sock_recv_result <= 0)
+		{
+			if (sock_recv_result < 0)
+				print_error_socket(__LINE__);
+			conn_close(conn);
+			return -1;
+		}
+	}
+	return 0;
 }
 
 //--------------------------------------------
@@ -493,15 +527,10 @@ static void http_header_handle(list_tcp_conn_t *conn)
 	// here recv_buf may or may not be equal to &sock_buf - it depends on the ssl library
 	// recv_buf buffer may be overwritten, but only in the range from 0 to recv_cnt-1 bytes
 	// don't free recv_buf - it's static or it's freed inside the ssl library
-	if (recv_cnt <= 0)
-	{
-		if (recv_cnt < 0)
-		{
-			print_error_socket(__LINE__);
-			conn_close(conn);
-		}
+
+	// check the connection to close
+	if (conn_check(conn, recv_cnt) == -1)
 		return;
-	}
 
 	if (conn->recv_cnt + recv_cnt > sizeof(sock_buf))
 	{
@@ -721,15 +750,10 @@ static void ws_frame_handle(list_tcp_conn_t *conn)
 	// here recv_buf may or may not be equal to &sock_buf - it depends on the ssl library
 	// recv_buf buffer may be overwritten, but only in the range from 0 to recv_cnt-1 bytes
 	// don't free recv_buf - it's static or it's freed inside the ssl library
-	if (recv_cnt <= 0)
-	{
-		if (recv_cnt < 0)
-		{
-			print_error_socket(__LINE__);
-			conn_close(conn);
-		}
+
+	// check the connection to close
+	if (conn_check(conn, recv_cnt) == -1)
 		return;
-	}
 
 	if (conn->recv_buf != NULL)
 	{
@@ -779,23 +803,10 @@ static void mqtt_message_handle(list_tcp_conn_t *conn)
 	// here recv_buf may or may not be equal to &sock_buf - it depends on the ssl library
 	// recv_buf buffer may be overwritten, but only in the range from 0 to recv_cnt-1 bytes
 	// don't free recv_buf - it's static or it's freed inside the ssl library
-	if (recv_cnt <= 0)
-	{
-#if 0
-		if (recv_cnt < 0)
-		{
-			print_error_socket(__LINE__);
-			conn_close(conn);
-		}
+
+	// check the connection to close
+	if (conn_check(conn, recv_cnt) == -1)
 		return;
-#endif
-#if 1
-		if (recv_cnt < 0)
-			print_error_socket(__LINE__);
-		conn_close(conn);
-		return;
-#endif
-	}
 
 	if (conn->recv_cnt + recv_cnt > sizeof(sock_buf))
 	{
@@ -835,6 +846,9 @@ static void thread_run(void *param)
 		struct timeval tv = { 0, 10000 }; // 0.01 sec
 		list_tcp_conn_t *conn;
 		list_tcp_conn_t *next;
+
+		if (thread_state == THREAD_STAYING)
+			break;
 
 		FD_ZERO(&rd);
 
@@ -885,8 +899,6 @@ static void thread_run(void *param)
 					msg_tcp_mqtt_add_close_conn(&ms->addr);
 				msg_mqtt_tcp_remove(ms);
 			}
-			if (thread_state == THREAD_STAYING)
-				break;
 			continue;
 		}
 
