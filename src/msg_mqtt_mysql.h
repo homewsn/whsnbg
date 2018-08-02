@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -31,13 +31,12 @@ typedef enum msg_mysql_type
 	MYSQL_ADD_LONG_DATA,
 	MYSQL_ADD_FLOAT_DATA,
 	MYSQL_ADD_UTF8STR_DATA,
-	MYSQL_UPDATE_SENSOR_IP,
-	MYSQL_UPDATE_ACTUATOR_IP,
+	MYSQL_UPDATE_DEVICE_IP,
 	MYSQL_UPDATE_SENSOR_PARAM_UNIT,
 	MYSQL_UPDATE_ACTUATOR_PARAM_UNIT,
-	MYSQL_UPDATE_SENSOR_PARAM_TYPE,
-	MYSQL_UPDATE_ACTUATOR_PARAM_TYPE,
-	MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION
+	MYSQL_UPDATE_SENSOR_PARAM_DATA_TYPE,
+	MYSQL_UPDATE_ACTUATOR_PARAM_DATA_TYPE,
+	MYSQL_UPDATE_DEVICE_TIMEOUT
 } msg_mysql_type_t;
 
 //--------------------------------------------
@@ -113,8 +112,7 @@ void msg_mqtt_mysql_update_sensor_param_unit(uint32_t id, uint32_t param, char *
 void msg_mqtt_mysql_update_actuator_param_unit(uint32_t id, uint32_t param, char *utf8str_data);
 void msg_mqtt_mysql_update_sensor_param_type(uint32_t id, uint32_t param, char *utf8str_data);
 void msg_mqtt_mysql_update_actuator_param_type(uint32_t id, uint32_t param, char *utf8str_data);
-void msg_mqtt_mysql_update_sensor_ip(uint32_t id, char *utf8str_data);
-void msg_mqtt_mysql_update_actuator_ip(uint32_t id, char *utf8str_data);
-void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t id, long long_data);
+void msg_mqtt_mysql_update_device_ip(uint32_t id, char *utf8str_data);
+void msg_mqtt_mysql_update_device_timeout(uint32_t id, long long_data);
 
 #endif /* MSG_MQTT_MYSQL_H_ */

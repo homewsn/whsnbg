@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -126,7 +126,7 @@ void msg_mqtt_mysql_update_actuator_param_unit(uint32_t id, uint32_t param, char
 void msg_mqtt_mysql_update_sensor_param_type(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_SENSOR_PARAM_TYPE;
+	ms->type = MYSQL_UPDATE_SENSOR_PARAM_DATA_TYPE;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
@@ -138,7 +138,7 @@ void msg_mqtt_mysql_update_sensor_param_type(uint32_t id, uint32_t param, char *
 void msg_mqtt_mysql_update_actuator_param_type(uint32_t id, uint32_t param, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_ACTUATOR_PARAM_TYPE;
+	ms->type = MYSQL_UPDATE_ACTUATOR_PARAM_DATA_TYPE;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_param_utf8str_t));
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_param_utf8str_t *)(ms->msg_mysql))->param = param;
@@ -147,10 +147,10 @@ void msg_mqtt_mysql_update_actuator_param_type(uint32_t id, uint32_t param, char
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_sensor_ip(uint32_t id, char *utf8str_data)
+void msg_mqtt_mysql_update_device_ip(uint32_t id, char *utf8str_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_SENSOR_IP;
+	ms->type = MYSQL_UPDATE_DEVICE_IP;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_utf8str_t));
 	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_sensor_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
@@ -158,21 +158,10 @@ void msg_mqtt_mysql_update_sensor_ip(uint32_t id, char *utf8str_data)
 }
 
 //--------------------------------------------
-void msg_mqtt_mysql_update_actuator_ip(uint32_t id, char *utf8str_data)
+void msg_mqtt_mysql_update_device_timeout(uint32_t id, long long_data)
 {
 	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_ACTUATOR_IP;
-	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_actuator_utf8str_t));
-	((msg_mysql_add_actuator_utf8str_t *)(ms->msg_mysql))->id = id;
-	((msg_mysql_add_actuator_utf8str_t *)(ms->msg_mysql))->utf8str_data = utf8str_data;
-	msg_mqtt_mysql_add(ms);
-}
-
-//--------------------------------------------
-void msg_mqtt_mysql_update_sensor_sleeptimeduration(uint32_t id, long long_data)
-{
-	msg_mqtt_mysql_t *ms = msg_mqtt_mysql_new();
-	ms->type = MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION;
+	ms->type = MYSQL_UPDATE_DEVICE_TIMEOUT;
 	ms->msg_mysql = (void *)malloc(sizeof(msg_mysql_add_sensor_long_t));
 	((msg_mysql_add_sensor_long_t *)(ms->msg_mysql))->id = id;
 	((msg_mysql_add_sensor_long_t *)(ms->msg_mysql))->long_data = long_data;

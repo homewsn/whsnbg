@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -72,41 +72,34 @@ VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%f' );"
 ( `id` , `param` , `time` , `value` ) \
 VALUES ( '%lu' , '%lu' , FROM_UNIXTIME( '%llu' ) , '%s' );"
 
-#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_UNIT "INSERT INTO `sensors_parameters` \
-( `id`, `param`, `unit` ) \
-VALUES ( '%lu', '%lu', '%s' ) \
+#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_UNIT "INSERT INTO `parameters` \
+( `id`, `param`, `param_type`, `unit` ) \
+VALUES ( '%lu', '%lu', 'sensor', '%s' ) \
 ON DUPLICATE KEY UPDATE unit='%s';"
 
-#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_UNIT "INSERT INTO `actuators_parameters` \
-( `id`, `param`, `unit` ) \
-VALUES ( '%lu', '%lu', '%s' ) \
+#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_UNIT "INSERT INTO `parameters` \
+( `id`, `param`, `param_type`, `unit` ) \
+VALUES ( '%lu', '%lu', 'actuator', '%s' ) \
 ON DUPLICATE KEY UPDATE unit='%s';"
 
-#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_TYPE "INSERT INTO `sensors_parameters` \
-( `id`, `param`, `data_type` ) \
-VALUES ( '%lu', '%lu', '%s' ) \
+#define MYSQL_QUERY_UPDATE_SENSOR_PARAM_DATA_TYPE "INSERT INTO `parameters` \
+( `id`, `param`, `param_type`, `data_type` ) \
+VALUES ( '%lu', '%lu', 'sensor', '%s' ) \
 ON DUPLICATE KEY UPDATE data_type='%s';"
 
-#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_TYPE "INSERT INTO `actuators_parameters` \
-( `id`, `param`, `data_type` ) \
-VALUES ( '%lu', '%lu', '%s' ) \
+#define MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_DATA_TYPE "INSERT INTO `parameters` \
+( `id`, `param`, `param_type`, `data_type` ) \
+VALUES ( '%lu', '%lu', 'actuator', '%s' ) \
 ON DUPLICATE KEY UPDATE data_type='%s';"
 
-#define MYSQL_QUERY_UPDATE_SENSOR_IP "INSERT INTO `sensors` \
+#define MYSQL_QUERY_UPDATE_DEVICE_IP "INSERT INTO `devices` \
 ( `id`, `ip` ) \
 VALUES ( '%lu', '%s' ) \
 ON DUPLICATE KEY UPDATE ip='%s';"
 
-#define MYSQL_QUERY_UPDATE_ACTUATOR_IP "INSERT INTO `actuators` \
-( `id`, `ip` ) \
-VALUES ( '%lu', '%s' ) \
-ON DUPLICATE KEY UPDATE ip='%s';"
-
-#define MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION "INSERT INTO `sensors` \
-( `id`, `st_duration` ) \
-VALUES ( '%lu', '%lu' ) \
-ON DUPLICATE KEY UPDATE st_duration='%lu';"
-
+#define MYSQL_QUERY_UPDATE_DEVICE_TIMEOUT "UPDATE `devices` \
+SET `timeout`='%lu' \
+WHERE `id`='%lu';"
 
 
 //--------------------------------------------
@@ -167,50 +160,40 @@ static void mysql_packet_handle(msg_mqtt_mysql_t *ms)
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_SENSOR_PARAM_TYPE)
+	if (ms->type == MYSQL_UPDATE_SENSOR_PARAM_DATA_TYPE)
 	{
 		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_PARAM_DATA_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_ACTUATOR_PARAM_TYPE)
+	if (ms->type == MYSQL_UPDATE_ACTUATOR_PARAM_DATA_TYPE)
 	{
 		msg_mysql_add_param_utf8str_t *msg = (msg_mysql_add_param_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_PARAM_DATA_TYPE, (unsigned long)msg->id, (unsigned long)msg->param, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_SENSOR_IP)
+	if (ms->type == MYSQL_UPDATE_DEVICE_IP)
 	{
 		msg_mysql_add_sensor_utf8str_t *msg = (msg_mysql_add_sensor_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_DEVICE_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		free(msg->utf8str_data);
 		return;
 	}
 
-	if (ms->type == MYSQL_UPDATE_ACTUATOR_IP)
-	{
-		msg_mysql_add_actuator_utf8str_t *msg = (msg_mysql_add_actuator_utf8str_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_ACTUATOR_IP, (unsigned long)msg->id, msg->utf8str_data, msg->utf8str_data);
-		if (mysql_query(mysql_conn, querybuf) != 0)
-			print_error_mysql(__LINE__);
-		free(msg->utf8str_data);
-		return;
-	}
-
-	if (ms->type == MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION)
+	if (ms->type == MYSQL_UPDATE_DEVICE_TIMEOUT)
 	{
 		msg_mysql_add_sensor_long_t *msg = (msg_mysql_add_sensor_long_t *)ms->msg_mysql;
-		sprintf(querybuf, MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION, (unsigned long)msg->id, (unsigned long)msg->long_data, (unsigned long)msg->long_data);
+		sprintf(querybuf, MYSQL_QUERY_UPDATE_DEVICE_TIMEOUT, (unsigned long)msg->long_data, (unsigned long)msg->id);
 		if (mysql_query(mysql_conn, querybuf) != 0)
 			print_error_mysql(__LINE__);
 		return;
