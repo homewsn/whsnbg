@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\lists">
+      <UniqueIdentifier>{e01c155f-8636-4762-913f-d49d428fe20e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\threads">
+      <UniqueIdentifier>{c90c14ba-8368-4062-b238-739aa3db5f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\messages">
+      <UniqueIdentifier>{d53a2e26-6913-4c1d-ace9-3039425baf19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\parsers">
+      <UniqueIdentifier>{29c189cd-ddf1-4ef0-af90-121749d4a1b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\triggers">
+      <UniqueIdentifier>{7cf75396-f6ff-48f3-801e-6f86eea538e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\lists">
+      <UniqueIdentifier>{0b63aa9c-329b-4fb1-b736-9d73ebdefac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\threads">
+      <UniqueIdentifier>{457572ed-7457-4902-867f-068f11660e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\messages">
+      <UniqueIdentifier>{617bf5b7-6872-4552-a984-b1de6a281611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\parsers">
+      <UniqueIdentifier>{3c9302bb-16ec-42b1-a3a3-24a6fc48ee11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\triggers">
+      <UniqueIdentifier>{9e289cf7-a9cf-4453-90ad-668d7af26a4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cJSON.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqtt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqttsn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rules.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sensor_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utf8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list_mqtt_conn.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list_mqtt_user.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list_mqttsn_conn.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list_tcp_conn.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\lists.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_cron.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_mqtt.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_mysql.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_rules.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_tcp.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_udp.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_mqtt_mysql.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_mqtt_tcp.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_mqtt_udp.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_rules_mqtt.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_tcp_mqtt.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_trigger_rules.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_udp_mqtt.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msgs.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parse_conf.c">
+      <Filter>Source Files\parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parse_json.c">
+      <Filter>Source Files\parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cron_trigger.c">
+      <Filter>Source Files\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqtt_trigger.c">
+      <Filter>Source Files\triggers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\cJSON.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqtt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqttsn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os_port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sensor_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stdint_msc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utf8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list_mqtt_conn.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list_mqtt_user.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list_mqttsn_conn.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list_tcp_conn.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\lists.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_cron.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_mqtt.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_mysql.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_rules.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_state.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_tcp.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_udp.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_mqtt_mysql.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_mqtt_tcp.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_mqtt_udp.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_rules_mqtt.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_tcp_mqtt.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_trigger_rules.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_udp_mqtt.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msgs.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\parse_conf.h">
+      <Filter>Header Files\parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\parse_json.h">
+      <Filter>Header Files\parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cron_trigger.h">
+      <Filter>Header Files\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqtt_trigger.h">
+      <Filter>Header Files\triggers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

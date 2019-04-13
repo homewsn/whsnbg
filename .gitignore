@@ -1,12 +1,2 @@
-# MSVC files
-msvs/*.exe
-msvs/*.dll
-msvs/*.suo
-msvs/*.user
-msvs/*.ncb
-msvs/*.txt
-msvs/Debug/
-msvs/Release/
-
 # Update
 update.txt

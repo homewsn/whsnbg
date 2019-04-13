@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50BBA366-B17A-4F94-AA0A-B4B9FE79B4A2}</ProjectGuid>
+    <RootNamespace>whsnbg</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cJSON.c" />
+    <ClCompile Include="..\src\main.c" />
+    <ClCompile Include="..\src\mqtt.c" />
+    <ClCompile Include="..\src\mqttsn.c" />
+    <ClCompile Include="..\src\rules.c" />
+    <ClCompile Include="..\src\sensor_data.c" />
+    <ClCompile Include="..\src\tls.c" />
+    <ClCompile Include="..\src\utf8.c" />
+    <ClCompile Include="..\src\list.c" />
+    <ClCompile Include="..\src\list_mqtt_conn.c" />
+    <ClCompile Include="..\src\list_mqtt_user.c" />
+    <ClCompile Include="..\src\list_mqttsn_conn.c" />
+    <ClCompile Include="..\src\list_tcp_conn.c" />
+    <ClCompile Include="..\src\lists.c" />
+    <ClCompile Include="..\src\thread_cron.c" />
+    <ClCompile Include="..\src\thread_mqtt.c" />
+    <ClCompile Include="..\src\thread_mysql.c" />
+    <ClCompile Include="..\src\thread_rules.c" />
+    <ClCompile Include="..\src\thread_tcp.c" />
+    <ClCompile Include="..\src\thread_udp.c" />
+    <ClCompile Include="..\src\msg_mqtt_mysql.c" />
+    <ClCompile Include="..\src\msg_mqtt_tcp.c" />
+    <ClCompile Include="..\src\msg_mqtt_udp.c" />
+    <ClCompile Include="..\src\msg_rules_mqtt.c" />
+    <ClCompile Include="..\src\msg_tcp_mqtt.c" />
+    <ClCompile Include="..\src\msg_trigger_rules.c" />
+    <ClCompile Include="..\src\msg_udp_mqtt.c" />
+    <ClCompile Include="..\src\msgs.c" />
+    <ClCompile Include="..\src\parse_conf.c" />
+    <ClCompile Include="..\src\parse_json.c" />
+    <ClCompile Include="..\src\cron_trigger.c" />
+    <ClCompile Include="..\src\mqtt_trigger.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\cJSON.h" />
+    <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\mqtt.h" />
+    <ClInclude Include="..\src\mqttsn.h" />
+    <ClInclude Include="..\src\os_port.h" />
+    <ClInclude Include="..\src\rules.h" />
+    <ClInclude Include="..\src\sensor_data.h" />
+    <ClInclude Include="..\src\stdint_msc.h" />
+    <ClInclude Include="..\src\tls.h" />
+    <ClInclude Include="..\src\utf8.h" />
+    <ClInclude Include="..\src\list.h" />
+    <ClInclude Include="..\src\list_mqtt_conn.h" />
+    <ClInclude Include="..\src\list_mqtt_user.h" />
+    <ClInclude Include="..\src\list_mqttsn_conn.h" />
+    <ClInclude Include="..\src\list_tcp_conn.h" />
+    <ClInclude Include="..\src\lists.h" />
+    <ClInclude Include="..\src\thread_cron.h" />
+    <ClInclude Include="..\src\thread_mqtt.h" />
+    <ClInclude Include="..\src\thread_mysql.h" />
+    <ClInclude Include="..\src\thread_rules.h" />
+    <ClInclude Include="..\src\thread_state.h" />
+    <ClInclude Include="..\src\thread_tcp.h" />
+    <ClInclude Include="..\src\thread_udp.h" />
+    <ClInclude Include="..\src\msg_mqtt_mysql.h" />
+    <ClInclude Include="..\src\msg_mqtt_tcp.h" />
+    <ClInclude Include="..\src\msg_mqtt_udp.h" />
+    <ClInclude Include="..\src\msg_rules_mqtt.h" />
+    <ClInclude Include="..\src\msg_tcp_mqtt.h" />
+    <ClInclude Include="..\src\msg_trigger_rules.h" />
+    <ClInclude Include="..\src\msg_udp_mqtt.h" />
+    <ClInclude Include="..\src\msgs.h" />
+    <ClInclude Include="..\src\parse_conf.h" />
+    <ClInclude Include="..\src\parse_json.h" />
+    <ClInclude Include="..\src\cron_trigger.h" />
+    <ClInclude Include="..\src\mqtt_trigger.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
