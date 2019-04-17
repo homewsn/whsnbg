@@ -2,12 +2,12 @@
 
 This repository is a part of the [HomeWSN](http://homewsn.github.io) project.
 
-Whsnbg is a C implementation of the MQTT broker, the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
+Whsnbg is a C implementation of the MQTT server(broker), the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
 
 
 ##### Supported features
 
-MQTT broker:
+MQTT server(broker):
 * MQTT Protocol Specification Versions 3.1.0 and 3.1.1.
 * Both plain TCP and Websockets connections on the selectable IPv4 network interface.
 * SSL(TLS) encryption provided by the external library axTLS or OpenSSL.
@@ -41,7 +41,7 @@ $ whsnbg
 
 ##### Building (Windows)
 
-Download [the latest release](https://github.com/homewsn/whsnbg/releases) in zip from github and unzip it. Open the MSVC++ 8.0 solution, build and run whsnbg.
+Download [the latest release](https://github.com/homewsn/whsnbg/releases) in zip from github and unzip it. Open the MSVS 2010 solution, build and run whsnbg.
 
 ##### Building (OpenWrt)
 
