@@ -8,7 +8,7 @@ Whsnbg is a C implementation of the MQTT broker, the MQTT-SN gateway and simple 
 ##### Supported features
 
 MQTT broker:
-* MQTT Protocol Specification Version 3.1.
+* MQTT Protocol Specification Versions 3.1.0 and 3.1.1.
 * Both plain TCP and Websockets connections on the selectable IPv4 network interface.
 * SSL(TLS) encryption provided by the external library axTLS or OpenSSL.
 * QoS level 0, 1 and 2.
@@ -32,8 +32,8 @@ MQTT rules engine:
 Download [the latest release](https://github.com/homewsn/whsnbg/releases) in tarball from github and untar it. Then build, install and run whsnbg.
 
 ```sh
-$ curl -L https://github.com/homewsn/whsnbg/archive/v1.3.tar.gz | tar zx
-$ cd whsnbg-1.3
+$ curl -L https://github.com/homewsn/whsnbg/archive/v1.4.tar.gz | tar zx
+$ cd whsnbg-1.4
 $ make
 $ sudo make install
 $ whsnbg
