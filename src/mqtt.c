@@ -92,27 +92,46 @@ int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, si
 //--------------------------------------------
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect)
 {
-	// MQTT protocol and version    0     6     M     Q     I     s     d     p     3
-	unsigned char proto_id[9] = {0x00, 0x06, 0x4D, 0x51, 0x49, 0x73, 0x64, 0x70, 0x03};
+	// MQTT protocol and version   0     6     M     Q     I     s     d     p     3
+	unsigned char proto_id31[9] = {0x00, 0x06, 0x4D, 0x51, 0x49, 0x73, 0x64, 0x70, 0x03};
+	//                              0     4     M     Q     T     T     4
+	unsigned char proto_id311[7] = {0x00, 0x04, 0x4D, 0x51, 0x54, 0x54, 0x04};
 	uint32_t len;
+	int result;
+	size_t cnt;
 
-	if (memcmp(&fixhdr->rem_buf[0], proto_id, sizeof(proto_id) != 0))
-		return MQTT_REFUSED_PROTOCOL_VERSION;
+	result = memcmp(&fixhdr->rem_buf[0], proto_id311, sizeof(proto_id311));
+	if (result != 0)
+	{
+		result = memcmp(&fixhdr->rem_buf[0], proto_id31, sizeof(proto_id31));
+		if (result != 0)
+		{
+			return MQTT_REFUSED_PROTOCOL_VERSION;
+		}
+		else
+		{
+			cnt = sizeof(proto_id31);
+		}
+	}
+	else
+	{
+		cnt = sizeof(proto_id311);
+	}
 
 	// clean session flag = 0 is not supported, every session is new
-	connect->flags.clean_session = fixhdr->rem_buf[9] & 0x02 ? 1 : 0;
-	connect->flags.will = fixhdr->rem_buf[9] & 0x04 ? 1 : 0;
-	connect->flags.will_qos = (fixhdr->rem_buf[9] & 0x18) >> 3;
-	connect->flags.will_retain = fixhdr->rem_buf[9] & 0x20 ? 1 : 0;
-	connect->flags.password = fixhdr->rem_buf[9] & 0x40 ? 1 : 0;
-	connect->flags.user_name = fixhdr->rem_buf[9] & 0x80 ? 1 : 0;
+	connect->flags.clean_session = fixhdr->rem_buf[cnt] & 0x02 ? 1 : 0;
+	connect->flags.will = fixhdr->rem_buf[cnt] & 0x04 ? 1 : 0;
+	connect->flags.will_qos = (fixhdr->rem_buf[cnt] & 0x18) >> 3;
+	connect->flags.will_retain = fixhdr->rem_buf[cnt] & 0x20 ? 1 : 0;
+	connect->flags.password = fixhdr->rem_buf[cnt] & 0x40 ? 1 : 0;
+	connect->flags.user_name = fixhdr->rem_buf[cnt] & 0x80 ? 1 : 0;
 
-	connect->keep_alive_timer = ntohs(*((unsigned short *)&fixhdr->rem_buf[10]));
+	connect->keep_alive_timer = ntohs(*((unsigned short *)&fixhdr->rem_buf[cnt + 1]));
 
-	connect->client_id_length = ntohs(*((unsigned short *)&fixhdr->rem_buf[12]));
+	connect->client_id_length = ntohs(*((unsigned short *)&fixhdr->rem_buf[cnt + 3]));
 	if (connect->client_id_length == 0)
 		return MQTT_REFUSED_IDENTIFIER_REJECTED;
-	connect->client_id = (char *)&fixhdr->rem_buf[14];
+	connect->client_id = (char *)&fixhdr->rem_buf[cnt + 5];
 
 	// The first UTF-encoded string. The client identifier (Client ID) is between 1 and 23
 	// characters long, and uniquely identifies the client to the server.
@@ -120,7 +139,7 @@ mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt
 	if (len > 23)
 		return MQTT_REFUSED_IDENTIFIER_REJECTED;
 
-	len = 14 + connect->client_id_length;
+	len = cnt + 5 + connect->client_id_length;
 	assert(len <= fixhdr->rem_len);
 
 	if (connect->flags.will == 1)
