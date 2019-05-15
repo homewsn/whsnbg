@@ -107,6 +107,45 @@ $ make menuconfig
 ```
 Then find  Network -> whsnbg and press Enter. Configure options, setting to <*> or < >.
 
+##### Configuration options
+The execution configuration is in res/whsnbg.conf file.
+Please make sure that you specify the correct mqtt_iface and mqttsn_iface parameters (they do not matter for Windows only).
+If incorrect interfaces are specified, then the program will end immediately.
+
+```conf
+# name = value
+# maximum name length is 32 bytes
+# maximum value length is 64 bytes
+
+# MQTT section (tcp ports)
+mqtt_iface = eth0
+mqtt_port = 1883
+mqtt_tls_port = 8883
+mqtt_ws_port = 8082
+mqtt_ws_tls_port = 8081
+
+# MQTT-SN section (udp port)
+mqttsn_iface = eth0
+mqttsn_port = 1883
+
+# MySQL section (remote MySQL database)
+mysql_enable = 0
+mysql_server = 192.168.0.213
+mysql_user = whsnbg
+mysql_password = some_pass
+mysql_database = homewsn
+mysql_port = 3306
+
+# MQTT users section
+mqtt_auth_enable = 0
+user_name = name1
+user_password = password1
+user_publish_enable = 1
+user_name = name2
+user_password = password2
+user_publish_enable = 0
+```
+
 ##### Dependencies
 
 * If you enable TSL support please be sure you have installed the appropriate library ([axTLS](http://axtls.sourceforge.net/) or [OpenSSL](https://www.openssl.org/)).
