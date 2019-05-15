@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -42,7 +42,7 @@
 
 
 //--------------------------------------------
-int mqtt_packet_check_length(unsigned char *buf, size_t size, uint32_t *len, unsigned char **rem_buf)
+int mqtt_packet_check_length(unsigned char *buf, size_t size, uint32_t *len, unsigned char **rem_buf, size_t *proc_size)
 {
 	uint8_t digit;
 	uint8_t cnt = 1;
@@ -67,13 +67,37 @@ int mqtt_packet_check_length(unsigned char *buf, size_t size, uint32_t *len, uns
 	while ((digit & 128) != 0);
 
 	*rem_buf = buf + cnt;
+
+	if (proc_size != NULL)
+		*proc_size += *len + cnt;
+
 	return 0;
 }
 
 //--------------------------------------------
-int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, size_t size)
+int mqtt_packets_buffer_check(unsigned char *buf, size_t size)
 {
-	if (mqtt_packet_check_length(buf, size, &fixhdr->rem_len, &fixhdr->rem_buf) < 0)
+	uint32_t len;
+	size_t proc_size;
+	unsigned char *rem_buf;
+	int res;
+
+	proc_size = 0;
+	for (;;)
+	{
+		res = mqtt_packet_check_length(buf + proc_size, size - proc_size, &len, &rem_buf, &proc_size);
+		if (res != 0 || proc_size == size)
+			break;
+		if (proc_size > size)
+			return -1;
+	}
+	return res;
+}
+
+//--------------------------------------------
+int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, size_t size, size_t *proc_size)
+{
+	if (mqtt_packet_check_length(buf, size, &fixhdr->rem_len, &fixhdr->rem_buf, proc_size) < 0)
 		return -1;
 
 	fixhdr->msg_type = (buf[0] & 0xF0) >> 4;

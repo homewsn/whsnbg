@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -75,6 +75,7 @@ void msg_tcp_mqtt_add_packet(struct sockaddr_in *addr, unsigned char *buf, size_
 	memcpy(&ms->addr, addr, sizeof(struct sockaddr_in));
 	ms->msg_buf = (unsigned char *)malloc(size);
 	ms->msg_cnt = size;
+	ms->proc_msg_cnt = 0;
 	memcpy(ms->msg_buf, buf, size);
 	msg_tcp_mqtt_add(ms);
 }

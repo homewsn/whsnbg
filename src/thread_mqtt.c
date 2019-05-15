@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2016, 2018 Vladimir Alemasov
+* Copyright (c) 2013-2016, 2018, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -452,7 +452,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 		return;
 	}
 
-	if (mqtt_fixed_header_decode(&fixhdr, ms->msg_buf, ms->msg_cnt) < 0)
+	if (mqtt_fixed_header_decode(&fixhdr, ms->msg_buf + ms->proc_msg_cnt, ms->msg_cnt - ms->proc_msg_cnt, &ms->proc_msg_cnt) < 0)
 		return;
 
 	// the first command must be MQTT_CONNECT
@@ -1280,7 +1280,13 @@ static void thread_run(void *param)
 
 		if ((msg_tcp = msg_tcp_mqtt_get_first()) != NULL)
 		{
-			mqtt_packet_handle(msg_tcp);
+			msg_tcp->proc_msg_cnt = 0;
+			for (;;)
+			{
+				mqtt_packet_handle(msg_tcp);
+				if (msg_tcp->proc_msg_cnt == 0 || msg_tcp->proc_msg_cnt == msg_tcp->msg_cnt)
+					break;
+			}
 			msg_tcp_mqtt_remove(msg_tcp);
 		}
 		if ((msg_udp = msg_udp_mqtt_get_first()) != NULL)

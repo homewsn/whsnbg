@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -103,12 +103,14 @@ typedef struct serv_tcp
 #define MQTT_TCP_SERVERS		2
 #endif
 #define MAX_HTTP_HEADER_LENGTH	2048
+#define ZIGBEE2MQTT_BUF_LENGTH	32768
+#define SOCK_BUF_LENGTH			ZIGBEE2MQTT_BUF_LENGTH
 
 //--------------------------------------------
 static serv_tcp_t servs[MQTT_TCP_SERVERS] = { 0 };
 static thread_tcp_options_t *thread_options;
 static list_tcp_conn_t *conns = NULL;
-static char sock_buf[MAX_HTTP_HEADER_LENGTH];
+static char sock_buf[SOCK_BUF_LENGTH];
 static volatile thread_state_t thread_state;
 
 
@@ -793,11 +795,8 @@ static void ws_frame_handle(list_tcp_conn_t *conn)
 //--------------------------------------------
 static void mqtt_message_handle(list_tcp_conn_t *conn)
 {
-	int res;
 	int recv_cnt;
 	unsigned char *recv_buf = sock_buf;
-	uint32_t len;
-	unsigned char *rem_buf;
 
 	recv_cnt = sock_recv(conn, &recv_buf, sizeof(sock_buf));
 	// here recv_buf may or may not be equal to &sock_buf - it depends on the ssl library
@@ -821,9 +820,7 @@ static void mqtt_message_handle(list_tcp_conn_t *conn)
 	memcpy(conn->recv_buf + conn->recv_cnt, recv_buf, recv_cnt);
 	conn->recv_cnt += recv_cnt;
 
-	res = mqtt_packet_check_length(conn->recv_buf, conn->recv_cnt, &len, &rem_buf);
-
-	if (res == -1 || (int)len > conn->recv_cnt)
+	if (mqtt_packets_buffer_check(conn->recv_buf, conn->recv_cnt) < 0)
 		return;
 
 	msg_tcp_mqtt_add_packet(&conn->addr, conn->recv_buf, conn->recv_cnt);
