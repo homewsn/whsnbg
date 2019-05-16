@@ -1,4 +1,4 @@
-# MSVC files
+# Visual Studio 2005 files
 *.exe
 *.dll
 *.suo
@@ -7,3 +7,33 @@
 *.txt
 Debug/
 Release/
+
+# Visual Studio 2010 files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+[Pp]ublish
+Ankh.NoLoad

@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\lists">
+      <UniqueIdentifier>{d77150fd-e938-4734-97b4-e6c382eab9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\messages">
+      <UniqueIdentifier>{8a83f224-42ed-4b77-befc-b094a50292c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\threads">
+      <UniqueIdentifier>{06395e09-b9f4-414a-9025-d799573f5362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{87038355-9db3-41d6-bdbc-a2df93118d15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\lists">
+      <UniqueIdentifier>{c7f1665e-c1ee-43a2-a917-a786f27b90f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\messages">
+      <UniqueIdentifier>{22177766-ca7e-4297-9e88-378aff3e2609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\threads">
+      <UniqueIdentifier>{02a906bf-67dc-4f04-a795-d22f63fb8758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tests">
+      <UniqueIdentifier>{3a156899-0896-4941-82c8-bfcdbfcfc51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqtt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqttsn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sensor_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tick_counter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utf8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\list_mqtt_user.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\lists.c">
+      <Filter>Source Files\lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_mqtt_tcp.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_mqtt_udp.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_tcp_mqtt.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg_udp_mqtt.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msgs.c">
+      <Filter>Source Files\messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_tcp.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_test_mqtt.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_test_mqttsn.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_tick.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\thread_udp.c">
+      <Filter>Source Files\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqtt.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqtt_list1.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqtt_list2.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqtt_list3.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn_list1.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn_list2.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn_list3.c">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\getopt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqtt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqttsn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os_port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sensor_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stdint_msc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tick_counter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utf8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\list_mqtt_user.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\lists.h">
+      <Filter>Header Files\lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_mqtt_tcp.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_mqtt_udp.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_tcp_mqtt.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg_udp_mqtt.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msgs.h">
+      <Filter>Header Files\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_state.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_tcp.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_test_mqtt.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_test_mqttsn.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_tick.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread_udp.h">
+      <Filter>Header Files\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\test.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\test_mqtt.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\test_mqtt_list2.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\test_mqttsn.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\test_mqttsn_list2.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="..\src\test_mqtt_list1.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\src\test_mqtt_list3.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\src\test_mqttsn_list1.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\src\test_mqttsn_list3.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{050ADE50-FCDC-4ECD-9B0F-31384AB0189A}</ProjectGuid>
+    <RootNamespace>sensim</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\main.c" />
+    <ClCompile Include="..\src\mqtt.c" />
+    <ClCompile Include="..\src\mqttsn.c" />
+    <ClCompile Include="..\src\sensor_data.c" />
+    <ClCompile Include="..\src\tick_counter.c" />
+    <ClCompile Include="..\src\utf8.c" />
+    <ClCompile Include="..\src\list.c" />
+    <ClCompile Include="..\src\list_mqtt_user.c" />
+    <ClCompile Include="..\src\lists.c" />
+    <ClCompile Include="..\src\msg_mqtt_tcp.c" />
+    <ClCompile Include="..\src\msg_mqtt_udp.c" />
+    <ClCompile Include="..\src\msg_tcp_mqtt.c" />
+    <ClCompile Include="..\src\msg_udp_mqtt.c" />
+    <ClCompile Include="..\src\msgs.c" />
+    <ClCompile Include="..\src\thread_tcp.c" />
+    <ClCompile Include="..\src\thread_test_mqtt.c" />
+    <ClCompile Include="..\src\thread_test_mqttsn.c" />
+    <ClCompile Include="..\src\thread_tick.c" />
+    <ClCompile Include="..\src\thread_udp.c" />
+    <ClCompile Include="..\src\test_mqtt.c" />
+    <ClCompile Include="..\src\test_mqtt_list1.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqtt_list2.c" />
+    <ClCompile Include="..\src\test_mqtt_list3.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn.c" />
+    <ClCompile Include="..\src\test_mqttsn_list1.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\test_mqttsn_list2.c" />
+    <ClCompile Include="..\src\test_mqttsn_list3.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\getopt.h" />
+    <ClInclude Include="..\src\mqtt.h" />
+    <ClInclude Include="..\src\mqttsn.h" />
+    <ClInclude Include="..\src\os_port.h" />
+    <ClInclude Include="..\src\sensor_data.h" />
+    <ClInclude Include="..\src\stdint_msc.h" />
+    <ClInclude Include="..\src\tick_counter.h" />
+    <ClInclude Include="..\src\utf8.h" />
+    <ClInclude Include="..\src\list.h" />
+    <ClInclude Include="..\src\list_mqtt_user.h" />
+    <ClInclude Include="..\src\lists.h" />
+    <ClInclude Include="..\src\msg_mqtt_tcp.h" />
+    <ClInclude Include="..\src\msg_mqtt_udp.h" />
+    <ClInclude Include="..\src\msg_tcp_mqtt.h" />
+    <ClInclude Include="..\src\msg_udp_mqtt.h" />
+    <ClInclude Include="..\src\msgs.h" />
+    <ClInclude Include="..\src\thread_state.h" />
+    <ClInclude Include="..\src\thread_tcp.h" />
+    <ClInclude Include="..\src\thread_test_mqtt.h" />
+    <ClInclude Include="..\src\thread_test_mqttsn.h" />
+    <ClInclude Include="..\src\thread_tick.h" />
+    <ClInclude Include="..\src\thread_udp.h" />
+    <ClInclude Include="..\src\test.h" />
+    <ClInclude Include="..\src\test_mqtt.h" />
+    <CustomBuildStep Include="..\src\test_mqtt_list1.h" />
+    <ClInclude Include="..\src\test_mqtt_list2.h" />
+    <CustomBuildStep Include="..\src\test_mqtt_list3.h" />
+    <ClInclude Include="..\src\test_mqttsn.h" />
+    <CustomBuildStep Include="..\src\test_mqttsn_list1.h" />
+    <ClInclude Include="..\src\test_mqttsn_list2.h" />
+    <CustomBuildStep Include="..\src\test_mqttsn_list3.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
