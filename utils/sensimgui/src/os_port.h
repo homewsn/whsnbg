@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -53,6 +53,7 @@ typedef struct pthread_cond
 #include <ifaddrs.h>
 #include <stdlib.h>
 #include <pthread.h>	/* pthread_create */
+#include <sched.h>		/* sched_yield */
 #include <string.h>		/* strcmp */
 #include <unistd.h>		/* usleep, close */
 
@@ -76,6 +77,12 @@ static int thread_begin(unsigned (__stdcall *func)(void *), void *param, pthread
 	if (threadidptr != NULL)
 		*threadidptr = threadhandle;
 	return (threadhandle == NULL) ? -1 : 0;
+}
+
+static int sched_yield(void)
+{
+	Sleep(10);
+	return 0;
 }
 
 static int pthread_mutex_init(pthread_mutex_t *mutex, void *unused)
@@ -144,15 +151,16 @@ static int thread_begin(void *func(void *), void *param, pthread_t *threadidptr)
 	pthread_attr_t attr;
 	int result;
 
-	(void) pthread_attr_init(&attr);
+	pthread_attr_init(&attr);
 
 #if defined(USE_STACK_SIZE) && USE_STACK_SIZE > 1
 	// Compile-time option to control stack size, e.g. -DUSE_STACK_SIZE=16384
-	(void) pthread_attr_setstacksize(&attr, USE_STACK_SIZE);
+	pthread_attr_setstacksize(&attr, USE_STACK_SIZE);
 #endif /* defined(USE_STACK_SIZE) && USE_STACK_SIZE > 1 */
 
 	result = pthread_create(&thread_id, &attr, func, param);
 	pthread_attr_destroy(&attr);
+	pthread_detach(thread_id);
 	if (threadidptr != NULL)
 	{
 		*threadidptr = thread_id;
@@ -178,7 +186,7 @@ static int get_device_ipaddress(const char *device, struct in_addr *in_addr)
 				*in_addr = ((struct sockaddr_in *)(ifa->ifa_addr))->sin_addr;
 		}
 	}
-	freeifaddrs(ifa);
+	freeifaddrs(ifaddr);
 	if (in_addr->s_addr == 0)
 		return -1;
 	return 0;

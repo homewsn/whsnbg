@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -19,7 +19,7 @@
 #include <assert.h>		/* assert */
 #include "config.h"
 #include "sensor_data.h"
-#if defined SENSOR_DATA_MYSQL
+#if defined SENSOR_DATA_MYSQL || defined MQTT_DATA_MYSQL
 #include "msg_mqtt_mysql.h"
 #endif
 #define MQTTSN_IF_MTU 110
@@ -78,6 +78,8 @@ typedef struct sensor_data_float2
 // msvc: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
 // MIPS 24Kc (TP-Link TL-WR703N):
 // gcc: long (32-bit, big-endian), float (IEEE754, 32-bit, big-endian)
+// ARMv71 (Orange Pi One, NanoPi NEO):
+// gcc: long (32-bit, little-endian), float (IEEE754, 32-bit, little-endian)
 
 //--------------------------------------------
 static unsigned long _inet_addr(const char *data, size_t data_len)
@@ -213,21 +215,19 @@ void decode_mqttsn_sensor_data(char **buf, size_t *size, uint8_t *data)
 //--------------------------------------------
 // from devices (MQTT-SN):
 // initial publish messages:
-// 1. sensors/id = "online" ("offline") => no query
-// 2. sensors/id/ip = "x.x.x.x" => MYSQL_QUERY_UPDATE_SENSOR_IP
+// 1. devices/id = "online" ("offline") => no query
+// 2. devices/id/ip = "x.x.x.x" => MYSQL_QUERY_UPDATE_DEVICE_IP
 // 3. sensors/id/param/unit = "%" => MYSQL_QUERY_UPDATE_PARAM_UNIT
 // 4. sensors/id/param/type = "long" => MYSQL_QUERY_UPDATE_PARAM_TYPE
-// 5. actuators/id = "online" ("offline") => no query
-// 6. actuators/id/ip = "x.x.x.x" => MYSQL_QUERY_UPDATE_ACTUATOR_IP
-// 7. actuators/id/param/unit = "%" => MYSQL_QUERY_UPDATE_PARAM_UNIT
-// 8. actuators/id/param/type = "long" => MYSQL_QUERY_UPDATE_PARAM_TYPE
+// 5. actuators/id/param/unit = "%" => MYSQL_QUERY_UPDATE_PARAM_UNIT
+// 6. actuators/id/param/type = "long" => MYSQL_QUERY_UPDATE_PARAM_TYPE
 // periodic publish messages:
-// 9. sensors/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
-// 10. actuators/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
-// 11. sensors/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
-// 12. actuators/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
-// 13. sensors/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
-// 14. actuators/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
+// 7. sensors/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
+// 8. actuators/id/param = "long_data" => MYSQL_QUERY_ADD_LONG_DATA
+// 9. sensors/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
+// 10. actuators/id/param = "float_data" => MYSQL_QUERY_ADD_FLOAT_DATA
+// 11. sensors/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
+// 12. actuators/id/param = "utf8str_data" => MYSQL_QUERY_ADD_UTF8STR_DATA
 
 //--------------------------------------------
 void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t *data)
@@ -246,6 +246,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 		long id;
 		long param;
 		char *end;
+		int device = 0;
 		int sensor = 0;
 		int actuator = 0;
 
@@ -253,7 +254,9 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 			sensor = 1;
 		if (strcmp(token, "actuators") == 0)
 			actuator = 1;
-		if (sensor == 1 || actuator == 1)
+		if (strcmp(token, "devices") == 0)
+			device = 1;
+		if (sensor == 1 || actuator == 1 || device == 1)
 		{
 			token = strtok(NULL, seps);
 			if (token == NULL)
@@ -271,7 +274,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 				errno = 0;
 				end = NULL;
 				param = strtol(token, &end, 10);
-				if (errno == 0 && end == (char *)token + strlen(token))
+				if (errno == 0 && end == (char *)token + strlen(token) && (sensor == 1 || actuator == 1))
 				{
 					token = strtok(NULL, seps);
 					if (token == NULL)
@@ -349,9 +352,9 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 					}
 					break;
 				}
-				if (strcmp(token, "ip") == 0)
+				if (strcmp(token, "ip") == 0 && device == 1)
 				{
-					// MYSQL_UPDATE_SENSOR_IP
+					// MYSQL_UPDATE_DEVICE_IP
 					struct in_addr addr;
 					char *inet_ntoa_str;
 					char *utf8str_data;
@@ -362,10 +365,7 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 					size = strlen(inet_ntoa_str);
 					utf8str_data = (char *)malloc(size + 1);
 					memcpy(utf8str_data, inet_ntoa_str, size + 1);
-					if (sensor == 1)
-						msg_mqtt_mysql_update_sensor_ip(id, utf8str_data);
-					if (actuator == 1)
-						msg_mqtt_mysql_update_actuator_ip(id, utf8str_data);
+					msg_mqtt_mysql_update_device_ip(id, utf8str_data);
 					break;
 				}
 				break;
@@ -376,11 +376,12 @@ void parse_mqttsn_topic_name_to_mysql_query(char *name, size_t name_len, uint8_t
 
 	free(buf);
 }
+#endif
 
-
+#if defined MQTT_DATA_MYSQL
 //--------------------------------------------
 // from human (MQTT):
-// sensors/id/sleeptimeduration = "10-255" => MYSQL_QUERY_UPDATE_SENSOR_SLEEPTIMEDURATION
+// devices/id/timeout = "10-255" => MYSQL_QUERY_UPDATE_DEVICE_TIMEOUT
 
 //--------------------------------------------
 void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *data, size_t data_len)
@@ -396,10 +397,10 @@ void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *dat
 	token = strtok(buf, seps);
 	for (;;)
 	{
-		long sensor_id;
+		long device_id;
 		char *end;
 
-		if (strcmp(token, "sensors") == 0)
+		if (strcmp(token, "devices") == 0)
 		{
 			token = strtok(NULL, seps);
 			if (token == NULL)
@@ -407,23 +408,23 @@ void parse_mqtt_topic_name_to_mysql_query(char *name, size_t name_len, char *dat
 
 			errno = 0;
 			end = NULL;
-			sensor_id = strtol(token, &end, 10);
+			device_id = strtol(token, &end, 10);
 			if (errno == 0 && end == (char *)token + strlen(token))
 			{
 				token = strtok(NULL, seps);
 				if (token == NULL)
 					break;
 
-				if (strcmp(token, "sleeptimeduration") == 0)
+				if (strcmp(token, "timeout") == 0)
 				{
-					// MYSQL_UPDATE_SENSOR_SLEEPTIMEDURATION
-					long st_duration;
+					// MYSQL_UPDATE_DEVICE_TIMEOUT
+					long timeout;
 
 					errno = 0;
 					end = NULL;
-					st_duration = strtol(data, &end, 10);
+					timeout = strtol(data, &end, 10);
 					if (errno == 0 && end == (char *)data + data_len)
-						msg_mqtt_mysql_update_sensor_sleeptimeduration(sensor_id, st_duration);
+						msg_mqtt_mysql_update_device_timeout(device_id, timeout);
 					break;
 				}
 				break;

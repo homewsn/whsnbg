@@ -17,6 +17,7 @@
 
 #ifdef _MSC_VER
 #include "stdint_msc.h"	/* uint8_t ... uint64_t */
+#include <stddef.h>		/* NULL */
 #else
 #include <stdint.h>		/* uint8_t ... uint64_t */
 #include <stddef.h>		/* size_t */

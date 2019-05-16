@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -23,6 +23,7 @@ typedef struct msg_tcp_mqtt
 	msg_t msg;
 	char *msg_buf;
 	size_t msg_cnt;
+	size_t proc_msg_cnt;
 	struct sockaddr_in addr;
 	unsigned char close;
 } msg_tcp_mqtt_t;

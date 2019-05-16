@@ -151,15 +151,16 @@ static int thread_begin(void *func(void *), void *param, pthread_t *threadidptr)
 	pthread_attr_t attr;
 	int result;
 
-	(void) pthread_attr_init(&attr);
+	pthread_attr_init(&attr);
 
 #if defined(USE_STACK_SIZE) && USE_STACK_SIZE > 1
 	// Compile-time option to control stack size, e.g. -DUSE_STACK_SIZE=16384
-	(void) pthread_attr_setstacksize(&attr, USE_STACK_SIZE);
+	pthread_attr_setstacksize(&attr, USE_STACK_SIZE);
 #endif /* defined(USE_STACK_SIZE) && USE_STACK_SIZE > 1 */
 
 	result = pthread_create(&thread_id, &attr, func, param);
 	pthread_attr_destroy(&attr);
+	pthread_detach(thread_id);
 	if (threadidptr != NULL)
 	{
 		*threadidptr = thread_id;
@@ -185,7 +186,7 @@ static int get_device_ipaddress(const char *device, struct in_addr *in_addr)
 				*in_addr = ((struct sockaddr_in *)(ifa->ifa_addr))->sin_addr;
 		}
 	}
-	freeifaddrs(ifa);
+	freeifaddrs(ifaddr);
 	if (in_addr->s_addr == 0)
 		return -1;
 	return 0;

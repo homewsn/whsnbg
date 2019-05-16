@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2015, 2018 Vladimir Alemasov
+* Copyright (c) 2013-2015, 2018, 2019 Vladimir Alemasov
 * All rights reserved
 *
 * This program and the accompanying materials are distributed under 
@@ -144,8 +144,9 @@ typedef struct mqtt_pubxxx_header
 #define mqtt_unsuback_header_t mqtt_pubxxx_header_t
 
 //--------------------------------------------
-int mqtt_packet_check_length(unsigned char *buf, size_t size, uint32_t *len, unsigned char **rem_buf);
-int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, size_t size);
+int mqtt_packet_check_length(unsigned char *buf, size_t size, uint32_t *len, unsigned char **rem_buf, size_t *proc_size);
+int mqtt_packets_buffer_check(unsigned char *buf, size_t size);
+int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, size_t size, size_t *proc_size);
 
 //--------------------------------------------
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect);

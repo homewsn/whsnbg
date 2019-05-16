@@ -88,7 +88,7 @@ static void thread_run(void *param)
 			}
 			if ((ms = msg_tcp_mqtt_get_first()) != NULL)
 			{
-				if (mqtt_fixed_header_decode(&fixhdr, (unsigned char *)ms->msg_buf, ms->msg_cnt) == 0)
+				if (mqtt_fixed_header_decode(&fixhdr, ms->msg_buf + ms->proc_msg_cnt, ms->msg_cnt - ms->proc_msg_cnt, &ms->proc_msg_cnt) == 0)
 				{
 					test_failed = test->response(&fixhdr, test->expected);
 				}
