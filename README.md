@@ -5,9 +5,9 @@ This repository is a part of the [HomeWSN](http://homewsn.github.io) project.
 Whsnbg is a C implementation of the MQTT server(broker), the MQTT-SN gateway and simple MQTT rules engine designed for embedded platforms with small memory requirements (like OpenWrt).
 
 
-##### Supported features
+#### Supported features
 
-MQTT server(broker):
+MQTT server (broker):
 * MQTT Protocol Specification Versions 3.1.0 and 3.1.1.
 * Both plain TCP and Websockets connections on the selectable IPv4 network interface.
 * SSL(TLS) encryption provided by the external library axTLS or OpenSSL.
@@ -27,23 +27,36 @@ MQTT rules engine:
 * Rules can be modified on the fly by publishing to this specific rules topic.
 * The rule set includes triggers (based on the cron or mqtt publish events), actions, conditions and the internal variables.
 
-##### Building (Linux)
+#### Building (Linux)
 
-Download [the latest release](https://github.com/homewsn/whsnbg/releases) in tarball from github and untar it. Then build, install and run whsnbg.
-
+Download [the latest release](https://github.com/homewsn/whsnbg/releases) in tarball from github and untar it:
 ```sh
 $ curl -L https://github.com/homewsn/whsnbg/archive/v1.4.tar.gz | tar zx
 $ cd whsnbg-1.4
+```
+Or you can also clone whsnbg repository:
+```sh
+$ git clone https://github.com/homewsn/whsnbg.git
+$ cd whsnbg
+```
+Then build possibly with [options](#build-options-linux) and install:
+```sh
 $ make
 $ sudo make install
-$ whsnbg
 ```
+Configure the [execution options](#configuration-options):
+```sh
+$ sudo nano /usr/local/etc/whsnbg.conf
+```
+Change mqtt_iface from eth0 to the required network interface, for example enp0s3.
+Change mqttsn_iface from eth0 to the required network interface, for example enp0s3 or sl0 etc.
+You can always find out the network interfaces by running  `$ ifconfig`.
 
-##### Building (Windows)
+#### Building (Windows)
 
-Download [the latest release](https://github.com/homewsn/whsnbg/releases) in zip from github and unzip it. Open the MSVS 2010 solution, build and run whsnbg.
+Download [the latest release](https://github.com/homewsn/whsnbg/releases) in zip from github and unzip it. Open the MSVS 2010 solution, build and run whsnbg.exe file.
 
-##### Building (OpenWrt)
+#### Building (OpenWrt)
 
 * Install [OpenWrt buildroot](http://wiki.openwrt.org/doc/howto/buildroot.exigence).
 * Add the following line to the `feeds.conf.default` in the OpenWrt buildroot:
@@ -62,11 +75,11 @@ $ make package/whsnbg/compile V=99
 ```
 
 
-##### Build options (Linux)
+#### Build options (Linux)
 
 Build options can be set on the command line with the make command, for example:
 ```sh
-$ make DAEMON_VERSION=1
+$ make DAEMON_VERSION=1 DETAILED_LOG=1
 ```
 
 | Option | Description |
@@ -82,9 +95,9 @@ $ make DAEMON_VERSION=1
 | MQTT_DATA_STORING=1 | Enables storing payload from the specific MQTT topics in the MySQL database |
 | STATIC_LINK=1 | Builds the static link version |
 
-##### Build options (Windows)
+#### Build options (Windows)
 
-Configuration is carried out manually in the config.h file, for example:
+Build options should be set manually in the config.h file, for example:
 ```c
 // Windows
 // ** Manually configure ** >>>>>
@@ -100,17 +113,16 @@ Configuration is carried out manually in the config.h file, for example:
 // <<<<< ** Manually configure **
 ```
 
-##### Build options (OpenWrt)
+#### Build options (OpenWrt)
 
 ```sh
 $ make menuconfig
 ```
 Then find  Network -> whsnbg and press Enter. Configure options, setting to <*> or < >.
 
-##### Configuration options
-The execution configuration is in res/whsnbg.conf file.
-Please make sure that you specify the correct mqtt_iface and mqttsn_iface parameters (they do not matter for Windows only).
-If incorrect interfaces are specified, then the program will end immediately.
+#### Configuration options
+The execution configuration is in res/whsnbg.conf file (Winodws) or /usr/local/etc/whsnbg.conf (Linux) by default.
+For Linux please make sure that you specify the correct mqtt_iface and mqttsn_iface parameters (they do not matter for Windows only). If incorrect interfaces are specified, then the program will end immediately.
 
 ```conf
 # name = value
@@ -146,11 +158,11 @@ user_password = password2
 user_publish_enable = 0
 ```
 
-##### Dependencies
+#### Dependencies
 
 * If you enable TSL support please be sure you have installed the appropriate library ([axTLS](http://axtls.sourceforge.net/) or [OpenSSL](https://www.openssl.org/)).
 * If you enable storing payload in the MySQL database you will need [MySQL client library](http://dev.mysql.com/downloads/connector/c/).
 
-##### License
+#### License
 
 [GNU GPL v 2.0](http://www.gnu.org/licenses/gpl-2.0.html)
