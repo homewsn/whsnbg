@@ -658,6 +658,7 @@ static void mqtt_packet_handle(msg_tcp_mqtt_t *ms)
 			list_link_remove_all(&link_list);
 			sub_item = list_sub_next(sub_item);
 		}
+		list_sub_remove_all(&subscribe.sub_item);
 		return;
 	}
 

@@ -444,6 +444,7 @@ int check_for_actuators_id_topic(char *name, size_t name_len)
 	char *token;
 	size_t len = name_len;
 	char *buf = (char *)malloc(len + 1);
+	int res = -1;
 
 	memcpy(buf, name, len);
 	buf[len] = '\0';
@@ -467,11 +468,16 @@ int check_for_actuators_id_topic(char *name, size_t name_len)
 			{
 				token = strtok(NULL, seps);
 				if (token == NULL)
-					return (int)id;
+				{
+					res = (int)id;
+					break;
+				}
 			}
 			break;
 		}
 		break;
 	}
-	return -1;
+
+	free(buf);
+	return res;
 }
