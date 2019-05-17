@@ -438,6 +438,7 @@ void mqttsn_publish_encode(uint8_t **buf, size_t *size, mqttsn_publish_header_t 
 {
 #ifdef SENSOR_DATA
 	uint8_t *en_buf;
+	char *zd_buf;
 	size_t en_size;
 #endif
 
@@ -450,7 +451,11 @@ void mqttsn_publish_encode(uint8_t **buf, size_t *size, mqttsn_publish_header_t 
 	}
 
 #ifdef SENSOR_DATA
-	encode_mqttsn_sensor_data(&en_buf, &en_size, (const char *)publish->data, publish->data_length);
+	zd_buf = (char *)malloc(publish->data_length + 1);
+	memcpy(zd_buf, publish->data, publish->data_length);
+	zd_buf[publish->data_length] = '\0';
+	encode_mqttsn_sensor_data(&en_buf, &en_size, zd_buf, publish->data_length);
+	free(zd_buf);
 	*size = 7 + en_size;
 #else
 	*size = 7 + publish->data_length;
