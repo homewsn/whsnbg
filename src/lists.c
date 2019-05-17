@@ -646,7 +646,7 @@ static int pname_matches_sname(uint8_t *sname, uint16_t slen, uint8_t *pname, ui
 {
 	size_t spos;
 	size_t ppos;
-	int res;
+	int res = 0;
 	int wild = 0;
 
 	assert(sname != NULL);

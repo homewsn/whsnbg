@@ -110,7 +110,7 @@ typedef struct serv_tcp
 static serv_tcp_t servs[MQTT_TCP_SERVERS] = { 0 };
 static thread_tcp_options_t *thread_options;
 static list_tcp_conn_t *conns = NULL;
-static char sock_buf[SOCK_BUF_LENGTH];
+static unsigned char sock_buf[SOCK_BUF_LENGTH];
 static volatile thread_state_t thread_state;
 
 
@@ -301,14 +301,12 @@ static int conn_check(list_tcp_conn_t *conn, int sock_recv_result)
 //--------------------------------------------
 static void conn_new(size_t num)
 {
-	int res;
 	int optval;
 	int len;
 	SOCKET sock;
 	struct sockaddr_in addr;
 	list_tcp_conn_t *conn;
 
-	res = -1;
 	optval = 1;
 	len = sizeof(struct sockaddr_in);
 

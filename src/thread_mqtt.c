@@ -815,7 +815,7 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 		dprintf("mqttsn conn:%s:%d, client_id:%.*s, duration:%d, will:%d, clean_session:%d\n",\
 			inet_ntoa(conn->addr.sin_addr),\
 			(int)ntohs(conn->addr.sin_port),\
-			conn->client_id_length,\
+			(int)conn->client_id_length,\
 			conn->client_id,\
 			connect.duration,\
 			connect.flags.will,\
@@ -968,7 +968,7 @@ static void mqttsn_packet_handle(msg_udp_mqtt_t *ms)
 			mqttsn_topic_id = mqttsn_topic_id == 65535 ? 1 : ++mqttsn_topic_id;
 		}
 
-		if (code == MQTTSN_ACCEPTED)
+		if (registerh.pub_item != NULL && code == MQTTSN_ACCEPTED)
 		{
 			regack.topic_id = registerh.pub_item->topic_id;
 			mqttsn_conn_registered_topic_id_add(conn, regack.topic_id);

@@ -259,15 +259,15 @@ int parse_json_file(void)
 			else if (rf_type == RF_CONDITION_TOPIC_VARIABLE ||
 				rf_type == RF_CONDITION_VARIABLE_VARIABLE)
 				value = cJSON_GetObjectItem(node, "value-variable");
-			if (value == NULL || topic->type != cJSON_String)
+			if (value == NULL || value->type != cJSON_String)
 				goto error;
 
 			nextid_true = cJSON_GetObjectItem(node, "nextid-true");
-			if (nextid_true == NULL || nextid->type != cJSON_Number)
+			if (nextid_true == NULL || nextid_true->type != cJSON_Number)
 				goto error;
 
 			nextid_false = cJSON_GetObjectItem(node, "nextid-false");
-			if (nextid_false == NULL || nextid->type != cJSON_Number)
+			if (nextid_false == NULL || nextid_false->type != cJSON_Number)
 				goto error;
 
 			rfp = (rf_condition_param_t *)malloc(sizeof(rf_condition_param_t));
