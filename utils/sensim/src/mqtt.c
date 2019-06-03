@@ -116,7 +116,7 @@ int mqtt_fixed_header_decode(mqtt_fixed_header_t *fixhdr, unsigned char *buf, si
 //--------------------------------------------
 mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt_connect_header_t *connect)
 {
-	// MQTT protocol and version    0     6     M     Q     I     s     d     p     3
+	// MQTT protocol and version   0     6     M     Q     I     s     d     p     3
 	unsigned char proto_id31[9] = {0x00, 0x06, 0x4D, 0x51, 0x49, 0x73, 0x64, 0x70, 0x03};
 	//                              0     4     M     Q     T     T     4
 	unsigned char proto_id311[7] = {0x00, 0x04, 0x4D, 0x51, 0x54, 0x54, 0x04};
@@ -130,7 +130,7 @@ mqtt_connack_return_code_t mqtt_connect_decode(mqtt_fixed_header_t *fixhdr, mqtt
 		result = memcmp(&fixhdr->rem_buf[0], proto_id31, sizeof(proto_id31));
 		if (result != 0)
 		{
-		return MQTT_REFUSED_PROTOCOL_VERSION;
+			return MQTT_REFUSED_PROTOCOL_VERSION;
 		}
 		else
 		{

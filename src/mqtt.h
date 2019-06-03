@@ -166,6 +166,7 @@ void mqtt_packet_encode(mqtt_fixed_header_t *fixhdr, unsigned char **buf, size_t
 void mqtt_connect_encode(unsigned char **buf, size_t *size, mqtt_connect_header_t *connect);
 void mqtt_connack_encode(unsigned char **buf, size_t *size, mqtt_connack_return_code_t code);
 void mqtt_suback_encode(unsigned char **buf, size_t *size, mqtt_suback_header_t *suback);
+void mqtt_pingreq_encode(unsigned char **buf, size_t *size);
 void mqtt_pingresp_encode(unsigned char **buf, size_t *size);
 void mqtt_publish_encode(unsigned char **buf, size_t *size, mqtt_publish_header_t *publish);
 void mqtt_pubxxx_encode(mqtt_msg_type_t msg_type, unsigned char **buf, size_t *size, uint16_t msg_id);

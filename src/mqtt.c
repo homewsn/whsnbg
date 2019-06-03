@@ -455,6 +455,20 @@ void mqtt_suback_encode(unsigned char **buf, size_t *size, mqtt_suback_header_t 
 }
 
 //--------------------------------------------
+void mqtt_pingreq_encode(unsigned char **buf, size_t *size)
+{
+	mqtt_fixed_header_t fixhdr;
+
+	fixhdr.msg_type = MQTT_PINGREQ;
+	fixhdr.dup_flag = 0;
+	fixhdr.qos_level = 0;
+	fixhdr.retain = 0;
+	fixhdr.rem_len = 0;
+
+	mqtt_packet_encode(&fixhdr, buf, size);
+}
+
+//--------------------------------------------
 void mqtt_pingresp_encode(unsigned char **buf, size_t *size)
 {
 	mqtt_fixed_header_t fixhdr;
